@@ -16,6 +16,8 @@ fun MainContent() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(text = "Main screen")
 
+        //Broken drawable
+
         Image(
             painter = painterResource(id = R.drawable.bg_onboarding_step_1),
             contentDescription = ""
