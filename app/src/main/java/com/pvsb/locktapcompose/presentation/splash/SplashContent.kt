@@ -42,6 +42,6 @@ fun SplashContent(navController: NavController) {
             delay(1_000)
             countDown--
         }
-        navController.navigate(Screen.MainScreen.route)
+        navController.navigate(Screen.OnBoarding.route)
     }
 }

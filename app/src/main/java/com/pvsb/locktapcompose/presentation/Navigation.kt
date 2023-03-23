@@ -5,8 +5,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.pvsb.locktapcompose.presentation.mainScreen.MainContent
+import com.pvsb.locktapcompose.presentation.onBoarding.OnBoardingStepOneScreen
 import com.pvsb.locktapcompose.presentation.splash.SplashContent
-
 
 @Composable
 fun Navigation() {
@@ -15,11 +15,16 @@ fun Navigation() {
 
     NavHost(navController = navController, startDestination = Screen.SplashScree.route) {
         composable(Screen.SplashScree.route) {
-            SplashContent(navController = navController)
+//            SplashContent(navController = navController)
+            OnBoardingStepOneScreen()
         }
 
         composable(Screen.MainScreen.route) {
             MainContent()
+        }
+
+        composable(Screen.OnBoarding.route) {
+            OnBoardingStepOneScreen()
         }
     }
 }
