@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">LockTapCompose</string>
+
+    <string name="button_label_next">"Next"</string>
+
+    <string name="on_boarding_step_1_title">Universal data storage</string>
+    <string name="on_boarding_step_1_message">Relieve yourself of creating and
+ memorizing complex passwords on your
+ own with Locktap</string>
 </resources>

@@ -11,4 +11,5 @@
     <color name="light_blue">#CC00B8EE</color>
     <color name="bg_secondary">#232938</color>
     <color name="translucent">#00232938</color>
+    <color name="gray">#999999</color>
 </resources>
