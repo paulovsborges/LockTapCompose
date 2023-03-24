@@ -15,16 +15,15 @@ fun Navigation() {
 
     NavHost(navController = navController, startDestination = Screen.SplashScree.route) {
         composable(Screen.SplashScree.route) {
-//            SplashContent(navController = navController)
-            OnBoardingStepOneScreen()
+            SplashContent(navController = navController)
         }
 
         composable(Screen.MainScreen.route) {
-            MainContent()
+            MainContent(navController = navController)
         }
 
         composable(Screen.OnBoarding.route) {
-            OnBoardingStepOneScreen()
+            OnBoardingStepOneScreen(navController = navController)
         }
     }
 }

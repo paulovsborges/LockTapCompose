@@ -14,26 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.pvsb.locktapcompose.R
 
 @Composable
-fun MainContent() {
+fun MainContent(
+    navController: NavController
+) {
 
-    Surface(
-        modifier = Modifier
-            .background(color = colorResource(id = R.color.bg_splash))
-            .fillMaxSize(),
-        border = BorderStroke(1.dp, colorResource(id = R.color.light_blue)),
-        shape = RoundedCornerShape(30.dp)
-    ) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Text(text = "Main screen")
 
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(text = "Main screen")
-
-            Image(
-                painter = painterResource(id = R.drawable.on_boarding_step_2_1),
-                contentDescription = ""
-            )
-        }
     }
 }

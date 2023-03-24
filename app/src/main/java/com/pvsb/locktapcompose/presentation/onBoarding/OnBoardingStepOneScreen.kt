@@ -40,12 +40,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.pvsb.locktapcompose.R
+import com.pvsb.locktapcompose.presentation.Screen
 import com.pvsb.locktapcompose.presentation.onBoarding.shared.ComposeOnBoardingPrintsBackgroundBuilder
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun OnBoardingStepOneScreen() {
+fun OnBoardingStepOneScreen(
+    navController: NavController
+) {
 
     var selectedPage by remember { mutableStateOf(1) }
     var isLastPage by remember { mutableStateOf(false) }
@@ -70,7 +74,10 @@ fun OnBoardingStepOneScreen() {
             sheetContent = {
                 BottomSheetContent(selectedPage, onNextClicked = {
 
-                    if (isLastPage) return@BottomSheetContent
+                    if (isLastPage) {
+                        navigateToMainScreen(navController)
+                        return@BottomSheetContent
+                    }
 
                     selectedPage++
 
@@ -78,7 +85,7 @@ fun OnBoardingStepOneScreen() {
                         isLastPage = true
                     }
                 }, onSKipClicked = {
-
+                    navigateToMainScreen(navController)
                 },
                     modifier = Modifier.background(colorResource(id = R.color.bg_secondary))
                 )
@@ -219,4 +226,10 @@ fun PageIndicator(
             }
         }
     }
+}
+
+private fun navigateToMainScreen(
+    navController: NavController
+) {
+    navController.navigate(Screen.MainScreen.route)
 }
