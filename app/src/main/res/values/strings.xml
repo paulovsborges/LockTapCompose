@@ -2,9 +2,16 @@
     <string name="app_name">LockTapCompose</string>
 
     <string name="button_label_next">"Next"</string>
+    <string name="button_label_skip">"Skip"</string>
 
     <string name="on_boarding_step_1_title">Universal data storage</string>
     <string name="on_boarding_step_1_message">Relieve yourself of creating and
  memorizing complex passwords on your
  own with Locktap</string>
+
+    <string name="on_boarding_step_2_title">Security hardened</string>
+    <string name="on_boarding_step_2_message">All your data is securely password \nprotected. You can also set access \nonly by face ID</string>
+
+    <string name="on_boarding_step_3_title">Only important</string>
+    <string name="on_boarding_step_3_message">Keep only the most important data: \npasswords, notes, photos and more \nthanks to Locktap</string>
 </resources>

@@ -55,7 +55,7 @@ private fun PreviewComposeDrawableAppPreview() {
             .background(Color.Black)
     ) {
         ComposeDrawableAppPreview(
-            R.drawable.create_password,
+            R.drawable.on_boarding_step_2_1,
             modifier = Modifier
                 .width(160.dp)
                 .height(310.dp)

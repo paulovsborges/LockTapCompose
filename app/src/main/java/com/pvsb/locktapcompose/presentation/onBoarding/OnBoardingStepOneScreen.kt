@@ -47,16 +47,11 @@ import com.pvsb.locktapcompose.presentation.onBoarding.shared.ComposeOnBoardingP
 @Composable
 fun OnBoardingStepOneScreen() {
 
+    var selectedPage by remember { mutableStateOf(1) }
+
     Box(
         contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()
     ) {
-
-        val drawables = listOf(
-            R.drawable.on_boarding_step_1_1,
-            R.drawable.on_boarding_step_1_2,
-            R.drawable.on_boarding_step_1_3,
-            R.drawable.on_boarding_step_1_4,
-        )
 
         val modalSheetState = rememberModalBottomSheetState(
             initialValue = ModalBottomSheetValue.Expanded,
@@ -64,7 +59,7 @@ fun OnBoardingStepOneScreen() {
             skipHalfExpanded = true
         )
 
-        ComposeOnBoardingPrintsBackgroundBuilder(drawables)
+        ComposeOnBoardingPrintsBackgroundBuilder(getOnBoardingData()[selectedPage - 1].drawables)
 
         ModalBottomSheetLayout(
             modifier = Modifier
@@ -72,8 +67,13 @@ fun OnBoardingStepOneScreen() {
                 .fillMaxWidth(),
             sheetContent = {
                 BottomSheetContent(
-                    stringResource(id = R.string.on_boarding_step_1_title),
-                    stringResource(id = R.string.on_boarding_step_1_message),
+                    selectedPage,
+                    onNextClicked = {
+                        selectedPage++
+                    },
+                    onSKipClicked = {
+
+                    },
                     modifier = Modifier.background(colorResource(id = R.color.bg_secondary))
                 )
             },
@@ -86,12 +86,13 @@ fun OnBoardingStepOneScreen() {
 
 @Composable
 private fun BottomSheetContent(
-    title: String,
-    message: String,
+    selectedPage: Int,
+    onNextClicked: () -> Unit,
+    onSKipClicked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
-    var selectedPage by remember { mutableStateOf(1) }
+    val data = getOnBoardingData()[selectedPage - 1]
 
     Box(modifier = modifier.fillMaxSize()) {
 
@@ -112,7 +113,7 @@ private fun BottomSheetContent(
             Spacer(modifier = Modifier.height(25.dp))
 
             Text(
-                text = title,
+                text = data.title,
                 fontFamily = FontFamily(
                     Font(
                         R.font.sf_pro_display_medium,
@@ -124,7 +125,7 @@ private fun BottomSheetContent(
             )
 
             Text(
-                text = message,
+                text = data.message,
                 fontFamily = FontFamily(
                     Font(
                         R.font.sf_pro_display_regular,
@@ -140,9 +141,7 @@ private fun BottomSheetContent(
             Spacer(modifier = Modifier.height(30.dp))
 
             Button(
-                onClick = {
-                    selectedPage++
-                },
+                onClick = onNextClicked,
                 shape = RoundedCornerShape(corner = CornerSize(40.dp)),
                 modifier = Modifier
                     .width(335.dp)
@@ -162,17 +161,32 @@ private fun BottomSheetContent(
                     color = Color.White
                 )
             }
+
+            Button(
+                onClick = onSKipClicked,
+                shape = RoundedCornerShape(corner = CornerSize(40.dp)),
+                modifier = Modifier
+                    .width(335.dp)
+                    .height(52.dp)
+                    .padding(vertical = 4.dp),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = colorResource(id = R.color.bg_secondary)
+                ),
+                elevation = null
+            ) {
+                Text(
+                    text = stringResource(id = R.string.button_label_skip),
+                    fontFamily = FontFamily(
+                        Font(
+                            R.font.sf_pro_display_regular,
+                            weight = FontWeight.Thin
+                        )
+                    ),
+                    color = Color.White
+                )
+            }
         }
     }
-}
-
-@Preview
-@Composable
-fun BottomSheetContentPreview() {
-    BottomSheetContent(
-        stringResource(id = R.string.on_boarding_step_1_title),
-        stringResource(id = R.string.on_boarding_step_1_message)
-    )
 }
 
 @Composable
