@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="bg_splash">#101727</color>
     <color name="light_blue">#CC00B8EE</color>
+    <color name="bg_secondary">#232938</color>
+    <color name="translucent">#00232938</color>
 </resources>
