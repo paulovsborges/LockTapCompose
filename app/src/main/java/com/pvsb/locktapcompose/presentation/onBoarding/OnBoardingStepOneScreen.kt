@@ -48,6 +48,8 @@ import com.pvsb.locktapcompose.presentation.onBoarding.shared.ComposeOnBoardingP
 fun OnBoardingStepOneScreen() {
 
     var selectedPage by remember { mutableStateOf(1) }
+    var isLastPage by remember { mutableStateOf(false) }
+    val onBoardingStepsData = getOnBoardingData()
 
     Box(
         contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()
@@ -59,21 +61,25 @@ fun OnBoardingStepOneScreen() {
             skipHalfExpanded = true
         )
 
-        ComposeOnBoardingPrintsBackgroundBuilder(getOnBoardingData()[selectedPage - 1].drawables)
+        ComposeOnBoardingPrintsBackgroundBuilder(onBoardingStepsData[selectedPage - 1].drawables)
 
         ModalBottomSheetLayout(
             modifier = Modifier
                 .fillMaxHeight(0.4f)
                 .fillMaxWidth(),
             sheetContent = {
-                BottomSheetContent(
-                    selectedPage,
-                    onNextClicked = {
-                        selectedPage++
-                    },
-                    onSKipClicked = {
+                BottomSheetContent(selectedPage, onNextClicked = {
 
-                    },
+                    if (isLastPage) return@BottomSheetContent
+
+                    selectedPage++
+
+                    if (selectedPage == onBoardingStepsData.size) {
+                        isLastPage = true
+                    }
+                }, onSKipClicked = {
+
+                },
                     modifier = Modifier.background(colorResource(id = R.color.bg_secondary))
                 )
             },
@@ -97,8 +103,7 @@ private fun BottomSheetContent(
     Box(modifier = modifier.fillMaxSize()) {
 
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Box(
@@ -110,26 +115,21 @@ private fun BottomSheetContent(
                 PageIndicator(currentPage = selectedPage)
             }
 
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = data.title,
-                fontFamily = FontFamily(
+                text = data.title, fontFamily = FontFamily(
                     Font(
-                        R.font.sf_pro_display_medium,
-                        weight = FontWeight.SemiBold
+                        R.font.sf_pro_display_medium, weight = FontWeight.SemiBold
                     )
-                ),
-                color = Color.White,
-                fontSize = 24.sp
+                ), color = Color.White, fontSize = 24.sp
             )
 
             Text(
                 text = data.message,
                 fontFamily = FontFamily(
                     Font(
-                        R.font.sf_pro_display_regular,
-                        weight = FontWeight.Thin
+                        R.font.sf_pro_display_regular, weight = FontWeight.Thin
                     )
                 ),
                 color = colorResource(id = R.color.gray),
@@ -151,14 +151,11 @@ private fun BottomSheetContent(
                 )
             ) {
                 Text(
-                    text = stringResource(id = R.string.button_label_next),
-                    fontFamily = FontFamily(
+                    text = stringResource(id = R.string.button_label_next), fontFamily = FontFamily(
                         Font(
-                            R.font.sf_pro_display_regular,
-                            weight = FontWeight.Thin
+                            R.font.sf_pro_display_regular, weight = FontWeight.Thin
                         )
-                    ),
-                    color = Color.White
+                    ), color = Color.White
                 )
             }
 
@@ -175,14 +172,11 @@ private fun BottomSheetContent(
                 elevation = null
             ) {
                 Text(
-                    text = stringResource(id = R.string.button_label_skip),
-                    fontFamily = FontFamily(
+                    text = stringResource(id = R.string.button_label_skip), fontFamily = FontFamily(
                         Font(
-                            R.font.sf_pro_display_regular,
-                            weight = FontWeight.Thin
+                            R.font.sf_pro_display_regular, weight = FontWeight.Thin
                         )
-                    ),
-                    color = Color.White
+                    ), color = Color.White
                 )
             }
         }
@@ -200,8 +194,7 @@ fun PageIndicator(
     val selectedColor = Color.White
 
     Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+        modifier = modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
 
         for (page in 1..totalPages) {
