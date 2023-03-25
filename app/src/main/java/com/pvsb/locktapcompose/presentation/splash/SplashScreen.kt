@@ -20,7 +20,7 @@ import com.pvsb.locktapcompose.presentation.Screen
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashContent(navController: NavController) {
+fun SplashScreen(navController: NavController) {
 
     var countDown by remember { mutableStateOf(5) }
 

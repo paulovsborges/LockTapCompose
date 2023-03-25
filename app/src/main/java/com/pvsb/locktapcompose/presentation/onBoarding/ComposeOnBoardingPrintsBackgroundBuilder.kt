@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.pvsb.locktapcompose.R
+import com.pvsb.locktapcompose.presentation.onBoarding.ComposeDrawableAppPrint
 
 @Composable
 fun ComposeOnBoardingPrintsBackgroundBuilder(drawables: List<Int>, modifier: Modifier = Modifier) {
@@ -34,12 +35,12 @@ fun ComposeOnBoardingPrintsBackgroundBuilder(drawables: List<Int>, modifier: Mod
         Row(verticalAlignment = { _, _ -> 50 }) {
 
             Column(verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterVertically)) {
-                ComposeDrawableAppPreview(
+                ComposeDrawableAppPrint(
                     drawables[0],
                     modifier = composeDrawableAppPreviewModifier
                 )
 
-                ComposeDrawableAppPreview(
+                ComposeDrawableAppPrint(
                     drawables[1],
                     modifier = composeDrawableAppPreviewModifier
                 )
@@ -48,12 +49,12 @@ fun ComposeOnBoardingPrintsBackgroundBuilder(drawables: List<Int>, modifier: Mod
 
         Row(verticalAlignment = { _, _ -> -400 }) {
             Column(verticalArrangement = Arrangement.spacedBy(20.dp, Alignment.CenterVertically)) {
-                ComposeDrawableAppPreview(
+                ComposeDrawableAppPrint(
                     drawables[2],
                     modifier = composeDrawableAppPreviewModifier
                 )
 
-                ComposeDrawableAppPreview(
+                ComposeDrawableAppPrint(
                     drawables[3],
                     modifier = composeDrawableAppPreviewModifier
                 )
