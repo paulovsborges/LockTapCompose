@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.presentation.onBoarding.shared
+package com.pvsb.locktapcompose.presentation.onBoarding
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

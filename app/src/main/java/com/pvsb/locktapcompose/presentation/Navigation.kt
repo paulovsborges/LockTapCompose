@@ -14,7 +14,7 @@ fun Navigation() {
 
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Screen.SplashScree.route) {
+    NavHost(navController = navController, startDestination = Screen.CreatePassword.route) {
         composable(Screen.SplashScree.route) {
             SplashScreen(navController = navController)
         }

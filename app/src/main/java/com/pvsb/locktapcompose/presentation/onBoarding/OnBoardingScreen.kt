@@ -37,11 +37,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.pvsb.locktapcompose.R
 import com.pvsb.locktapcompose.presentation.Screen
-import com.pvsb.locktapcompose.presentation.onBoarding.shared.ComposeOnBoardingPrintsBackgroundBuilder
+import com.pvsb.locktapcompose.presentation.ui.messageTextStyle
+import com.pvsb.locktapcompose.presentation.ui.titleTextStyle
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -73,7 +73,7 @@ fun OnBoardingScreen(
                 BottomSheetContent(selectedPage, onNextClicked = {
 
                     if (isLastPage) {
-                        navigateToMainScreen(navController)
+                        navigateToNextDestination(navController)
                         return@BottomSheetContent
                     }
 
@@ -83,7 +83,7 @@ fun OnBoardingScreen(
                         isLastPage = true
                     }
                 }, onSKipClicked = {
-                    navigateToMainScreen(navController)
+                    navigateToNextDestination(navController)
                 },
                     modifier = Modifier.background(colorResource(id = R.color.bg_secondary))
                 )
@@ -123,22 +123,13 @@ private fun BottomSheetContent(
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = data.title, fontFamily = FontFamily(
-                    Font(
-                        R.font.sf_pro_display_medium, weight = FontWeight.SemiBold
-                    )
-                ), color = Color.White, fontSize = 24.sp
+                text = data.title,
+                style = titleTextStyle
             )
 
             Text(
                 text = data.message,
-                fontFamily = FontFamily(
-                    Font(
-                        R.font.sf_pro_display_regular, weight = FontWeight.Thin
-                    )
-                ),
-                color = colorResource(id = R.color.gray),
-                fontSize = 16.sp,
+                style = messageTextStyle,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 38.dp, vertical = 12.dp)
             )
@@ -226,8 +217,8 @@ fun PageIndicator(
     }
 }
 
-private fun navigateToMainScreen(
+private fun navigateToNextDestination(
     navController: NavController
 ) {
-    navController.navigate(Screen.MainScreen.route)
+    navController.navigate(Screen.CreatePassword.route)
 }

@@ -14,4 +14,7 @@
 
     <string name="on_boarding_step_3_title">Only important</string>
     <string name="on_boarding_step_3_message">Keep only the most important data: \npasswords, notes, photos and more \nthanks to Locktap</string>
+
+    <string name="create_password_title">Create password</string>
+    <string name="create_password_message">Create a four-digit password</string>
 </resources>
