@@ -38,10 +38,13 @@ fun SplashScreen(navController: NavController) {
     }
 
     LaunchedEffect(key1 = countDown) {
-        while (countDown > 0){
+        while (countDown > 0) {
             delay(1_000)
             countDown--
         }
-        navController.navigate(Screen.OnBoarding.route)
+        navController.navigate(Screen.OnBoarding.route) {
+            popUpTo(Screen.SplashScree.route) { inclusive = true }
+            launchSingleTop = true
+        }
     }
 }

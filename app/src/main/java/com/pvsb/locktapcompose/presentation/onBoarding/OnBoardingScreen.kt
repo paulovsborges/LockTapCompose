@@ -220,5 +220,8 @@ fun PageIndicator(
 private fun navigateToNextDestination(
     navController: NavController
 ) {
-    navController.navigate(Screen.PasswordScreen.Create.route)
+    navController.navigate(Screen.PasswordScreen.Create.route) {
+        popUpTo(Screen.OnBoarding.route) { inclusive = true }
+        launchSingleTop = true
+    }
 }
