@@ -3,11 +3,7 @@ package com.pvsb.locktapcompose.presentation.createPassword
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
-import androidx.compose.foundation.interaction.Interaction
-import androidx.compose.foundation.interaction.InteractionSource
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +22,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,30 +33,24 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.pvsb.locktapcompose.R
+import com.pvsb.locktapcompose.presentation.Screen
 import com.pvsb.locktapcompose.presentation.ui.messageTextStyle
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.gray
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.lightBlue
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.secondary
-import com.pvsb.locktapcompose.presentation.ui.theme.Shapes
 import com.pvsb.locktapcompose.presentation.ui.titleTextStyle
-import kotlinx.coroutines.flow.Flow
 
 @Composable
-fun CreatePasswordScreen(
-    navController: NavController
+fun PasswordScreen(
+    navController: NavController,
+    screenType: PasswordScreenType = PasswordScreenType.CreatePassword
 ) {
 
     val maxChars = 4
@@ -80,60 +69,66 @@ fun CreatePasswordScreen(
         Spacer(modifier = Modifier.height(65.dp))
 
         Text(
-            text = stringResource(id = R.string.create_password_title), style = titleTextStyle
+            text = stringResource(id = screenType.title), style = titleTextStyle
         )
 
         Text(
             modifier = Modifier.padding(top = 12.dp),
-            text = stringResource(id = R.string.create_password_message),
+            text = stringResource(id = screenType.message),
             style = messageTextStyle
         )
 
         Spacer(modifier = Modifier.height(44.dp))
 
-        BasicTextField(
-            value = password,
-            onValueChange = {
-                password = it.take(4)
-            },
-            decorationBox = {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    shape = RoundedCornerShape(40.dp),
-                    border = BorderStroke(1.dp, borderColor)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .background(secondary),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(
-                            30.dp,
-                            Alignment.Horizontal { _, space, _ ->
-                                space / 2
-                            })
-                    ) {
-                        repeat(maxChars) {
-                            ComposePasswordPointer(password.length - 1 >= it)
+        BasicTextField(value = password, onValueChange = {
+            password = it.take(4)
+            if (password.length == 4) {
+
+                when (screenType) {
+                    PasswordScreenType.CreatePassword -> {
+                        navigateToRepeatPassword(navController, password)
+                    }
+                    is PasswordScreenType.RepeatPassword -> {
+                        if (it == screenType.createdPassword) {
+                            navigateToEnterPassword(navController)
                         }
                     }
+                    PasswordScreenType.EnterPassword -> Unit
                 }
-            },
-            modifier = Modifier
-                .width(180.dp)
-                .height(52.dp)
-                .focusable(true)
-                .onFocusChanged {
-                    isTextFieldFocused = it.isFocused
-                },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number
-            ),
-            keyboardActions = KeyboardActions {
-                defaultKeyboardAction(ImeAction.Previous)
             }
-        )
+        }, decorationBox = {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                shape = RoundedCornerShape(40.dp),
+                border = BorderStroke(1.dp, borderColor)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .background(secondary),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(30.dp,
+                        Alignment.Horizontal { _, space, _ ->
+                            space / 2
+                        })
+                ) {
+                    repeat(maxChars) {
+                        ComposePasswordPointer(password.length - 1 >= it)
+                    }
+                }
+            }
+        }, modifier = Modifier
+            .width(180.dp)
+            .height(52.dp)
+            .focusable(true)
+            .onFocusChanged {
+                isTextFieldFocused = it.isFocused
+            }, keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number
+        ), keyboardActions = KeyboardActions {
+            defaultKeyboardAction(ImeAction.Previous)
+        })
     }
 }
 
@@ -149,17 +144,31 @@ private fun ComposePasswordPointer(
     }
 
     Card(
-        shape = CircleShape,
-        modifier = Modifier
-            .size(10.dp),
-        backgroundColor = backgroundColor
+        shape = CircleShape, modifier = Modifier.size(10.dp), backgroundColor = backgroundColor
     ) { }
+}
+
+private fun navigateToRepeatPassword(
+    navController: NavController, createdPassword: String
+) {
+
+    navController.navigate(
+        route = Screen.PasswordScreen.Repeat.withArgs(
+            createdPassword
+        )
+    )
+}
+
+private fun navigateToEnterPassword(navController: NavController) {
+    navController.navigate(
+        Screen.PasswordScreen.Enter.route
+    )
 }
 
 @Preview
 @Composable
 private fun ComposePasswordPointerPreview() {
-    Row() {
+    Row {
         ComposePasswordPointer(true)
         ComposePasswordPointer(false)
     }
@@ -169,5 +178,5 @@ private fun ComposePasswordPointerPreview() {
 @Composable
 fun CreatePasswordScreenPreview() {
     val navController = rememberNavController()
-    CreatePasswordScreen(navController)
+    PasswordScreen(navController)
 }

@@ -17,4 +17,10 @@
 
     <string name="create_password_title">Create password</string>
     <string name="create_password_message">Create a four-digit password</string>
+
+    <string name="repeat_password_title">Repeat password</string>
+    <string name="repeat_password_message">Enter your invented password</string>
+
+    <string name="enter_password_title">Enter password</string>
+    <string name="enter_password_message">Enter password to login app</string>
 </resources>

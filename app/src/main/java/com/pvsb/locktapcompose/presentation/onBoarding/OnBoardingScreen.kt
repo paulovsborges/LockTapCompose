@@ -220,5 +220,5 @@ fun PageIndicator(
 private fun navigateToNextDestination(
     navController: NavController
 ) {
-    navController.navigate(Screen.CreatePassword.route)
+    navController.navigate(Screen.PasswordScreen.Create.route)
 }
