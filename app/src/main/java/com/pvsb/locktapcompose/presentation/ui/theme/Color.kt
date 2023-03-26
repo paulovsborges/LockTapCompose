@@ -9,4 +9,6 @@ val Teal200 = Color(0xFF03DAC5)
 
 object AppColors {
     val gray = Color(153, 153, 153)
+    val lightBlue = Color(0, 184, 238)
+    val secondary = Color(35, 41, 56)
 }
