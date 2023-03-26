@@ -3,6 +3,7 @@
 
     <string name="button_label_next">"Next"</string>
     <string name="button_label_skip">"Skip"</string>
+    <string name="button_label_back">"back"</string>
 
     <string name="on_boarding_step_1_title">Universal data storage</string>
     <string name="on_boarding_step_1_message">Relieve yourself of creating and

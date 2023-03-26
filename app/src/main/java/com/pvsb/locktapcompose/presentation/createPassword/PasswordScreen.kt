@@ -1,9 +1,11 @@
 package com.pvsb.locktapcompose.presentation.createPassword
 
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,9 +21,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.sharp.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,6 +40,8 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,76 +68,109 @@ fun PasswordScreen(
 
     val borderColor = if (isTextFieldFocused) lightBlue else Color.Transparent
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.bg_splash)),
-        horizontalAlignment = Alignment.CenterHorizontally
+        contentAlignment = Alignment.TopStart
     ) {
 
-        Spacer(modifier = Modifier.height(65.dp))
+        if (screenType is PasswordScreenType.RepeatPassword) {
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = Color.Transparent
+                ),
+                elevation = null,
+                onClick = {
+                    navController.popBackStack()
+                }
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        Icons.Sharp.ArrowBack,
+                        contentDescription = "",
+                        tint = Color.White
+                    )
+                }
 
-        Text(
-            text = stringResource(id = screenType.title), style = titleTextStyle
-        )
+                Text(
+                    text = stringResource(id = R.string.button_label_back),
+                    color = Color.White,
+                    modifier = Modifier.padding(start = 10.dp),
+                    fontFamily = FontFamily(Font(R.font.sf_pro_display_regular))
+                )
+            }
+        }
 
-        Text(
-            modifier = Modifier.padding(top = 12.dp),
-            text = stringResource(id = screenType.message),
-            style = messageTextStyle
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
+        ) {
 
-        Spacer(modifier = Modifier.height(44.dp))
+            Spacer(modifier = Modifier.height(65.dp))
 
-        BasicTextField(value = password, onValueChange = {
-            password = it.take(4)
-            if (password.length == 4) {
+            Text(
+                text = stringResource(id = screenType.title), style = titleTextStyle
+            )
 
-                when (screenType) {
-                    PasswordScreenType.CreatePassword -> {
-                        navigateToRepeatPassword(navController, password)
+            Text(
+                modifier = Modifier.padding(top = 12.dp),
+                text = stringResource(id = screenType.message),
+                style = messageTextStyle
+            )
+
+            Spacer(modifier = Modifier.height(44.dp))
+
+            BasicTextField(value = password, onValueChange = {
+                password = it.take(4)
+                if (password.length == 4) {
+
+                    when (screenType) {
+                        PasswordScreenType.CreatePassword -> {
+                            navigateToRepeatPassword(navController, password)
+                        }
+                        is PasswordScreenType.RepeatPassword -> {
+                            if (it == screenType.createdPassword) {
+                                navigateToEnterPassword(navController)
+                            }
+                        }
+                        PasswordScreenType.EnterPassword -> Unit
                     }
-                    is PasswordScreenType.RepeatPassword -> {
-                        if (it == screenType.createdPassword) {
-                            navigateToEnterPassword(navController)
+                }
+            }, decorationBox = {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    shape = RoundedCornerShape(40.dp),
+                    border = BorderStroke(1.dp, borderColor)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .background(secondary),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(30.dp,
+                            Alignment.Horizontal { _, space, _ ->
+                                space / 2
+                            })
+                    ) {
+                        repeat(maxChars) {
+                            ComposePasswordPointer(password.length - 1 >= it)
                         }
                     }
-                    PasswordScreenType.EnterPassword -> Unit
                 }
-            }
-        }, decorationBox = {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                shape = RoundedCornerShape(40.dp),
-                border = BorderStroke(1.dp, borderColor)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .background(secondary),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(30.dp,
-                        Alignment.Horizontal { _, space, _ ->
-                            space / 2
-                        })
-                ) {
-                    repeat(maxChars) {
-                        ComposePasswordPointer(password.length - 1 >= it)
-                    }
-                }
-            }
-        }, modifier = Modifier
-            .width(180.dp)
-            .height(52.dp)
-            .focusable(true)
-            .onFocusChanged {
-                isTextFieldFocused = it.isFocused
-            }, keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number
-        ), keyboardActions = KeyboardActions {
-            defaultKeyboardAction(ImeAction.Previous)
-        })
+            }, modifier = Modifier
+                .width(180.dp)
+                .height(52.dp)
+                .focusable(true)
+                .onFocusChanged {
+                    isTextFieldFocused = it.isFocused
+                }, keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            ), keyboardActions = KeyboardActions {
+                defaultKeyboardAction(ImeAction.Previous)
+            })
+        }
     }
 }
 

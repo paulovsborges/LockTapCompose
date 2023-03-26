@@ -53,47 +53,5 @@ fun Navigation() {
                 navController = navController, screenType = PasswordScreenType.EnterPassword
             )
         }
-
-        /*
-        composable(
-            route = Screen.Password.route + "?/{screenType}/{createdPassword}",
-            arguments = listOf(navArgument(
-                "screenType"
-            ) {
-                type = NavType.StringType
-                defaultValue = PasswordScreenType.CreatePassword::class.java.simpleName
-            }, navArgument(
-                "createdPassword"
-            ) {
-
-                type = NavType.StringType
-                defaultValue = ""
-            })
-        ) {
-            val screenType = it.arguments?.getString("screenType") ?: return@composable
-            val createdPassword = it.arguments?.getString("createdPassword") ?: return@composable
-
-            when (screenType) {
-                PasswordScreenType.CreatePassword::class.java.simpleName -> {
-                    PasswordScreen(
-                        navController = navController,
-                        screenType = PasswordScreenType.CreatePassword
-                    )
-                }
-                PasswordScreenType.RepeatPassword::class.java.simpleName -> {
-                    PasswordScreen(
-                        navController = navController,
-                        screenType = PasswordScreenType.RepeatPassword(createdPassword)
-                    )
-                }
-                PasswordScreenType.EnterPassword::class.java.simpleName -> {
-                    PasswordScreen(
-                        navController = navController, screenType = PasswordScreenType.EnterPassword
-                    )
-                }
-            }
-        }
-
-         */
     }
 }
