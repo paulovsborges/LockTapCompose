@@ -1,6 +1,5 @@
 package com.pvsb.locktapcompose.presentation.createPassword
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
@@ -198,13 +197,18 @@ private fun navigateToRepeatPassword(
         route = Screen.PasswordScreen.Repeat.withArgs(
             createdPassword
         )
-    )
+    ){
+        launchSingleTop = true
+    }
 }
 
 private fun navigateToEnterPassword(navController: NavController) {
     navController.navigate(
         Screen.PasswordScreen.Enter.route
-    )
+    ) {
+        popUpTo(Screen.PasswordScreen.Create.route) { inclusive = true }
+        launchSingleTop = true
+    }
 }
 
 @Preview
