@@ -52,20 +52,25 @@ import com.pvsb.locktapcompose.presentation.Screen
 import com.pvsb.locktapcompose.presentation.ui.messageTextStyle
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.gray
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.lightBlue
+import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.red
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.secondary
 import com.pvsb.locktapcompose.presentation.ui.titleTextStyle
 
 @Composable
 fun PasswordScreen(
-    navController: NavController,
-    screenType: PasswordScreenType = PasswordScreenType.CreatePassword
+    navController: NavController, screenType: PasswordScreenType = PasswordScreenType.CreatePassword
 ) {
 
     val maxChars = 4
     var password by remember { mutableStateOf("") }
     var isTextFieldFocused by remember { mutableStateOf(false) }
+    var isErrorVisible by remember { mutableStateOf(false) }
 
-    val borderColor = if (isTextFieldFocused) lightBlue else Color.Transparent
+    val borderColor = when {
+        isErrorVisible -> red
+        isTextFieldFocused -> lightBlue
+        else -> Color.Transparent
+    }
 
     Box(
         modifier = Modifier
@@ -75,20 +80,14 @@ fun PasswordScreen(
     ) {
 
         if (screenType is PasswordScreenType.RepeatPassword) {
-            Button(
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Transparent
-                ),
-                elevation = null,
-                onClick = {
-                    navController.popBackStack()
-                }
-            ) {
+            Button(colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.Transparent
+            ), elevation = null, onClick = {
+                navController.popBackStack()
+            }) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
-                        Icons.Sharp.ArrowBack,
-                        contentDescription = "",
-                        tint = Color.White
+                        Icons.Sharp.ArrowBack, contentDescription = "", tint = Color.White
                     )
                 }
 
@@ -102,8 +101,7 @@ fun PasswordScreen(
         }
 
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
+            horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()
         ) {
 
             Spacer(modifier = Modifier.height(65.dp))
@@ -122,8 +120,8 @@ fun PasswordScreen(
 
             BasicTextField(value = password, onValueChange = {
                 password = it.take(4)
-                if (password.length == 4) {
 
+                if (password.length == 4) {
                     when (screenType) {
                         PasswordScreenType.CreatePassword -> {
                             navigateToRepeatPassword(navController, password)
@@ -131,10 +129,14 @@ fun PasswordScreen(
                         is PasswordScreenType.RepeatPassword -> {
                             if (it == screenType.createdPassword) {
                                 navigateToEnterPassword(navController)
+                            } else {
+                                isErrorVisible = true
                             }
                         }
                         PasswordScreenType.EnterPassword -> Unit
                     }
+                } else {
+                    isErrorVisible = false
                 }
             }, decorationBox = {
                 Surface(
@@ -148,13 +150,14 @@ fun PasswordScreen(
                             .fillMaxHeight()
                             .background(secondary),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(30.dp,
+                        horizontalArrangement = Arrangement.spacedBy(
+                            30.dp,
                             Alignment.Horizontal { _, space, _ ->
                                 space / 2
                             })
                     ) {
                         repeat(maxChars) {
-                            ComposePasswordPointer(password.length - 1 >= it)
+                            ComposePasswordPointer(password.length - 1 >= it, isErrorVisible)
                         }
                     }
                 }
@@ -175,13 +178,13 @@ fun PasswordScreen(
 
 @Composable
 private fun ComposePasswordPointer(
-    isFilled: Boolean
+    isFilled: Boolean = false, isError: Boolean = false
 ) {
 
-    val backgroundColor = if (isFilled) {
-        lightBlue
-    } else {
-        gray
+    val backgroundColor = when {
+        isError -> red
+        isFilled -> lightBlue
+        else -> gray
     }
 
     Card(
@@ -197,7 +200,7 @@ private fun navigateToRepeatPassword(
         route = Screen.PasswordScreen.Repeat.withArgs(
             createdPassword
         )
-    ){
+    ) {
         launchSingleTop = true
     }
 }
@@ -215,8 +218,9 @@ private fun navigateToEnterPassword(navController: NavController) {
 @Composable
 private fun ComposePasswordPointerPreview() {
     Row {
-        ComposePasswordPointer(true)
-        ComposePasswordPointer(false)
+        repeat(4) {
+            ComposePasswordPointer(false, true)
+        }
     }
 }
 
