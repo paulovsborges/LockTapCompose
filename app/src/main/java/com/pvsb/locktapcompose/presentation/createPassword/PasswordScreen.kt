@@ -1,5 +1,12 @@
 package com.pvsb.locktapcompose.presentation.createPassword
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -40,6 +47,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -65,6 +73,7 @@ import com.pvsb.locktapcompose.presentation.ui.titleTextStyle
 fun PasswordScreen(
     navController: NavController, screenType: PasswordScreenType = PasswordScreenType.CreatePassword
 ) {
+
 
     var isErrorVisible by remember { mutableStateOf(false) }
 
@@ -96,9 +105,10 @@ fun PasswordScreen(
             }
         }
 
-        if (isErrorVisible) {
-            ComposeErrorCard(modifier = Modifier.padding(horizontal = 10.dp))
-        }
+        ComposeErrorCard(
+            isErrorVisible = isErrorVisible,
+            modifier = Modifier.padding(horizontal = 10.dp)
+        )
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()
@@ -238,33 +248,48 @@ private fun navigateToEnterPassword(navController: NavController) {
 
 @Composable
 private fun ComposeErrorCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isErrorVisible: Boolean
 ) {
 
-    Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(52.dp),
-        shape = RoundedCornerShape(5.dp),
-        color = secondary
+    val density = LocalDensity.current
+    AnimatedVisibility(
+        visible = isErrorVisible,
+        enter = slideInVertically {
+            with(density) { -40.dp.roundToPx() }
+        } + expandVertically(
+            expandFrom = Alignment.Top
+        ) + fadeIn(
+            initialAlpha = 0.3f
+        ),
+        exit = slideOutVertically() + shrinkVertically() + fadeOut()
     ) {
 
-        Row(
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+        Surface(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(52.dp),
+            shape = RoundedCornerShape(5.dp),
+            color = secondary
         ) {
 
-            Icon(painter = painterResource(id = R.drawable.ic_error), "", tint = red)
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
 
-            Spacer(modifier = Modifier.width(10.dp))
+                Icon(painter = painterResource(id = R.drawable.ic_error), "", tint = red)
 
-            Text(
-                text = stringResource(id = R.string.password_incorrect_label),
-                fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
-                color = red,
-                fontSize = 14.sp
-            )
+                Spacer(modifier = Modifier.width(10.dp))
+
+                Text(
+                    text = stringResource(id = R.string.password_incorrect_label),
+                    fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
+                    color = red,
+                    fontSize = 14.sp
+                )
+            }
         }
     }
 }
@@ -272,7 +297,7 @@ private fun ComposeErrorCard(
 @Preview(showBackground = true)
 @Composable
 fun ComposeErrorCardPreview() {
-    ComposeErrorCard(modifier = Modifier.padding(20.dp))
+    ComposeErrorCard(modifier = Modifier.padding(20.dp), true)
 }
 
 @Preview
