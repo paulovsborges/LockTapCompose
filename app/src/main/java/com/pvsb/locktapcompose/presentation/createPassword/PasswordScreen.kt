@@ -74,7 +74,6 @@ fun PasswordScreen(
     navController: NavController, screenType: PasswordScreenType = PasswordScreenType.CreatePassword
 ) {
 
-
     var isErrorVisible by remember { mutableStateOf(false) }
 
     Box(
