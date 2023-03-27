@@ -24,4 +24,6 @@
 
     <string name="enter_password_title">Enter password</string>
     <string name="enter_password_message">Enter password to login app</string>
+
+    <string name="password_incorrect_label">Password Incorrect</string>
 </resources>
