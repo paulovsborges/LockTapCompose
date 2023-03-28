@@ -17,7 +17,13 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.LockTapCompose"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".presentation.onBoarding.OnBoardingActivity"
@@ -25,11 +31,7 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.LockTapCompose"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 </manifest>

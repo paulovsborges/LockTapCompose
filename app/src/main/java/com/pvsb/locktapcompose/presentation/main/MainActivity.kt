@@ -15,9 +15,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LockTapComposeTheme(darkTheme = true) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text(text = "Main Screen")
-                }
+                MainNavigation()
             }
         }
     }

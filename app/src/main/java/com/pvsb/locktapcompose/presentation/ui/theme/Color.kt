@@ -12,4 +12,5 @@ object AppColors {
     val lightBlue = Color(0, 184, 238)
     val secondary = Color(35, 41, 56)
     val red = Color(247, 72, 67)
+    val background = Color(16, 23, 39)
 }

@@ -26,4 +26,9 @@
     <string name="enter_password_message">Enter password to login app</string>
 
     <string name="password_incorrect_label">Password Incorrect</string>
+    
+    <string name="main_screen_bottom_nav_label_categories">Categories</string>
+    <string name="main_screen_bottom_nav_label_passwords">Passwords</string>
+    <string name="main_screen_bottom_nav_label_memos">Memos</string>
+    <string name="main_screen_bottom_nav_label_settings">Settings</string>
 </resources>
