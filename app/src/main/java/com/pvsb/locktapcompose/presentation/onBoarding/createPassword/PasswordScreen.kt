@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.presentation.createPassword
+package com.pvsb.locktapcompose.presentation.onBoarding.createPassword
 
 import android.content.Context
 import android.content.Intent
@@ -11,7 +11,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,8 +36,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material.icons.sharp.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -64,8 +61,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.pvsb.locktapcompose.R
-import com.pvsb.locktapcompose.presentation.MainActivity
-import com.pvsb.locktapcompose.presentation.Screen
+import com.pvsb.locktapcompose.presentation.main.MainActivity
+import com.pvsb.locktapcompose.presentation.onBoarding.OnBoardingScreens
 import com.pvsb.locktapcompose.presentation.ui.messageTextStyle
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.gray
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.lightBlue
@@ -235,7 +232,7 @@ private fun navigateToRepeatPassword(
 ) {
 
     navController.navigate(
-        route = Screen.PasswordScreen.Repeat.withArgs(
+        route = OnBoardingScreens.PasswordScreen.Repeat.withArgs(
             createdPassword
         )
     ) {
@@ -245,9 +242,9 @@ private fun navigateToRepeatPassword(
 
 private fun navigateToEnterPassword(navController: NavController) {
     navController.navigate(
-        Screen.PasswordScreen.Enter.route
+        OnBoardingScreens.PasswordScreen.Enter.route
     ) {
-        popUpTo(Screen.PasswordScreen.Create.route) { inclusive = true }
+        popUpTo(OnBoardingScreens.PasswordScreen.Create.route) { inclusive = true }
         launchSingleTop = true
     }
 }

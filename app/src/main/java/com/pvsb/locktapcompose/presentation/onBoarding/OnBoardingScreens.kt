@@ -1,12 +1,11 @@
-package com.pvsb.locktapcompose.presentation
+package com.pvsb.locktapcompose.presentation.onBoarding
 
-sealed class Screen(val route: String) {
+sealed class OnBoardingScreens(val route: String) {
 
-    object SplashScree : Screen("splash_screen")
-    object OnBoarding : Screen("on_boarding")
-    object MainScreen : Screen("main_screen")
+    object SplashScree : OnBoardingScreens("splash_screen")
+    object OnBoarding : OnBoardingScreens("on_boarding")
 
-    sealed class PasswordScreen(passwordRoute: String) : Screen(passwordRoute) {
+    sealed class PasswordScreen(passwordRoute: String) : OnBoardingScreens(passwordRoute) {
         object Create : PasswordScreen("password_create")
         object Repeat : PasswordScreen("password_repeat")
         object Enter : PasswordScreen("password_enter")

@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.presentation.createPassword
+package com.pvsb.locktapcompose.presentation.onBoarding.createPassword
 
 import androidx.lifecycle.ViewModel
 

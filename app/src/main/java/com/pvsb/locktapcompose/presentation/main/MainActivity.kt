@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.presentation
+package com.pvsb.locktapcompose.presentation.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.presentation.splash
+package com.pvsb.locktapcompose.presentation.onBoarding.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,7 +16,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.pvsb.locktapcompose.R
-import com.pvsb.locktapcompose.presentation.Screen
+import com.pvsb.locktapcompose.presentation.onBoarding.OnBoardingScreens
 import kotlinx.coroutines.delay
 
 @Composable
@@ -42,8 +42,8 @@ fun SplashScreen(navController: NavController) {
             delay(1_000)
             countDown--
         }
-        navController.navigate(Screen.OnBoarding.route) {
-            popUpTo(Screen.SplashScree.route) { inclusive = true }
+        navController.navigate(OnBoardingScreens.OnBoarding.route) {
+            popUpTo(OnBoardingScreens.SplashScree.route) { inclusive = true }
             launchSingleTop = true
         }
     }

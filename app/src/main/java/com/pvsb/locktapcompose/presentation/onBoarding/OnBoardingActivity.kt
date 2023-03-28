@@ -3,7 +3,7 @@ package com.pvsb.locktapcompose.presentation.onBoarding
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.pvsb.locktapcompose.presentation.Navigation
+import com.pvsb.locktapcompose.presentation.OnBoardingNavigation
 import com.pvsb.locktapcompose.presentation.ui.theme.LockTapComposeTheme
 
 class OnBoardingActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class OnBoardingActivity : ComponentActivity() {
 
         setContent {
             LockTapComposeTheme(darkTheme = true) {
-                Navigation()
+                OnBoardingNavigation()
             }
         }
     }

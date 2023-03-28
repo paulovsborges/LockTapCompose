@@ -39,7 +39,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pvsb.locktapcompose.R
-import com.pvsb.locktapcompose.presentation.Screen
 import com.pvsb.locktapcompose.presentation.ui.messageTextStyle
 import com.pvsb.locktapcompose.presentation.ui.titleTextStyle
 
@@ -220,8 +219,8 @@ fun PageIndicator(
 private fun navigateToNextDestination(
     navController: NavController
 ) {
-    navController.navigate(Screen.PasswordScreen.Create.route) {
-        popUpTo(Screen.OnBoarding.route) { inclusive = true }
+    navController.navigate(OnBoardingScreens.PasswordScreen.Create.route) {
+        popUpTo(OnBoardingScreens.OnBoarding.route) { inclusive = true }
         launchSingleTop = true
     }
 }
