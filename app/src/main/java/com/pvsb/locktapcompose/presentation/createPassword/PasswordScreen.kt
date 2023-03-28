@@ -1,5 +1,7 @@
 package com.pvsb.locktapcompose.presentation.createPassword
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -47,6 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -61,6 +64,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.pvsb.locktapcompose.R
+import com.pvsb.locktapcompose.presentation.MainActivity
 import com.pvsb.locktapcompose.presentation.Screen
 import com.pvsb.locktapcompose.presentation.ui.messageTextStyle
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.gray
@@ -142,6 +146,7 @@ private fun ComposeTextField(
     onErrorChanged: (Boolean) -> Unit
 ) {
 
+    val context = LocalContext.current
     val maxChars = 4
     var password by remember { mutableStateOf("") }
     var isTextFieldFocused by remember { mutableStateOf(false) }
@@ -167,7 +172,9 @@ private fun ComposeTextField(
                         onErrorChanged(true)
                     }
                 }
-                PasswordScreenType.EnterPassword -> Unit
+                PasswordScreenType.EnterPassword -> {
+                    navigateToMainScreen(context)
+                }
             }
         } else {
             onErrorChanged(false)
@@ -291,6 +298,12 @@ private fun ComposeErrorCard(
             }
         }
     }
+}
+
+fun navigateToMainScreen(context: Context) {
+    val intent = Intent(context, MainActivity::class.java)
+
+    context.startActivity(intent)
 }
 
 @Preview(showBackground = true)

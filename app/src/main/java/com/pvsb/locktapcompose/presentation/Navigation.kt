@@ -9,7 +9,6 @@ import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.pvsb.locktapcompose.presentation.createPassword.PasswordScreen
 import com.pvsb.locktapcompose.presentation.createPassword.PasswordScreenType
-import com.pvsb.locktapcompose.presentation.mainScreen.MainContent
 import com.pvsb.locktapcompose.presentation.onBoarding.OnBoardingScreen
 import com.pvsb.locktapcompose.presentation.splash.SplashScreen
 
@@ -21,10 +20,6 @@ fun Navigation() {
     NavHost(navController = navController, startDestination = Screen.SplashScree.route) {
         composable(Screen.SplashScree.route) {
             SplashScreen(navController = navController)
-        }
-
-        composable(Screen.MainScreen.route) {
-            MainContent(navController = navController)
         }
 
         composable(Screen.OnBoarding.route) {
