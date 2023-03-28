@@ -1,14 +1,12 @@
 package com.pvsb.locktapcompose.presentation.main
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,6 +18,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -29,7 +28,6 @@ import com.pvsb.locktapcompose.presentation.main.categories.CategoriesScreen
 import com.pvsb.locktapcompose.presentation.main.memos.MemosScreen
 import com.pvsb.locktapcompose.presentation.main.passwords.PasswordsScreen
 import com.pvsb.locktapcompose.presentation.main.settings.SettingsScreen
-import com.pvsb.locktapcompose.presentation.ui.theme.AppColors
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.secondary
 
 @Composable
@@ -75,25 +73,30 @@ fun MainNavigation() {
             }
         }
     }) {
-        NavHost(
-            navController = navController,
-            startDestination = MainScreens.Categories.route,
-            modifier = Modifier.padding(it)
-        ) {
-            composable(MainScreens.Categories.route) {
-                CategoriesScreen()
-            }
-            composable(MainScreens.Passwords.route) {
-                PasswordsScreen()
-            }
-            composable(MainScreens.Memos.route) {
-                MemosScreen()
-            }
-            composable(MainScreens.Settings.route) {
-                SettingsScreen()
-            }
+        SetupNavHost(navController, it)
+    }
+}
+
+@Composable
+fun SetupNavHost(
+    navController: NavHostController, padding: PaddingValues
+) {
+    NavHost(
+        navController = navController,
+        startDestination = MainScreens.Categories.route,
+        modifier = Modifier.padding(padding)
+    ) {
+        composable(MainScreens.Categories.route) {
+            CategoriesScreen()
+        }
+        composable(MainScreens.Passwords.route) {
+            PasswordsScreen()
+        }
+        composable(MainScreens.Memos.route) {
+            MemosScreen()
+        }
+        composable(MainScreens.Settings.route) {
+            SettingsScreen()
         }
     }
-
-
 }
