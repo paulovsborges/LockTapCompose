@@ -87,7 +87,7 @@ fun SetupNavHost(
         modifier = Modifier.padding(padding)
     ) {
         composable(MainScreens.Categories.route) {
-            CategoriesScreen()
+            CategoriesScreen(MainScreens.Categories.label)
         }
         composable(MainScreens.Passwords.route) {
             PasswordsScreen()
