@@ -34,4 +34,10 @@
 
     <string name="view_pager_label_all">All</string>
     <string name="view_pager_label_favorites">Favorites</string>
+
+    <string name="search_field_placeholder_enter_a_title">Enter a title</string>
+
+    <string name="session_option_label_private_contacts">Private contacts</string>
+    <string name="session_option_label_wifi_passwords">Wi-fi passwords</string>
+    <string name="session_option_label_photo_vault">Photo vault</string>
 </resources>
