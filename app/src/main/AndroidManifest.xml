@@ -17,7 +17,7 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.LockTapCompose"
-            android:windowSoftInputMode="adjustResize" >
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +30,12 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.LockTapCompose"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"></activity>
 
-        </activity>
+        <activity
+            android:name=".presentation.main.categories.privateContacts.PrivateContactsActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.LockTapCompose" />
     </application>
 </manifest>
