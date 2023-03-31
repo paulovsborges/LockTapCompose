@@ -69,6 +69,7 @@ import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.lightBlue
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.red
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.secondary
 import com.pvsb.locktapcompose.presentation.ui.titleTextStyle
+import com.pvsb.locktapcompose.presentation.utils.components.BackButton
 
 @Composable
 fun PasswordScreen(
@@ -85,23 +86,8 @@ fun PasswordScreen(
     ) {
 
         if (screenType is PasswordScreenType.RepeatPassword) {
-            Button(colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.Transparent
-            ), elevation = null, onClick = {
+            BackButton {
                 navController.popBackStack()
-            }) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        Icons.Sharp.ArrowBack, contentDescription = "", tint = Color.White
-                    )
-                }
-
-                Text(
-                    text = stringResource(id = R.string.button_label_back),
-                    color = Color.White,
-                    modifier = Modifier.padding(start = 10.dp),
-                    fontFamily = FontFamily(Font(R.font.sf_pro_display_regular))
-                )
             }
         }
 
