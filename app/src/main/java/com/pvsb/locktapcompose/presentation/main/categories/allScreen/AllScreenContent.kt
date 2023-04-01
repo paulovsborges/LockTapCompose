@@ -44,7 +44,7 @@ fun AllScreenContent(
             .padding(top = 25.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        ComposePrimarySearchField(modifier = Modifier, text = searchFieldText) {
+        ComposePrimarySearchField(modifier = Modifier.fillMaxWidth(), text = searchFieldText) {
             searchFieldText = it
         }
 
