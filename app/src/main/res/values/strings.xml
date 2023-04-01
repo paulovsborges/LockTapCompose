@@ -45,7 +45,8 @@
     <string name="session_option_label_photo_vault">Photo vault</string>
 
     <string name="contact_details_change_photo_btn_label">Change photo</string>
-    
     <string name="contact_details_text_field_first_last_name">First &amp; Last name</string>
     <string name="contact_details_text_field_phone_number">Phone</string>
+    <string name="contact_details_delete_contact_btn_label">Delete contact</string>
+    <string name="contact_details_save_contact">Save</string>
 </resources>

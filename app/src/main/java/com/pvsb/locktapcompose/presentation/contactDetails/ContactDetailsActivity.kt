@@ -16,7 +16,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -35,6 +40,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,9 +50,11 @@ import com.pvsb.locktapcompose.R
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.background
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.lightBlue
+import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.red
 import com.pvsb.locktapcompose.presentation.utils.components.BackButton
 import com.pvsb.locktapcompose.presentation.utils.components.textField.ComposeContactInfoTextField
 import com.pvsb.locktapcompose.presentation.utils.getFirstLettersFromFullName
+import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -163,6 +171,50 @@ private fun ContactDetailsActivity.ComposeContent(
                         modifier = Modifier.padding(horizontal = 20.dp)
                     ) {
                         contactPhoneNumber = it
+                    }
+
+                    Spacer(modifier = Modifier.height(35.dp))
+
+                    Text(
+                        text = stringResource(id = R.string.contact_details_delete_contact_btn_label),
+                        fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
+                        color = red,
+                        fontSize = 16.sp
+                    )
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(
+                                horizontal = 20.dp,
+                                vertical = 25.dp
+                            ),
+                        verticalArrangement = Arrangement.Bottom,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Button(
+                            onClick = {
+
+                            },
+                            shape = RoundedCornerShape(corner = CornerSize(40.dp)),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = lightBlue
+                            ),
+                            elevation = null
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.contact_details_save_contact),
+                                fontFamily = FontFamily(
+                                    Font(
+                                        R.font.sf_pro_display_regular, weight = FontWeight.Thin
+                                    )
+                                ),
+                                color = Color.White
+                            )
+                        }
                     }
                 }
             }
