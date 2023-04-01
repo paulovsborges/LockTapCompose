@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,7 +34,7 @@ fun CategoriesScreen(
     label: Int
 ) {
 
-    var contentPage by remember { mutableStateOf<ViewPagerContentType>(ViewPagerContentType.All) }
+    val viePagerState = rememberPagerState()
 
     Column(
         modifier = Modifier
@@ -49,22 +50,18 @@ fun CategoriesScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         ComposePrimaryViewPager(
-            modifier = Modifier.fillMaxWidth(), contents = listOf(
-                ViewPagerContentType.All,
-                ViewPagerContentType.Favorites
+            state = viePagerState, modifier = Modifier.fillMaxWidth(), contents = listOf(
+                ViewPagerContentType.All, ViewPagerContentType.Favorites
             )
-        ) { type ->
+        )
 
-            contentPage = type
-        }
-
-        when (contentPage) {
-            ViewPagerContentType.All -> {
+        when (viePagerState.currentPage) {
+            0 -> {
                 AllScreenContent(
                     modifier = Modifier.fillMaxSize()
                 )
             }
-            ViewPagerContentType.Favorites -> {
+            1 -> {
                 FavoriteScreenContent(modifier = Modifier.fillMaxSize())
             }
             else -> Unit

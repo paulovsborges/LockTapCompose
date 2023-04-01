@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,11 +36,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun ComposePrimaryViewPager(
     modifier: Modifier = Modifier,
+    state: PagerState = rememberPagerState(),
     contents: List<ViewPagerContentType> = emptyList(),
     contentPage: (ViewPagerContentType) -> Unit = {}
 ) {
 
-    val state = rememberPagerState()
     val scope = rememberCoroutineScope()
 
     HorizontalPager(pageCount = contents.size, modifier = modifier, state = state) {
