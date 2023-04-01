@@ -45,6 +45,6 @@ fun BackButton(
 
 @Preview
 @Composable
-fun BackButtonPreview() {
+private fun BackButtonPreview() {
     BackButton()
 }
