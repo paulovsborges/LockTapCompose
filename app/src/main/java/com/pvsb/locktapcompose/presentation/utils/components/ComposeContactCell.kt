@@ -1,6 +1,7 @@
 package com.pvsb.locktapcompose.presentation.utils.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,12 +80,13 @@ fun ComposeContactCell(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
-
                 Icon(
                     painter = painterResource(id = R.drawable.ic_copy),
                     contentDescription = "",
-                    tint = gray
+                    tint = gray,
+                    modifier = Modifier.clickable {
+
+                    }
                 )
             }
         }
