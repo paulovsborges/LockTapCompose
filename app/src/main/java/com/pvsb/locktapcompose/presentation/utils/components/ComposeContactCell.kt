@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -115,7 +116,8 @@ private fun navigateToContactDetails(
             contactId,
             name,
             phoneNumber,
-            imageFilePath
+            imageFilePath,
+            isFavorite
         )
     }
 
@@ -160,7 +162,8 @@ private fun ComposeContactImage(
     Image(
         painter = rememberAsyncImagePainter(model = imagePath),
         contentDescription = "",
-        modifier = modifier
+        modifier = modifier,
+        contentScale = ContentScale.Crop
     )
 }
 
@@ -172,7 +175,8 @@ private fun ComposeContactCellPreview() {
         "12345",
         "John Doe",
         "347-671-1254",
-        null
+        null,
+        false
     )
 
     ComposeContactCell(contactData = dummyContact)

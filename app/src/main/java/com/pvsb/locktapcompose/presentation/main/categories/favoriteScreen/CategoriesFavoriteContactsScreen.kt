@@ -20,13 +20,15 @@ fun CategoriesFavoriteContactsScreen() {
             "12345",
             "John Doe",
             "347-671-1254",
-            null
+            null,
+            false
         ),
         PrivateContact(
             "12345",
             "Brian Doe",
             "827-627-1754",
-            "https://images.unsplash.com/photo-1551887373-3c5bd224f6e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y3JhenklMjBkb2d8ZW58MHx8MHx8&w=1000&q=80"
+            "https://images.unsplash.com/photo-1551887373-3c5bd224f6e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y3JhenklMjBkb2d8ZW58MHx8MHx8&w=1000&q=80",
+            false
         ),
     )
 
