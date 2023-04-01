@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,10 +38,16 @@ class PrivateContactsActivity : ComponentActivity() {
 private fun PrivateContactsActivity.PrivateContactsScreen() {
 
     Column(
-        modifier = Modifier.fillMaxSize().background(background)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(background)
     ) {
         BackButton {
             finish()
+        }
+
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
+
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -55,10 +63,14 @@ private fun PrivateContactsActivity.PrivateContactsScreen() {
                 style = titleTextStyle
             )
 
+            Spacer(modifier = Modifier.height(25.dp))
+
             ComposePrimarySearchField()
         }
     }
 }
+
+
 
 @Preview
 @Composable
