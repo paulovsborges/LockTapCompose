@@ -39,5 +39,11 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.LockTapCompose" />
+
+        <activity
+            android:name=".presentation.contactDetails.ContactDetailsActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.LockTapCompose" />
     </application>
 </manifest>

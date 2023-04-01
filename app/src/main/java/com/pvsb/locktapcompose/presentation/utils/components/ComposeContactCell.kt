@@ -1,5 +1,7 @@
 package com.pvsb.locktapcompose.presentation.utils.components
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -29,9 +32,13 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.pvsb.locktapcompose.R
 import com.pvsb.locktapcompose.domain.entity.PrivateContact
+import com.pvsb.locktapcompose.presentation.contactDetails.ContactDetailsActivity
+import com.pvsb.locktapcompose.presentation.contactDetails.SerializablePrivateContact
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.gray
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.secondary
 import com.pvsb.locktapcompose.presentation.utils.getFirstLettersFromFullName
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Composable
 fun ComposeContactCell(
@@ -39,10 +46,15 @@ fun ComposeContactCell(
     contactData: PrivateContact
 ) {
 
+    val context = LocalContext.current
+
     Row(
         modifier = modifier
             .height(55.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                navigateToContactDetails(context, contactData)
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Card(
@@ -91,6 +103,32 @@ fun ComposeContactCell(
             }
         }
     }
+}
+
+private fun navigateToContactDetails(
+    context: Context,
+    contactData: PrivateContact
+) {
+
+    val serializableData = contactData.run {
+        SerializablePrivateContact(
+            contactId,
+            name,
+            phoneNumber,
+            imageFilePath
+        )
+    }
+
+    val serializedData = Json.encodeToString(serializableData)
+
+    val intent = Intent(context, ContactDetailsActivity::class.java)
+
+    intent.putExtra(
+        SerializablePrivateContact.PRIVATE_CONTACT_DATA_KEY,
+        serializedData
+    )
+
+    context.startActivity(intent)
 }
 
 @Composable
