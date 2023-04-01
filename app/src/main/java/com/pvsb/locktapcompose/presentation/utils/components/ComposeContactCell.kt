@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,15 +25,17 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.pvsb.locktapcompose.R
+import com.pvsb.locktapcompose.domain.entity.PrivateContact
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.gray
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.secondary
+import com.pvsb.locktapcompose.presentation.utils.getFirstLettersFromFullName
 
 @Composable
 fun ComposeContactCell(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contactData: PrivateContact
 ) {
 
     Row(
@@ -48,7 +49,11 @@ fun ComposeContactCell(
             shape = CircleShape,
             modifier = Modifier.size(45.dp)
         ) {
-            ComposeContactImage()
+            contactData.imageFilePath?.let { imagePath ->
+                ComposeContactImage(imagePath = imagePath)
+            } ?: ComposeContactImagePlaceholder(
+                name = contactData.name
+            )
         }
 
         Spacer(modifier = Modifier.width(12.dp))
@@ -65,8 +70,8 @@ fun ComposeContactCell(
                         space / 2
                     })
             ) {
-                Text(text = "Richard", color = Color.White)
-                Text(text = "347-671-1254", color = gray)
+                Text(text = contactData.name, color = Color.White)
+                Text(text = contactData.phoneNumber, color = gray)
             }
 
             Row(
@@ -87,16 +92,18 @@ fun ComposeContactCell(
 }
 
 @Composable
-fun ComposeContactImagePlaceholder(
-    modifier: Modifier = Modifier
+private fun ComposeContactImagePlaceholder(
+    modifier: Modifier = Modifier,
+    name: String
 ) {
+    val firstLetter = getFirstLettersFromFullName(name).take(1)
 
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "R",
+            text = firstLetter,
             fontSize = 20.sp,
             fontFamily = FontFamily(Font(R.font.sf_pro_display_medium)),
             color = Color.White
@@ -105,15 +112,13 @@ fun ComposeContactImagePlaceholder(
 }
 
 @Composable
-fun ComposeContactImage(
-    modifier: Modifier = Modifier
+private fun ComposeContactImage(
+    modifier: Modifier = Modifier,
+    imagePath: String
 ) {
 
-    val url =
-        "https://images.unsplash.com/photo-1551887373-3c5bd224f6e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y3JhenklMjBkb2d8ZW58MHx8MHx8&w=1000&q=80"
-
     Image(
-        painter = rememberAsyncImagePainter(model = url),
+        painter = rememberAsyncImagePainter(model = imagePath),
         contentDescription = "",
         modifier = modifier
     )
@@ -121,6 +126,14 @@ fun ComposeContactImage(
 
 @Preview
 @Composable
-fun ComposeContactCellPreview() {
-    ComposeContactCell()
+private fun ComposeContactCellPreview() {
+
+    val dummyContact = PrivateContact(
+        "12345",
+        "John Doe",
+        "347-671-1254",
+        null
+    )
+
+    ComposeContactCell(contactData = dummyContact)
 }
