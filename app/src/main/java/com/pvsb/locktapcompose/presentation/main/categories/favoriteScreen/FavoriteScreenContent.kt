@@ -14,7 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pvsb.locktapcompose.presentation.utils.components.searchFIeld.ComposePrimarySearchField
+import com.pvsb.locktapcompose.presentation.utils.components.textField.ComposePrimarySearchField
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.background
 import com.pvsb.locktapcompose.presentation.utils.components.viewPager.ComposeSecondaryViewPager
 import com.pvsb.locktapcompose.presentation.utils.components.viewPager.ViewPagerContentType

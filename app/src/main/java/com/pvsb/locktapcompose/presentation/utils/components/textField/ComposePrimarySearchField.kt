@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.presentation.utils.components.searchFIeld
+package com.pvsb.locktapcompose.presentation.utils.components.textField
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
