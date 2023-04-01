@@ -26,7 +26,7 @@
     <string name="enter_password_message">Enter password to login app</string>
 
     <string name="password_incorrect_label">Password Incorrect</string>
-    
+
     <string name="main_screen_bottom_nav_label_categories">Categories</string>
     <string name="main_screen_bottom_nav_label_passwords">Passwords</string>
     <string name="main_screen_bottom_nav_label_memos">Memos</string>
@@ -49,4 +49,8 @@
     <string name="contact_details_text_field_phone_number">Phone</string>
     <string name="contact_details_delete_contact_btn_label">Delete contact</string>
     <string name="contact_details_save_contact">Save</string>
+
+    <string name="empty_content_label">Nothing added</string>
+
+    <string name="private_contacts_empty_content_message">Tap on the + at the bottom \nto create a new contact</string>
 </resources>

@@ -1,27 +1,40 @@
 package com.pvsb.locktapcompose.presentation.main.categories.privateContacts
 
 import android.os.Bundle
+import android.text.Html
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.AlignmentLine
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.pvsb.locktapcompose.R
+import com.pvsb.locktapcompose.presentation.ui.messageTextStyle
+import com.pvsb.locktapcompose.presentation.ui.theme.AppColors
 import com.pvsb.locktapcompose.presentation.utils.components.textField.ComposePrimarySearchField
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.background
 import com.pvsb.locktapcompose.presentation.ui.titleTextStyle
 import com.pvsb.locktapcompose.presentation.utils.components.BackButton
+import com.pvsb.locktapcompose.presentation.utils.components.FloatingAddButton
 
 class PrivateContactsActivity : ComponentActivity() {
 
@@ -37,40 +50,90 @@ class PrivateContactsActivity : ComponentActivity() {
 @Composable
 private fun PrivateContactsActivity.PrivateContactsScreen() {
 
-    Column(
+    Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(background)
+            .fillMaxSize(),
+        contentAlignment = Alignment.BottomEnd
     ) {
-        BackButton {
-            finish()
-        }
-
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
-
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 20.dp)
+                .background(background)
         ) {
+            BackButton {
+                finish()
+            }
 
-            Text(
-                text = stringResource(id = R.string.session_option_label_private_contacts),
-                style = titleTextStyle
-            )
+            Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(25.dp))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp)
+            ) {
 
-            ComposePrimarySearchField()
+                Text(
+                    text = stringResource(id = R.string.session_option_label_private_contacts),
+                    style = titleTextStyle
+                )
+
+                Spacer(modifier = Modifier.height(25.dp))
+
+                ComposePrimarySearchField()
+
+                ComposeEmptyState(modifier = Modifier.fillMaxSize())
+            }
+        }
+
+        Row(modifier = Modifier.padding(25.dp)) {
+            FloatingAddButton() {}
         }
     }
 }
 
+@Composable
+private fun ComposeEmptyState(
+    modifier: Modifier = Modifier
+) {
 
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Spacer(modifier = Modifier.height(100.dp))
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_empty_content),
+            contentDescription = ""
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(
+            text = stringResource(id = R.string.empty_content_label),
+            style = titleTextStyle,
+            fontSize = 20.sp
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(
+            text = stringResource(id = R.string.private_contacts_empty_content_message),
+            color = AppColors.gray,
+            textAlign = TextAlign.Center,
+            fontSize = 16.sp,
+            style = messageTextStyle
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ComposeEmptyStatePreview() {
+    ComposeEmptyState()
+}
 
 @Preview
 @Composable
