@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.presentation.main.shared.viewPager
+package com.pvsb.locktapcompose.presentation.utils.components.viewPager
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
 @Composable
-fun ComposeViewPager(
+fun ComposePrimaryViewPager(
     modifier: Modifier = Modifier,
     contents: List<ViewPagerContentType> = emptyList(),
     contentPage: (ViewPagerContentType) -> Unit = {}
@@ -88,14 +88,14 @@ fun ComposeViewPager(
 @ExperimentalFoundationApi
 @Preview(showBackground = true)
 @Composable
-private fun ComposeViewPagerPreview() {
+private fun ComposePrimaryViewPagerPreview() {
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(AppColors.background)
     ) {
-        ComposeViewPager(
+        ComposePrimaryViewPager(
             contents = listOf(
                 ViewPagerContentType.All, ViewPagerContentType.Favorites
             )

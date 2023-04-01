@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.presentation.main.shared.searchFIeld
+package com.pvsb.locktapcompose.presentation.utils.components.searchFIeld
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +33,7 @@ import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.gray
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.lightBlue
 
 @Composable
-fun ComposeSearchField(
+fun ComposePrimarySearchField(
     modifier: Modifier = Modifier,
     text: String = "",
     onValueChanged: (String) -> Unit = {}
@@ -85,8 +85,8 @@ fun ComposeSearchField(
 
 @Preview(showBackground = true)
 @Composable
-private fun ComposeSearchFieldPreview() {
+private fun ComposePrimarySearchFieldPreview() {
     Box(modifier = Modifier.padding(10.dp)) {
-        ComposeSearchField(modifier = Modifier.fillMaxWidth(), text = "")
+        ComposePrimarySearchField(modifier = Modifier.fillMaxWidth(), text = "")
     }
 }

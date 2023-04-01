@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import com.pvsb.locktapcompose.presentation.main.MainScreens
 import com.pvsb.locktapcompose.presentation.main.categories.allScreen.AllScreenContent
 import com.pvsb.locktapcompose.presentation.main.categories.favoriteScreen.FavoriteScreenContent
-import com.pvsb.locktapcompose.presentation.main.shared.viewPager.ComposeViewPager
-import com.pvsb.locktapcompose.presentation.main.shared.viewPager.ViewPagerContentType
+import com.pvsb.locktapcompose.presentation.utils.components.viewPager.ComposePrimaryViewPager
+import com.pvsb.locktapcompose.presentation.utils.components.viewPager.ViewPagerContentType
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.background
 import com.pvsb.locktapcompose.presentation.ui.titleTextStyle
 
@@ -48,7 +48,7 @@ fun CategoriesScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        ComposeViewPager(
+        ComposePrimaryViewPager(
             modifier = Modifier.fillMaxWidth(), contents = listOf(
                 ViewPagerContentType.All,
                 ViewPagerContentType.Favorites
@@ -67,6 +67,7 @@ fun CategoriesScreen(
             ViewPagerContentType.Favorites -> {
                 FavoriteScreenContent(modifier = Modifier.fillMaxSize())
             }
+            else -> Unit
         }
     }
 }

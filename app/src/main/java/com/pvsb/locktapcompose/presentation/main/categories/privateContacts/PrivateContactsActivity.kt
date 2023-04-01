@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pvsb.locktapcompose.R
-import com.pvsb.locktapcompose.presentation.main.shared.searchFIeld.ComposeSearchField
+import com.pvsb.locktapcompose.presentation.utils.components.searchFIeld.ComposePrimarySearchField
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.background
 import com.pvsb.locktapcompose.presentation.ui.titleTextStyle
 import com.pvsb.locktapcompose.presentation.utils.components.BackButton
@@ -55,7 +55,7 @@ private fun PrivateContactsActivity.PrivateContactsScreen() {
                 style = titleTextStyle
             )
 
-            ComposeSearchField()
+            ComposePrimarySearchField()
         }
     }
 }

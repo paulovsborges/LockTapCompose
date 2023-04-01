@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.pvsb.locktapcompose.R
 import com.pvsb.locktapcompose.presentation.main.MainActivity
 import com.pvsb.locktapcompose.presentation.main.categories.privateContacts.PrivateContactsActivity
-import com.pvsb.locktapcompose.presentation.main.shared.searchFIeld.ComposeSearchField
+import com.pvsb.locktapcompose.presentation.utils.components.searchFIeld.ComposePrimarySearchField
 import com.pvsb.locktapcompose.presentation.main.shared.sessionOptions.ComposeSessionOptionButton
 
 @Composable
@@ -44,7 +44,7 @@ fun AllScreenContent(
             .padding(top = 25.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        ComposeSearchField(modifier = Modifier, text = searchFieldText) {
+        ComposePrimarySearchField(modifier = Modifier, text = searchFieldText) {
             searchFieldText = it
         }
 
