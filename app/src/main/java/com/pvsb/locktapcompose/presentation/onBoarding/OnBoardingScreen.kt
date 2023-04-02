@@ -69,19 +69,20 @@ fun OnBoardingScreen(
                 .fillMaxHeight(0.4f)
                 .fillMaxWidth(),
             sheetContent = {
-                BottomSheetContent(selectedPage, onNextClicked = {
+                BottomSheetContent(
+                    selectedPage, onNextClicked = {
 
-                    if (isLastPage) {
-                        navigateToNextDestination(navController)
-                        return@BottomSheetContent
-                    }
+                        if (isLastPage) {
+                            navigateToNextDestination(navController)
+                            return@BottomSheetContent
+                        }
 
-                    selectedPage++
+                        selectedPage++
 
-                    if (selectedPage == onBoardingStepsData.size) {
-                        isLastPage = true
-                    }
-                }, onSKipClicked = {
+                        if (selectedPage == onBoardingStepsData.size) {
+                            isLastPage = true
+                        }
+                    }, onSKipClicked = {
                     navigateToNextDestination(navController)
                 },
                     modifier = Modifier.background(colorResource(id = R.color.bg_secondary))
@@ -146,11 +147,13 @@ private fun BottomSheetContent(
                 )
             ) {
                 Text(
-                    text = stringResource(id = R.string.button_label_next), fontFamily = FontFamily(
+                    text = stringResource(id = R.string.button_label_next),
+                    fontFamily = FontFamily(
                         Font(
                             R.font.sf_pro_display_regular, weight = FontWeight.Thin
                         )
-                    ), color = Color.White
+                    ),
+                    color = Color.White
                 )
             }
 
@@ -167,11 +170,13 @@ private fun BottomSheetContent(
                 elevation = null
             ) {
                 Text(
-                    text = stringResource(id = R.string.button_label_skip), fontFamily = FontFamily(
+                    text = stringResource(id = R.string.button_label_skip),
+                    fontFamily = FontFamily(
                         Font(
                             R.font.sf_pro_display_regular, weight = FontWeight.Thin
                         )
-                    ), color = Color.White
+                    ),
+                    color = Color.White
                 )
             }
         }

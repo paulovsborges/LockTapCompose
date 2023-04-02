@@ -22,7 +22,8 @@ fun getOnBoardingData(): List<OnBoardingStepsData> {
             ),
             stringResource(id = R.string.on_boarding_step_1_title),
             stringResource(id = R.string.on_boarding_step_1_message),
-        ),OnBoardingStepsData(
+        ),
+        OnBoardingStepsData(
             listOf(
                 R.drawable.on_boarding_step_2_1,
                 R.drawable.on_boarding_step_2_2,

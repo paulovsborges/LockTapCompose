@@ -82,7 +82,8 @@ fun ComposeContactCell(
                     8.dp,
                     alignment = { _, space ->
                         space / 2
-                    })
+                    }
+                )
             ) {
                 Text(text = contactData.name, color = Color.White)
                 Text(text = contactData.phoneNumber, color = gray)
@@ -98,7 +99,6 @@ fun ComposeContactCell(
                     contentDescription = "",
                     tint = gray,
                     modifier = Modifier.clickable {
-
                     }
                 )
             }

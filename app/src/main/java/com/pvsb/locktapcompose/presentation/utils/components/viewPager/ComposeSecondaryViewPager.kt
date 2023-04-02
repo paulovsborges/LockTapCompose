@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 fun ComposeSecondaryViewPager(
     modifier: Modifier = Modifier,
     contents: List<ViewPagerContentType> = emptyList(),
-    initialPage : Int = 0,
+    initialPage: Int = 0,
     contentPage: (ViewPagerContentType) -> Unit = {}
 ) {
 

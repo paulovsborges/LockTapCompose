@@ -10,9 +10,12 @@ import androidx.compose.ui.Modifier
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.background
 
 @Composable
-fun MemosScreen(){
-    Box(modifier = Modifier.fillMaxSize()
-        .background(background), contentAlignment = Alignment.Center) {
+fun MemosScreen() {
+    Box(
+        modifier = Modifier.fillMaxSize()
+            .background(background),
+        contentAlignment = Alignment.Center
+    ) {
 
         Text(text = "Memos Screen")
     }

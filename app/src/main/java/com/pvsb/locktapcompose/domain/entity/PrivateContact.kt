@@ -5,5 +5,5 @@ data class PrivateContact(
     val name: String,
     val phoneNumber: String,
     val imageFilePath: String?,
-    val isFavorite : Boolean
+    val isFavorite: Boolean
 )

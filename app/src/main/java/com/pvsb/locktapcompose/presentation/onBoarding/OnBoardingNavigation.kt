@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.pvsb.locktapcompose.presentation.onBoarding.createPassword.PasswordScreen
-import com.pvsb.locktapcompose.presentation.onBoarding.createPassword.PasswordScreenType
 import com.pvsb.locktapcompose.presentation.onBoarding.OnBoardingScreen
 import com.pvsb.locktapcompose.presentation.onBoarding.OnBoardingScreens
+import com.pvsb.locktapcompose.presentation.onBoarding.createPassword.PasswordScreen
+import com.pvsb.locktapcompose.presentation.onBoarding.createPassword.PasswordScreenType
 import com.pvsb.locktapcompose.presentation.onBoarding.splash.SplashScreen
 
 @Composable

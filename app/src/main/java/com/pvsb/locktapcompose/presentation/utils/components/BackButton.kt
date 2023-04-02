@@ -26,7 +26,8 @@ fun BackButton(
     Button(
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color.Transparent
-        ), elevation = null, onClick = onClick
+        ),
+        elevation = null, onClick = onClick
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(

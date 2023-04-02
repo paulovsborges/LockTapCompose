@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.pvsb.locktapcompose.R
-import com.pvsb.locktapcompose.presentation.onBoarding.ComposeDrawableAppPrint
 
 @Composable
 fun ComposeOnBoardingPrintsBackgroundBuilder(drawables: List<Int>, modifier: Modifier = Modifier) {

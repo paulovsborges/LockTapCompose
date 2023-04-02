@@ -6,9 +6,9 @@ data class SerializablePrivateContact(
     val name: String,
     val phoneNumber: String,
     val imageFilePath: String?,
-    val isFavorite : Boolean
+    val isFavorite: Boolean
 ) {
-    companion object{
+    companion object {
         const val PRIVATE_CONTACT_DATA_KEY = "PRIVATE_CONTACT_DATA_KEY"
     }
 }

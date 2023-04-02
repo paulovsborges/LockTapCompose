@@ -19,21 +19,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -84,7 +79,8 @@ fun ComposeContactInfoTextField(
                         4.dp,
                         alignment = { _, space ->
                             space / 2
-                        })
+                        }
+                    )
                 ) {
 
                     Text(
@@ -100,29 +96,30 @@ fun ComposeContactInfoTextField(
                 }
             }
         }, cursorBrush = SolidColor(Color.White),
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(onDone = {
-            focusManager.clearFocus()
-            keyboardController?.hide()
-        })
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ComposeContactInfoTextFieldPreview() {
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp)
-    ) {
-        ComposeContactInfoTextField(
-            fieldLabel = R.string.contact_details_text_field_first_last_name,
-            text = "john doe"
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(onDone = {
+                focusManager.clearFocus()
+                keyboardController?.hide()
+            })
         )
     }
-}
+
+    @Preview(showBackground = true)
+    @Composable
+    private fun ComposeContactInfoTextFieldPreview() {
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp)
+        ) {
+            ComposeContactInfoTextField(
+                fieldLabel = R.string.contact_details_text_field_first_last_name,
+                text = "john doe"
+            )
+        }
+    }
+    

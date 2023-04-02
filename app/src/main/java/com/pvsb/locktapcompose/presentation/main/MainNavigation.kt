@@ -82,7 +82,8 @@ fun MainNavigation() {
 
 @Composable
 fun SetupNavHost(
-    navController: NavHostController, padding: PaddingValues
+    navController: NavHostController,
+    padding: PaddingValues
 ) {
     NavHost(
         navController = navController,

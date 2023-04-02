@@ -12,8 +12,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,10 +21,10 @@ import androidx.compose.ui.unit.dp
 import com.pvsb.locktapcompose.presentation.main.MainScreens
 import com.pvsb.locktapcompose.presentation.main.categories.allScreen.AllScreenContent
 import com.pvsb.locktapcompose.presentation.main.categories.favoriteScreen.FavoriteScreenContent
-import com.pvsb.locktapcompose.presentation.utils.components.viewPager.ComposePrimaryViewPager
-import com.pvsb.locktapcompose.presentation.utils.components.viewPager.ViewPagerContentType
 import com.pvsb.locktapcompose.presentation.ui.theme.AppColors.background
 import com.pvsb.locktapcompose.presentation.ui.titleTextStyle
+import com.pvsb.locktapcompose.presentation.utils.components.viewPager.ComposePrimaryViewPager
+import com.pvsb.locktapcompose.presentation.utils.components.viewPager.ViewPagerContentType
 
 @ExperimentalFoundationApi
 @Composable
@@ -40,7 +38,8 @@ fun CategoriesScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(background)
-            .padding(start = 20.dp, end = 20.dp, top = 15.dp), horizontalAlignment = Alignment.Start
+            .padding(start = 20.dp, end = 20.dp, top = 15.dp),
+        horizontalAlignment = Alignment.Start
     ) {
 
         Text(
@@ -50,7 +49,8 @@ fun CategoriesScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         ComposePrimaryViewPager(
-            state = viePagerState, modifier = Modifier.fillMaxWidth(), contents = listOf(
+            state = viePagerState, modifier = Modifier.fillMaxWidth(),
+            contents = listOf(
                 ViewPagerContentType.All, ViewPagerContentType.Favorites
             )
         )

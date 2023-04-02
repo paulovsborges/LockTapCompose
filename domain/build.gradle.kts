@@ -11,5 +11,4 @@ java {
 dependencies {
 
     testImplementation(Test.jUnit)
-
 }
