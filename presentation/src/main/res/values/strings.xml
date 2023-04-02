@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="button_label_next">"Next"</string>
+    <string name="button_label_skip">"Skip"</string>
+    <string name="button_label_back">"back"</string>
+
+    <string name="on_boarding_step_1_title">Universal data storage</string>
+    <string name="on_boarding_step_1_message">Relieve yourself of creating and
+ memorizing complex passwords on your
+ own with Locktap</string>
+
+    <string name="on_boarding_step_2_title">Security hardened</string>
+    <string name="on_boarding_step_2_message">All your data is securely password \nprotected. You can also set access \nonly by face ID</string>
+
+    <string name="on_boarding_step_3_title">Only important</string>
+    <string name="on_boarding_step_3_message">Keep only the most important data: \npasswords, notes, photos and more \nthanks to Locktap</string>
+
+    <string name="create_password_title">Create password</string>
+    <string name="create_password_message">Create a four-digit password</string>
+
+    <string name="repeat_password_title">Repeat password</string>
+    <string name="repeat_password_message">Enter your invented password</string>
+
+    <string name="enter_password_title">Enter password</string>
+    <string name="enter_password_message">Enter password to login app</string>
+
+    <string name="password_incorrect_label">Password Incorrect</string>
+
+    <string name="main_screen_bottom_nav_label_categories">Categories</string>
+    <string name="main_screen_bottom_nav_label_passwords">Passwords</string>
+    <string name="main_screen_bottom_nav_label_memos">Memos</string>
+    <string name="main_screen_bottom_nav_label_settings">Settings</string>
+
+    <string name="view_pager_label_all">All</string>
+    <string name="view_pager_label_favorites">Favorites</string>
+    <string name="view_pager_label_contacts">Contacts</string>
+    <string name="view_pager_label_wifi_pass">Wi-fi pass</string>
+    <string name="view_pager_label_photos">Photos</string>
+
+    <string name="search_field_placeholder_enter_a_title">Enter a title</string>
+
+    <string name="session_option_label_private_contacts">Private contacts</string>
+    <string name="session_option_label_wifi_passwords">Wi-fi passwords</string>
+    <string name="session_option_label_photo_vault">Photo vault</string>
+
+    <string name="contact_details_change_photo_btn_label">Change photo</string>
+    <string name="contact_details_text_field_first_last_name">First &amp; Last name</string>
+    <string name="contact_details_text_field_phone_number">Phone</string>
+    <string name="contact_details_delete_contact_btn_label">Delete contact</string>
+    <string name="contact_details_save_contact">Save</string>
+
+    <string name="empty_content_label">Nothing added</string>
+
+    <string name="private_contacts_empty_content_message">Tap on the + at the bottom \nto create a new contact</string>
+</resources>
