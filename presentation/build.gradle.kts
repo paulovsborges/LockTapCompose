@@ -35,6 +35,8 @@ android {
 
 dependencies {
 
+    implementation(project(Modules.domain))
+
     implementation(AndroidX.core)
     implementation(AndroidX.lifeCycle)
     implementation(AndroidX.appCompat)
