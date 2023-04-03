@@ -1,6 +1,10 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    kotlin("kapt")
 }
 
 android {
@@ -36,6 +40,9 @@ android {
 dependencies {
 
     implementation(project(Modules.domain))
+    implementation(Room.runtime)
+    implementation(Room.ktx)
+    kapt(Room.compiler)
 
     implementation(AndroidX.core)
     implementation(AndroidX.lifeCycle)
