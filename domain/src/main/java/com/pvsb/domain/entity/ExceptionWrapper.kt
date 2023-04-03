@@ -5,5 +5,4 @@ sealed interface ExceptionWrapper {
     data class ContactAlreadyExists(
         override val message: String?
     ) : ExceptionWrapper, Exception()
-
 }

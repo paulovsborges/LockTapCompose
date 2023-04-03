@@ -33,7 +33,6 @@ class AddContact(
             when (it) {
                 is ExceptionWrapper.ContactAlreadyExists -> {
                     emit(DataState.Error(TypedMessage.StringMessage(it.message ?: "")))
-
                 }
                 else -> {
                     emit(
