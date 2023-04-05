@@ -44,8 +44,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
+import com.pvsb.domain.entity.PrivateContact
 import com.pvsb.presentation.R
+import com.pvsb.presentation.main.categories.allScreen.privateContacts.PrivateContactsViewModel
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.theme.AppColors.background
 import com.pvsb.presentation.ui.theme.AppColors.lightBlue
@@ -53,9 +56,11 @@ import com.pvsb.presentation.ui.theme.AppColors.red
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.textField.ComposeContactInfoTextField
 import com.pvsb.presentation.utils.getFirstLettersFromFullName
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
+@AndroidEntryPoint
 class ContactDetailsActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +82,8 @@ class ContactDetailsActivity : ComponentActivity() {
 
 @Composable
 private fun ContactDetailsActivity.ComposeContent(
-    contactData: SerializablePrivateContact
+    contactData: SerializablePrivateContact,
+    viewModel: PrivateContactsViewModel = hiltViewModel()
 ) {
 
     var contactNameState by remember { mutableStateOf(contactData.name) }
@@ -191,6 +197,15 @@ private fun ContactDetailsActivity.ComposeContent(
                     ) {
                         Button(
                             onClick = {
+                                viewModel.insertContact(
+                                    PrivateContact(
+                                        "",
+                                        contactNameState,
+                                        contactPhoneNumber,
+                                        null,
+                                        false
+                                    )
+                                )
                             },
                             shape = RoundedCornerShape(corner = CornerSize(40.dp)),
                             modifier = Modifier

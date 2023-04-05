@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" package="com.pvsb.locktapcompose">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.pvsb.locktapcompose">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".presentation.LockTap"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -35,7 +37,7 @@
             android:windowSoftInputMode="adjustResize"></activity>
 
         <activity
-            android:name="com.pvsb.presentation.main.categories.privateContacts.PrivateContactsActivity"
+            android:name="com.pvsb.presentation.main.categories.allScreen.privateContacts.PrivateContactsActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.LockTapCompose" />

@@ -19,7 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.pvsb.presentation.R
 import com.pvsb.presentation.main.MainActivity
-import com.pvsb.presentation.main.categories.privateContacts.PrivateContactsActivity
+import com.pvsb.presentation.main.categories.allScreen.privateContacts.PrivateContactsActivity
 import com.pvsb.presentation.main.shared.sessionOptions.ComposeSessionOptionButton
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
 

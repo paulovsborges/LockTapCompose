@@ -4,8 +4,8 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
-    id(SqlDelight.plugin) version SqlDelight.version
     id("dagger.hilt.android.plugin")
+    id(SqlDelight.plugin) version SqlDelight.version
 }
 
 android {

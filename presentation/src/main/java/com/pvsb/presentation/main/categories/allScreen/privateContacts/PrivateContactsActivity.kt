@@ -1,4 +1,4 @@
-package com.pvsb.presentation.main.categories.privateContacts
+package com.pvsb.presentation.main.categories.allScreen.privateContacts
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -35,7 +35,9 @@ import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.ComposeContactCell
 import com.pvsb.presentation.utils.components.FloatingAddButton
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PrivateContactsActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
