@@ -4,6 +4,7 @@ plugins {
     id("kotlinx-serialization")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id(SqlDelight.plugin) version SqlDelight.version
 }
 
 android {
@@ -77,3 +78,5 @@ dependencies {
     androidTestImplementation(Test.jUInitExt)
     androidTestImplementation(Test.espresso)
 }
+
+

@@ -4,7 +4,8 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
-    kotlin("kapt")
+    id(SqlDelight.plugin) version SqlDelight.version
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -40,9 +41,10 @@ android {
 dependencies {
 
     implementation(project(Modules.domain))
-    implementation(Room.runtime)
-    implementation(Room.ktx)
-    kapt(Room.compiler)
+
+    implementation(Hilt.android)
+    kapt(Hilt.compiler)
+    implementation(SqlDelight.driver)
 
     implementation(AndroidX.core)
     implementation(AndroidX.lifeCycle)
@@ -50,4 +52,12 @@ dependencies {
     testImplementation(Test.jUnit)
     androidTestImplementation(Test.jUInitExt)
     androidTestImplementation(Test.espresso)
+}
+
+sqldelight {
+    databases{
+        create("LockTapDataBase"){
+            packageName.set("com.pvsb.locktapcompose")
+        }
+    }
 }
