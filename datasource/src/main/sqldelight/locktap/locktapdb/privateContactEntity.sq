@@ -1,4 +1,18 @@
--- CREATE TABLE IF NOT EXISTS PrivateContactEntity (
---     id INTEGER NOT NULL PRIMARY KEY,
---
--- );
+import java.lang.Boolean;
+
+CREATE TABLE IF NOT EXISTS PrivateContactEntity (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    phoneNumber TEXT NOT NULL,
+    imageFilePath TEXT,
+    isFavorite INTEGER AS Boolean DEFAULT 0
+);
+
+insertOrReplaceContact:
+INSERT OR REPLACE INTO PrivateContactEntity VALUES ?;
+
+getAllContacts:
+SELECT * FROM PrivateContactEntity;
+
+deleteContact:
+DELETE FROM PrivateContactEntity WHERE id = :id;
