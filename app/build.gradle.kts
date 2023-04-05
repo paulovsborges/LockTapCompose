@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlinx-serialization")
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -66,6 +68,10 @@ dependencies {
     implementation(Compose.coil)
     implementation(Compose.navigation)
     implementation(Kotlin.serialization)
+    implementation(Hilt.android)
+    implementation(Hilt.compose)
+    kapt(Hilt.compiler)
+    implementation(SqlDelight.driver)
 
     testImplementation(Test.jUnit)
     androidTestImplementation(Test.jUInitExt)
