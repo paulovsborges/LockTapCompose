@@ -5,4 +5,5 @@ import com.pvsb.domain.entity.PrivateContact
 interface ContactsRepository {
     suspend fun addContact(contact: PrivateContact)
     suspend fun getContacts(): List<PrivateContact>
+    suspend fun deleteContact(contactId: Int)
 }

@@ -1,11 +1,9 @@
-import java.lang.Boolean;
-
 CREATE TABLE IF NOT EXISTS PrivateContactEntity (
     id INTEGER NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
     phoneNumber TEXT NOT NULL,
     imageFilePath TEXT,
-    isFavorite INTEGER AS Boolean DEFAULT 0
+    isFavorite INTEGER NOT NULL DEFAULT 0
 );
 
 insertOrReplaceContact:
