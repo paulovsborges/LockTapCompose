@@ -63,6 +63,15 @@ class ContactsViewModel @Inject constructor(
         }
     }
 
+    fun onFieldsChanged(
+        newData: Contact
+    ) {
+        _state.update {
+            val detailsState = it.contactDetails.toggleButtonEnabled(newData)
+            it.copy(contactDetails = detailsState)
+        }
+    }
+
     private fun handleErrors(error: ExceptionWrapper) {
         val typedError = when (error) {
             is AddContact.Error.ContactAlreadyExists -> {

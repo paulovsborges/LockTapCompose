@@ -12,5 +12,11 @@ data class PrivateContactState(
 data class ContactDetailsState(
     val details: Contact = Contact(
         "", "", "", null, false
-    )
-)
+    ),
+    val isSaveButtonEnabled: Boolean = false
+) {
+
+    fun toggleButtonEnabled(newData: Contact): ContactDetailsState {
+        return this.copy(isSaveButtonEnabled = this.details != newData)
+    }
+}

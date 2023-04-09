@@ -54,8 +54,10 @@ import com.pvsb.presentation.R
 import com.pvsb.presentation.contact.contactList.ContactsViewModel
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.theme.AppColors.background
+import com.pvsb.presentation.ui.theme.AppColors.gray
 import com.pvsb.presentation.ui.theme.AppColors.lightBlue
 import com.pvsb.presentation.ui.theme.AppColors.red
+import com.pvsb.presentation.ui.theme.AppColors.secondary
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.ComposeErrorCard
 import com.pvsb.presentation.utils.components.textField.ComposeContactInfoTextField
@@ -96,15 +98,16 @@ private fun ContactDetailsActivity.ComposeContentContainer(
 
     val state = viewModel.state.collectAsState()
     val contactData = state.value.contactDetails.details
+    val isSaveButtonEnabled = state.value.contactDetails.isSaveButtonEnabled
 
     var contactNameState by remember { mutableStateOf(contactData.name) }
     var contactPhoneNumber by remember { mutableStateOf(contactData.phoneNumber) }
 
-    ComposeContent(
-        contactData = contactData,
+    ComposeContent(contactData = contactData,
         contactNameState = contactNameState,
         contactPhoneNumber = contactPhoneNumber,
-        state.value.error,
+        error = state.value.error,
+        isSaveButtonEnabled = isSaveButtonEnabled,
         onContactNameChange = {
             contactNameState = it
         },
@@ -117,8 +120,7 @@ private fun ContactDetailsActivity.ComposeContentContainer(
                     "", contactNameState, contactPhoneNumber, null, false
                 )
             )
-        }
-    )
+        })
 }
 
 @Composable
@@ -127,6 +129,7 @@ private fun ContactDetailsActivity.ComposeContent(
     contactNameState: String = "",
     contactPhoneNumber: String = "",
     error: TypedMessage? = null,
+    isSaveButtonEnabled: Boolean = false,
     onContactNameChange: (String) -> Unit = {},
     onContactPhoneNumberChange: (String) -> Unit = {},
     onSaveClicked: () -> Unit = {}
@@ -141,7 +144,7 @@ private fun ContactDetailsActivity.ComposeContent(
             finish()
         }
 
-        Column() {
+        Column {
 
             Row(
                 modifier = Modifier
@@ -181,7 +184,7 @@ private fun ContactDetailsActivity.ComposeContent(
                     Card(
                         shape = CircleShape,
                         modifier = Modifier.size(150.dp),
-                        backgroundColor = AppColors.secondary
+                        backgroundColor = secondary
                     ) {
                         contactData.imageFilePath?.let { imagePath ->
                             ComposeContactImage(
@@ -239,38 +242,17 @@ private fun ContactDetailsActivity.ComposeContent(
                         verticalArrangement = Arrangement.Bottom,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Button(
-                            onClick = {
-                                onSaveClicked()
-                            },
-                            shape = RoundedCornerShape(corner = CornerSize(40.dp)),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(40.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = lightBlue
-                            ),
-                            elevation = null
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.contact_details_save_contact),
-                                fontFamily = FontFamily(
-                                    Font(
-                                        R.font.sf_pro_display_regular, weight = FontWeight.Thin
-                                    )
-                                ),
-                                color = Color.White
-                            )
-                        }
+                        ComposeSaveButton(
+                            onClick = onSaveClicked,
+                            isEnabled = isSaveButtonEnabled
+                        )
                     }
                 }
             }
         }
 
         ComposeErrorCard(
-            modifier = Modifier.padding(horizontal = 10.dp),
-            isErrorVisible = error != null,
-            error
+            modifier = Modifier.padding(horizontal = 10.dp), isErrorVisible = error != null, error
         )
     }
 }
@@ -306,15 +288,69 @@ private fun ComposeContactImage(
     )
 }
 
+@Composable
+fun ComposeSaveButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    isEnabled: Boolean = false
+) {
+
+    val backgroundColor = if (isEnabled) lightBlue else secondary
+    val textColor = if (isEnabled) Color.White else gray
+
+    Button(
+        onClick = {
+            if (isEnabled) {
+                onClick()
+            }
+        },
+        shape = RoundedCornerShape(corner = CornerSize(40.dp)),
+        modifier = modifier
+            .fillMaxWidth()
+            .height(40.dp),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = backgroundColor
+        ),
+        elevation = null
+    ) {
+        Text(
+            text = stringResource(id = R.string.contact_details_save_contact),
+            fontFamily = FontFamily(
+                Font(
+                    R.font.sf_pro_display_regular, weight = FontWeight.Thin
+                )
+            ),
+            color = textColor
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ComposeSaveButtonPreview() {
+    Column(
+        modifier = Modifier
+            .background(background)
+            .fillMaxSize()
+            .padding(
+                horizontal = 20.dp, vertical = 25.dp
+            ),
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        ComposeSaveButton(isEnabled = true)
+
+        Spacer(modifier = Modifier.height(20.dp))
+        ComposeSaveButton()
+    }
+}
+
 @Preview
 @Composable
 private fun ContactDetailsActivity.ComposeContentPreview() {
     ComposeContent(
         Contact(
-            "",
-            "",
-            "",
-            null, false
+            "", "", "", null, false
         )
     )
 }

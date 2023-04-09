@@ -20,6 +20,7 @@ import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -114,5 +115,21 @@ class ContactsViewModelTest {
         viewModel.getContacts()
 
         assertEquals(dummyContacts, viewModel.state.value.contactsList)
+    }
+
+    @Test
+    fun `change save button enable`(){
+
+        val newData = Contact(
+            "",
+            "",
+            "",
+            null,
+            true
+        )
+
+        viewModel.onFieldsChanged(newData)
+
+        assertTrue(viewModel.state.value.contactDetails.isSaveButtonEnabled)
     }
 }
