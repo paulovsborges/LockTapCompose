@@ -65,16 +65,20 @@ import kotlinx.serialization.json.Json
 @AndroidEntryPoint
 class ContactDetailsActivity : ComponentActivity() {
 
+    private var contactData: SerializablePrivateContact = SerializablePrivateContact(
+        "", "", "", null, false
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val serializedData = intent.getStringExtra(
+        intent.getStringExtra(
             SerializablePrivateContact.PRIVATE_CONTACT_DATA_KEY
-        ) ?: throw NullPointerException("contact data is null")
-
-        val contactData = Json.decodeFromString<SerializablePrivateContact>(
-            serializedData
-        )
+        )?.let { serializedData ->
+            Json.decodeFromString<SerializablePrivateContact>(
+                serializedData
+            )
+        }
 
         setContent {
             ComposeContent(contactData)
@@ -84,8 +88,7 @@ class ContactDetailsActivity : ComponentActivity() {
 
 @Composable
 private fun ContactDetailsActivity.ComposeContent(
-    contactData: SerializablePrivateContact,
-    viewModel: ContactsViewModel = hiltViewModel()
+    contactData: SerializablePrivateContact, viewModel: ContactsViewModel = hiltViewModel()
 ) {
 
     var contactNameState by remember { mutableStateOf(contactData.name) }
@@ -115,12 +118,14 @@ private fun ContactDetailsActivity.ComposeContent(
 
                     Icon(
                         modifier = Modifier.size(25.dp),
-                        imageVector = Icons.Rounded.Favorite, contentDescription = "",
+                        imageVector = Icons.Rounded.Favorite,
+                        contentDescription = "",
                         tint = lightBlue
                     )
                 } else {
                     Icon(
-                        imageVector = Icons.Rounded.FavoriteBorder, contentDescription = "",
+                        imageVector = Icons.Rounded.FavoriteBorder,
+                        contentDescription = "",
                         tint = Color.White
                     )
                 }
@@ -129,8 +134,7 @@ private fun ContactDetailsActivity.ComposeContent(
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
             ) {
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -151,15 +155,12 @@ private fun ContactDetailsActivity.ComposeContent(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(
-                        text = stringResource(id = R.string.contact_details_change_photo_btn_label),
+                    Text(text = stringResource(id = R.string.contact_details_change_photo_btn_label),
                         fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
                         fontSize = 16.sp,
                         textDecoration = TextDecoration.Underline,
                         color = Color.White,
-                        modifier = Modifier.clickable {
-                        }
-                    )
+                        modifier = Modifier.clickable {})
 
                     Spacer(modifier = Modifier.height(25.dp))
 
@@ -194,8 +195,7 @@ private fun ContactDetailsActivity.ComposeContent(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(
-                                horizontal = 20.dp,
-                                vertical = 25.dp
+                                horizontal = 20.dp, vertical = 25.dp
                             ),
                         verticalArrangement = Arrangement.Bottom,
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -204,11 +204,7 @@ private fun ContactDetailsActivity.ComposeContent(
                             onClick = {
                                 viewModel.insertContact(
                                     Contact(
-                                        "",
-                                        contactNameState,
-                                        contactPhoneNumber,
-                                        null,
-                                        false
+                                        "", contactNameState, contactPhoneNumber, null, false
                                     )
                                 )
                             },
@@ -246,14 +242,12 @@ private fun ContactDetailsActivity.ComposeContent(
 
 @Composable
 private fun ComposeContactImagePlaceholder(
-    modifier: Modifier = Modifier,
-    name: String
+    modifier: Modifier = Modifier, name: String
 ) {
     val firstLetter = getFirstLettersFromFullName(name)
 
     Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
         Text(
             text = firstLetter,
@@ -266,8 +260,7 @@ private fun ComposeContactImagePlaceholder(
 
 @Composable
 private fun ComposeContactImage(
-    modifier: Modifier = Modifier,
-    imagePath: String
+    modifier: Modifier = Modifier, imagePath: String
 ) {
 
     Image(
@@ -284,11 +277,7 @@ private fun ContactDetailsActivity.ComposeContentPreview() {
 
     val dummyData = SerializablePrivateContact(
 
-        "12345",
-        "John Doe",
-        "347-671-1254",
-        null,
-        true
+        "12345", "John Doe", "347-671-1254", null, true
     )
 
     ComposeContent(dummyData)
