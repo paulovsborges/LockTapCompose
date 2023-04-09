@@ -140,12 +140,13 @@ private fun ContactDetailsActivity.ComposeContentContainer(
                     contactData.contactId, contactNameState, contactPhoneNumber, null, isFavorite
                 )
             )
-
-            finish()
         },
         onDelete = {
             viewModel.deleteContact(contactData.contactId)
             finish()
+        },
+        onDismissError = {
+            viewModel.dismissError()
         }
     )
 }
@@ -162,7 +163,8 @@ private fun ContactDetailsActivity.ComposeContent(
     onContactPhoneNumberChange: (String) -> Unit = {},
     onFavoriteClicked: (Boolean) -> Unit = {},
     onSaveClicked: () -> Unit = {},
-    onDelete: () -> Unit = {}
+    onDelete: () -> Unit = {},
+    onDismissError: () -> Unit = {},
 ) {
 
     val modalSheetState = rememberModalBottomSheetState(
@@ -294,7 +296,12 @@ private fun ContactDetailsActivity.ComposeContent(
         }
 
         ComposeErrorCard(
-            modifier = Modifier.padding(horizontal = 10.dp), isErrorVisible = error != null, error
+            modifier = Modifier
+                .padding(horizontal = 10.dp)
+                .clickable {
+                    onDismissError()
+                },
+            isErrorVisible = error != null, error
         )
 
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {

@@ -80,6 +80,10 @@ class ContactsViewModel @Inject constructor(
         }
     }
 
+    fun dismissError() {
+        _state.update { it.copy(error = null) }
+    }
+
     private fun handleErrors(error: ExceptionWrapper) {
         val typedError = when (error) {
             is AddContact.Error.ContactAlreadyExists -> {
