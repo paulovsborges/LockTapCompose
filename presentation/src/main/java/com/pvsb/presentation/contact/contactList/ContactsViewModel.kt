@@ -65,7 +65,9 @@ class ContactsViewModel @Inject constructor(
                     is DataState.Error -> {
                         handleErrors(state.error)
                     }
-                    is DataState.Success -> Unit
+                    is DataState.Success -> {
+                        _state.update { it.copy(shouldCloseScreen = true) }
+                    }
                 }
             }
         }

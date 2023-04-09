@@ -6,6 +6,7 @@ import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.addContact.AddContact
 import com.pvsb.domain.useCase.addContact.AddContactUseCase
+import com.pvsb.domain.useCase.deleteContact.DeleteContactUseCase
 import com.pvsb.domain.useCase.getContacts.GetContactsUseCase
 import com.pvsb.presentation.R
 import com.pvsb.presentation.contact.contactList.ContactsViewModel
@@ -30,6 +31,7 @@ class ContactsViewModelTest {
     private lateinit var viewModel: ContactsViewModel
     private lateinit var addContactUseCase: AddContactUseCase
     private lateinit var getContactsUseCase: GetContactsUseCase
+    private lateinit var deleteContactUseCase: DeleteContactUseCase
     private val dispatcher = UnconfinedTestDispatcher()
 
     @Before
@@ -37,7 +39,8 @@ class ContactsViewModelTest {
         Dispatchers.setMain(dispatcher)
         addContactUseCase = mockk()
         getContactsUseCase = mockk()
-        viewModel = ContactsViewModel(addContactUseCase, getContactsUseCase)
+        deleteContactUseCase = mockk()
+        viewModel = ContactsViewModel(addContactUseCase, getContactsUseCase, deleteContactUseCase)
     }
 
     @After
@@ -58,7 +61,7 @@ class ContactsViewModelTest {
 
         viewModel.insertContact(dummyContact)
 
-        assertNull(viewModel.state.value.error)
+        assertTrue(viewModel.state.value.shouldCloseScreen)
     }
 
     @Test
@@ -118,7 +121,7 @@ class ContactsViewModelTest {
     }
 
     @Test
-    fun `change save button enable`(){
+    fun `change save button enable`() {
 
         val newData = Contact(
             "",
@@ -131,5 +134,23 @@ class ContactsViewModelTest {
         viewModel.onFieldsChanged(newData)
 
         assertTrue(viewModel.state.value.contactDetails.isSaveButtonEnabled)
+    }
+
+    @Test
+    fun `dismiss error`() {
+
+        val stream = flow<DataState<Unit>> {
+            emit(DataState.Error(ExceptionWrapper.Unknown))
+        }
+
+        val dummyContact = mockk<Contact>()
+
+        coEvery { addContactUseCase.invoke(any()) } returns stream
+
+        viewModel.insertContact(dummyContact)
+
+        viewModel.dismissError()
+
+        assertNull(viewModel.state.value.error)
     }
 }

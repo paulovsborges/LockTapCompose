@@ -6,7 +6,8 @@ import com.pvsb.domain.entity.TypedMessage
 data class PrivateContactState(
     val error: TypedMessage? = null,
     val contactsList: List<Contact> = emptyList(),
-    val contactDetails: ContactDetailsState = ContactDetailsState()
+    val contactDetails: ContactDetailsState = ContactDetailsState(),
+    val shouldCloseScreen : Boolean = false
 )
 
 data class ContactDetailsState(

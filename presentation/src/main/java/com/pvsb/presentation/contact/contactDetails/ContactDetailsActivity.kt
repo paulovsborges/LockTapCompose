@@ -115,6 +115,10 @@ private fun ContactDetailsActivity.ComposeContentContainer(
         "", contactNameState, contactPhoneNumber, null, isFavorite
     )
 
+    if (state.value.shouldCloseScreen) {
+        finish()
+    }
+
     ComposeContent(contactData = contactData.copy(
         isFavorite = isFavorite
     ),
