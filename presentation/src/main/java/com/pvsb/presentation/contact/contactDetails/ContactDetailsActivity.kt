@@ -133,6 +133,8 @@ private fun ContactDetailsActivity.ComposeContentContainer(
                     contactData.contactId, contactNameState, contactPhoneNumber, null, isFavorite
                 )
             )
+
+            finish()
         })
 }
 
