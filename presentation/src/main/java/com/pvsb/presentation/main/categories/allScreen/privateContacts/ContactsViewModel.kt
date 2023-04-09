@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PrivateContactsViewModel @Inject constructor(
+class ContactsViewModel @Inject constructor(
     private val addContactUseCase: AddContactUseCase,
     private val getContactsUseCase: GetContactsUseCase
 ) : ViewModel() {

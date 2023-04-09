@@ -48,7 +48,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.pvsb.domain.entity.Contact
 import com.pvsb.presentation.R
-import com.pvsb.presentation.main.categories.allScreen.privateContacts.PrivateContactsViewModel
+import com.pvsb.presentation.main.categories.allScreen.privateContacts.ContactsViewModel
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.theme.AppColors.background
 import com.pvsb.presentation.ui.theme.AppColors.lightBlue
@@ -83,7 +83,7 @@ class ContactDetailsActivity : ComponentActivity() {
 @Composable
 private fun ContactDetailsActivity.ComposeContent(
     contactData: SerializablePrivateContact,
-    viewModel: PrivateContactsViewModel = hiltViewModel()
+    viewModel: ContactsViewModel = hiltViewModel()
 ) {
 
     var contactNameState by remember { mutableStateOf(contactData.name) }

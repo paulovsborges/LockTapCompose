@@ -6,8 +6,9 @@ import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.addContact.AddContact
 import com.pvsb.domain.useCase.addContact.AddContactUseCase
+import com.pvsb.domain.useCase.getContacts.GetContactsUseCase
 import com.pvsb.presentation.R
-import com.pvsb.presentation.main.categories.allScreen.privateContacts.PrivateContactsViewModel
+import com.pvsb.presentation.main.categories.allScreen.privateContacts.ContactsViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -23,17 +24,19 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class PrivateContactsViewModelTest {
+class ContactsViewModelTest {
 
-    private lateinit var viewModel: PrivateContactsViewModel
+    private lateinit var viewModel: ContactsViewModel
     private lateinit var addContactUseCase: AddContactUseCase
+    private lateinit var getContactsUseCase: GetContactsUseCase
     private val dispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
         addContactUseCase = mockk()
-        viewModel = PrivateContactsViewModel(addContactUseCase)
+        getContactsUseCase = mockk()
+        viewModel = ContactsViewModel(addContactUseCase, getContactsUseCase)
     }
 
     @After
@@ -91,5 +94,25 @@ class PrivateContactsViewModelTest {
         val expectedResult = TypedMessage.Reference(R.string.error_there_was_an_unexpected_error)
 
         assertEquals(expectedResult, viewModel.state.value.error)
+    }
+
+    @Test
+    fun `present contacts list`() {
+
+        val dummyContacts = List(5) {
+            Contact(
+                "$it",
+                "john doe $it",
+                "123",
+                null,
+                false
+            )
+        }
+
+        coEvery { getContactsUseCase.invoke() } returns DataState.Success(dummyContacts)
+
+        viewModel.getContacts()
+
+        assertEquals(dummyContacts, viewModel.state.value.contactsList)
     }
 }
