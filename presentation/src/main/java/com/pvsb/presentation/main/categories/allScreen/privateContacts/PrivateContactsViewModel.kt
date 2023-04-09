@@ -1,14 +1,18 @@
 package com.pvsb.presentation.main.categories.allScreen.privateContacts
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.Contact
+import com.pvsb.domain.entity.DataState
+import com.pvsb.domain.entity.ExceptionWrapper
+import com.pvsb.domain.entity.TypedMessage
+import com.pvsb.domain.useCase.addContact.AddContact
 import com.pvsb.domain.useCase.addContact.AddContactUseCase
+import com.pvsb.presentation.R
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,11 +21,8 @@ class PrivateContactsViewModel @Inject constructor(
     private val addContactUseCase: AddContactUseCase
 ) : ViewModel() {
 
-    var insertContactState by mutableStateOf<DataState>(DataState.Initial)
-
-    fun getContacts(): List<Contact> {
-        return emptyList()
-    }
+    private val _state = MutableStateFlow(PrivateContactState())
+    val state = _state.asStateFlow()
 
     fun insertContact(contactData: Contact) {
         viewModelScope.launch {
@@ -29,9 +30,29 @@ class PrivateContactsViewModel @Inject constructor(
                 AddContactUseCase.Input(
                     contactData
                 )
-            ).collect {
-                insertContactState = it
+            ).collect { state ->
+
+                when (state) {
+                    is DataState.Error -> {
+                        handleErrors(state.error)
+                    }
+                    is DataState.Success -> Unit
+                    else -> Unit
+                }
             }
         }
+    }
+
+    private fun handleErrors(error: ExceptionWrapper) {
+        val typedError = when (error) {
+            is AddContact.Error.ContactAlreadyExists -> {
+                TypedMessage.Reference(R.string.error_contact_already_exists)
+            }
+            else -> {
+                TypedMessage.Reference(R.string.error_there_was_an_unexpected_error)
+            }
+        }
+
+        _state.update { it.copy(error = typedError) }
     }
 }

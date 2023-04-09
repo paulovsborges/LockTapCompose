@@ -4,5 +4,5 @@ import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.DataState
 
 interface GetContactsUseCase {
-    suspend operator fun invoke(): DataState
+    suspend operator fun invoke(): DataState<List<Contact>>
 }

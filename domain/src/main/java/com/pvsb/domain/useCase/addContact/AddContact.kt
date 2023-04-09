@@ -19,7 +19,7 @@ class AddContact(
 
     override suspend fun invoke(
         input: AddContactUseCase.Input
-    ): Flow<DataState> {
+    ): Flow<DataState<Unit>> {
         val stream = flow {
             val contacts = contactsRepository.getContacts()
 

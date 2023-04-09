@@ -5,7 +5,7 @@ import com.pvsb.domain.entity.Contact
 import kotlinx.coroutines.flow.Flow
 
 interface AddContactUseCase {
-    suspend operator fun invoke(input: Input): Flow<DataState>
+    suspend operator fun invoke(input: Input): Flow<DataState<Unit>>
 
     data class Input(
         val contactData: Contact

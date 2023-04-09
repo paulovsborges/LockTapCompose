@@ -1,14 +1,14 @@
 package com.pvsb.domain.entity
 
-sealed class DataState {
+sealed interface DataState<T> {
 
-    object Initial : DataState()
+    object Initial : DataState<Unit>
 
     data class Success<T>(
         val data: T
-    ) : DataState()
+    ) : DataState<T>
 
-    data class Error(
+    data class Error<T>(
         val error: ExceptionWrapper
-    ) : DataState()
+    ) : DataState<T>
 }
