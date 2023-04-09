@@ -23,16 +23,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,10 +64,12 @@ import com.pvsb.presentation.ui.theme.AppColors.lightBlue
 import com.pvsb.presentation.ui.theme.AppColors.red
 import com.pvsb.presentation.ui.theme.AppColors.secondary
 import com.pvsb.presentation.utils.components.BackButton
+import com.pvsb.presentation.utils.components.ComposeBottomSheetDialog
 import com.pvsb.presentation.utils.components.ComposeErrorCard
 import com.pvsb.presentation.utils.components.textField.ComposeContactInfoTextField
 import com.pvsb.presentation.utils.getFirstLettersFromFullName
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -139,6 +145,7 @@ private fun ContactDetailsActivity.ComposeContentContainer(
         })
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ContactDetailsActivity.ComposeContent(
     contactData: Contact,
@@ -151,6 +158,14 @@ private fun ContactDetailsActivity.ComposeContent(
     onFavoriteClicked: (Boolean) -> Unit = {},
     onSaveClicked: () -> Unit = {}
 ) {
+
+    val modalSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmValueChange = { true },
+        skipHalfExpanded = true
+    )
+
+    val scope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
@@ -247,7 +262,12 @@ private fun ContactDetailsActivity.ComposeContent(
                         text = stringResource(id = R.string.contact_details_delete_contact_btn_label),
                         fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
                         color = red,
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        modifier = Modifier.clickable {
+                            scope.launch {
+                                modalSheetState.show()
+                            }
+                        }
                     )
 
                     Column(
@@ -270,6 +290,20 @@ private fun ContactDetailsActivity.ComposeContent(
         ComposeErrorCard(
             modifier = Modifier.padding(horizontal = 10.dp), isErrorVisible = error != null, error
         )
+
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+            ComposeBottomSheetDialog(
+                state = modalSheetState,
+                positiveBtnLabel = R.string.button_label_confirm,
+                negativeBtnLabel = R.string.button_label_cancel,
+                title = TypedMessage.Reference(R.string.bottom_sheet_confirmation_title),
+                message = TypedMessage.Reference(R.string.bottom_sheet_delete_contact_message),
+                onPositiveClick = {
+
+                },
+                onNegativeClick = {}
+            )
+        }
     }
 }
 

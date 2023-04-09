@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="button_label_next">"Next"</string>
-    <string name="button_label_skip">"Skip"</string>
-    <string name="button_label_back">"back"</string>
+    <string name="button_label_next">Next</string>
+    <string name="button_label_skip">Skip</string>
+    <string name="button_label_back">back</string>
+    <string name="button_label_cancel">Cancel</string>
+    <string name="button_label_confirm">Confirm</string>
 
     <string name="on_boarding_step_1_title">Universal data storage</string>
     <string name="on_boarding_step_1_message">Relieve yourself of creating and
@@ -56,5 +58,9 @@
 
     <string name="error_contact_already_exists">The contact already exists</string>
     <string name="error_there_was_an_unexpected_error">There was an unexpected error</string>
+    <string name="bottom_sheet_generic_title">Warning</string>
+    <string name="bottom_sheet_generic_message">This action can`t be undone</string>
+    <string name="bottom_sheet_confirmation_title">Are you sure?</string>
+    <string name="bottom_sheet_delete_contact_message">This contact will be deleted</string>
 
 </resources>
