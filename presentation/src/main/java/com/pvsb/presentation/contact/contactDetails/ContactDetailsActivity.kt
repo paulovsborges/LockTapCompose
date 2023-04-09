@@ -102,17 +102,35 @@ private fun ContactDetailsActivity.ComposeContentContainer(
 
     var contactNameState by remember { mutableStateOf(contactData.name) }
     var contactPhoneNumber by remember { mutableStateOf(contactData.phoneNumber) }
+    var isFavorite by remember { mutableStateOf(contactData.isFavorite) }
 
-    ComposeContent(contactData = contactData,
+    val currentContactDetails = Contact(
+        "",
+        contactNameState,
+        contactPhoneNumber,
+        null,
+        isFavorite
+    )
+
+    ComposeContent(
+        contactData = contactData.copy(
+            isFavorite = isFavorite
+        ),
         contactNameState = contactNameState,
         contactPhoneNumber = contactPhoneNumber,
         error = state.value.error,
         isSaveButtonEnabled = isSaveButtonEnabled,
         onContactNameChange = {
             contactNameState = it
+            viewModel.onFieldsChanged(currentContactDetails)
         },
         onContactPhoneNumberChange = {
             contactPhoneNumber = it
+            viewModel.onFieldsChanged(currentContactDetails)
+        },
+        onFavoriteClicked = {
+            isFavorite = it
+            viewModel.onFieldsChanged(currentContactDetails)
         },
         onSaveClicked = {
             viewModel.insertContact(
@@ -132,6 +150,7 @@ private fun ContactDetailsActivity.ComposeContent(
     isSaveButtonEnabled: Boolean = false,
     onContactNameChange: (String) -> Unit = {},
     onContactPhoneNumberChange: (String) -> Unit = {},
+    onFavoriteClicked: (Boolean) -> Unit = {},
     onSaveClicked: () -> Unit = {}
 ) {
 
@@ -153,7 +172,7 @@ private fun ContactDetailsActivity.ComposeContent(
                 horizontalArrangement = Arrangement.End
             ) {
                 Box(modifier = Modifier.clickable {
-
+                    onFavoriteClicked(!contactData.isFavorite)
                 }) {
                     if (contactData.isFavorite) {
 
