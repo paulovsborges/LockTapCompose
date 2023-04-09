@@ -1,8 +1,12 @@
 package com.pvsb.presentation.contact.contactDetails
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,6 +46,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -50,14 +55,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.presentation.R
 import com.pvsb.presentation.contact.contactList.ContactsViewModel
-import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.theme.AppColors.background
 import com.pvsb.presentation.ui.theme.AppColors.gray
 import com.pvsb.presentation.ui.theme.AppColors.lightBlue
@@ -78,6 +82,7 @@ class ContactDetailsActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
 
             val viewModel = viewModel<ContactsViewModel>()
@@ -111,8 +116,12 @@ private fun ContactDetailsActivity.ComposeContentContainer(
     var contactPhoneNumber by remember { mutableStateOf(contactData.phoneNumber) }
     var isFavorite by remember { mutableStateOf(contactData.isFavorite) }
 
+    var contactImage by remember {
+        mutableStateOf(contactData.imageFilePath)
+    }
+
     val currentContactDetails = Contact(
-        "", contactNameState, contactPhoneNumber, null, isFavorite
+        contactData.contactId, contactNameState, contactPhoneNumber, contactImage, isFavorite
     )
 
     if (state.value.shouldCloseScreen) {
@@ -126,6 +135,7 @@ private fun ContactDetailsActivity.ComposeContentContainer(
         contactPhoneNumber = contactPhoneNumber,
         error = state.value.error,
         isSaveButtonEnabled = isSaveButtonEnabled,
+        contactImage = contactImage,
         onContactNameChange = {
             contactNameState = it
             viewModel.onFieldsChanged(currentContactDetails)
@@ -141,7 +151,7 @@ private fun ContactDetailsActivity.ComposeContentContainer(
         onSaveClicked = {
             viewModel.insertContact(
                 Contact(
-                    contactData.contactId, contactNameState, contactPhoneNumber, null, isFavorite
+                    contactData.contactId, contactNameState, contactPhoneNumber, contactImage, isFavorite
                 )
             )
         },
@@ -151,8 +161,11 @@ private fun ContactDetailsActivity.ComposeContentContainer(
         },
         onDismissError = {
             viewModel.dismissError()
-        }
-    )
+        },
+        onContactImageChanged = {
+            contactImage = it
+            viewModel.onFieldsChanged(currentContactDetails)
+        })
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -162,6 +175,7 @@ private fun ContactDetailsActivity.ComposeContent(
     contactNameState: String = "",
     contactPhoneNumber: String = "",
     error: TypedMessage? = null,
+    contactImage: String? = null,
     isSaveButtonEnabled: Boolean = false,
     onContactNameChange: (String) -> Unit = {},
     onContactPhoneNumberChange: (String) -> Unit = {},
@@ -169,7 +183,15 @@ private fun ContactDetailsActivity.ComposeContent(
     onSaveClicked: () -> Unit = {},
     onDelete: () -> Unit = {},
     onDismissError: () -> Unit = {},
+    onContactImageChanged: (String) -> Unit = {},
 ) {
+
+    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri ->
+            onContactImageChanged(uri.toString())
+        }
+    )
 
     val modalSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -230,7 +252,8 @@ private fun ContactDetailsActivity.ComposeContent(
                         modifier = Modifier.size(150.dp),
                         backgroundColor = secondary
                     ) {
-                        contactData.imageFilePath?.let { imagePath ->
+
+                        contactImage?.let { imagePath ->
                             ComposeContactImage(
                                 imagePath = imagePath
                             )
@@ -246,7 +269,11 @@ private fun ContactDetailsActivity.ComposeContent(
                         fontSize = 16.sp,
                         textDecoration = TextDecoration.Underline,
                         color = Color.White,
-                        modifier = Modifier.clickable {})
+                        modifier = Modifier.clickable {
+                            singlePhotoPickerLauncher.launch(
+                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                            )
+                        })
 
                     Spacer(modifier = Modifier.height(25.dp))
 
@@ -270,8 +297,7 @@ private fun ContactDetailsActivity.ComposeContent(
 
                     Spacer(modifier = Modifier.height(35.dp))
 
-                    Text(
-                        text = stringResource(id = R.string.contact_details_delete_contact_btn_label),
+                    Text(text = stringResource(id = R.string.contact_details_delete_contact_btn_label),
                         fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
                         color = red,
                         fontSize = 16.sp,
@@ -279,8 +305,7 @@ private fun ContactDetailsActivity.ComposeContent(
                             scope.launch {
                                 modalSheetState.show()
                             }
-                        }
-                    )
+                        })
 
                     Column(
                         modifier = Modifier
@@ -304,8 +329,7 @@ private fun ContactDetailsActivity.ComposeContent(
                 .padding(horizontal = 10.dp)
                 .clickable {
                     onDismissError()
-                },
-            isErrorVisible = error != null, error
+                }, isErrorVisible = error != null, error
         )
 
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
@@ -341,11 +365,22 @@ private fun ComposeContactImagePlaceholder(
 
 @Composable
 private fun ComposeContactImage(
-    modifier: Modifier = Modifier, imagePath: String
+    modifier: Modifier = Modifier,
+    imagePath: String
 ) {
 
+    val painter = rememberAsyncImagePainter(
+        ImageRequest
+            .Builder(LocalContext.current)
+            .data(data = imagePath)
+            .build(),
+        onError = {
+            Log.d("", "### ${it.result.throwable.message}")
+        }
+    )
+
     Image(
-        painter = rememberAsyncImagePainter(model = imagePath),
+        painter = painter,
         contentDescription = "",
         modifier = modifier,
         contentScale = ContentScale.Crop
