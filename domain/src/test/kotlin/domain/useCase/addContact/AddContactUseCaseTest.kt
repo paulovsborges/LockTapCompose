@@ -1,20 +1,22 @@
 package domain.useCase.addContact
 
-import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.Contact
-import com.pvsb.domain.entity.TypedMessage
+import com.pvsb.domain.entity.DataState
+import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.repository.ContactsRepository
 import com.pvsb.domain.useCase.addContact.AddContact
 import com.pvsb.domain.useCase.addContact.AddContactUseCase
+import domain.useCase.utils.DummyContactData.dummyContacts
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
 @ExperimentalCoroutinesApi
 class AddContactUseCaseTest {
@@ -22,16 +24,21 @@ class AddContactUseCaseTest {
     private lateinit var useCase: AddContactUseCase
     private lateinit var contactsRepository: ContactsRepository
 
-    @Before
+    private var state: DataState? = null
+
+    @BeforeEach
     fun setup() {
         contactsRepository = mockk()
         useCase = AddContact(contactsRepository)
     }
 
-    private var state: DataState? = null
+    @AfterEach
+    fun tearDown() {
+        state = null
+    }
 
     @Test
-    fun `should call repository to add contact`() = runTest {
+    fun `call repository to add contact`() = runTest {
 
         val contact = Contact(
             "",
@@ -50,7 +57,7 @@ class AddContactUseCaseTest {
     }
 
     @Test
-    fun `should return that contact number already exists on repository`() = runTest {
+    fun `contact number already exists on repository`() = runTest {
 
         val contact = Contact(
             "",
@@ -68,21 +75,23 @@ class AddContactUseCaseTest {
         }
 
         val expectedResult: DataState = DataState.Error(
-            TypedMessage.StringMessage("The contact already exists")
+            AddContact.Error.ContactAlreadyExists
         )
 
-        Assert.assertEquals(expectedResult, state)
+        assertEquals(expectedResult, state)
     }
 
-    companion object {
-        val dummyContacts = List(5) {
-            Contact(
-                "$it",
-                "john doe $it",
-                "123",
-                null,
-                false
-            )
+    @Test
+    fun `unknown exception`() = runTest {
+
+        coEvery { contactsRepository.getContacts() } throws IllegalStateException()
+
+        useCase(AddContactUseCase.Input(mockk())).collect {
+            state = it
         }
+
+        val expectedResult: DataState = DataState.Error(ExceptionWrapper.Unknown)
+
+        assertEquals(expectedResult, state)
     }
 }

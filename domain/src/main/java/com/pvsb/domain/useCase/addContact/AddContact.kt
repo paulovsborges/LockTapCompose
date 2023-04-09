@@ -13,54 +13,44 @@ class AddContact(
     private val contactsRepository: ContactsRepository
 ) : AddContactUseCase {
 
+    sealed interface Error : ExceptionWrapper {
+        object ContactAlreadyExists : Error
+    }
+
     override suspend fun invoke(
         input: AddContactUseCase.Input
     ): Flow<DataState> {
-        val stream = flow<DataState> {
+        val stream = flow {
             val contacts = contactsRepository.getContacts()
 
             val contact = input.contactData.copy(contactId = "${contacts.size}")
 
-            checkIfTheContactAlreadyExists(
-                input.contactData.phoneNumber,
-                contacts
+            val contactAlreadyExists = checkIfTheContactAlreadyExists(
+                input.contactData.phoneNumber, contacts
             )
+
+            if (contactAlreadyExists) {
+                emit(DataState.Error(Error.ContactAlreadyExists))
+                return@flow
+            }
 
             contactsRepository.addContact(contact)
 
             emit(DataState.Success(Unit))
         }.catch {
-            when (it) {
-                is ExceptionWrapper.ContactAlreadyExists -> {
-                    emit(DataState.Error(TypedMessage.StringMessage(it.message ?: "")))
-                }
-                else -> {
-                    emit(
-                        DataState.Error(
-                            TypedMessage.StringMessage(
-                                "There was an unexpected error"
-                            )
-                        )
-                    )
-                }
-            }
+            emit(DataState.Error(ExceptionWrapper.Unknown))
         }
 
         return stream
     }
 
     private fun checkIfTheContactAlreadyExists(
-        contactNumber: String,
-        contacts: List<Contact>
-    ) {
-        contacts.map {
+        contactNumber: String, contacts: List<Contact>
+    ): Boolean {
+        return contacts.map {
             it.phoneNumber
         }.find {
             it == contactNumber
-        }?.let {
-            throw ExceptionWrapper.ContactAlreadyExists(
-                "The contact already exists"
-            )
-        }
+        } != null
     }
 }

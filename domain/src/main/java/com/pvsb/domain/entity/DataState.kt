@@ -9,6 +9,6 @@ sealed class DataState {
     ) : DataState()
 
     data class Error(
-        val typedMessage: TypedMessage
+        val error: ExceptionWrapper
     ) : DataState()
 }
