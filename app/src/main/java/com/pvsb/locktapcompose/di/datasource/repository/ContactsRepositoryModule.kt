@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.presentation.di.datasource.repository
+package com.pvsb.locktapcompose.di.datasource.repository
 
 import app.cash.sqldelight.db.SqlDriver
 import com.pvsb.datasource.repository.ContactsSqlDelightRepository

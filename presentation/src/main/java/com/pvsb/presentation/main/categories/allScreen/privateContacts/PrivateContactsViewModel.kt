@@ -8,6 +8,7 @@ import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.addContact.AddContact
 import com.pvsb.domain.useCase.addContact.AddContactUseCase
+import com.pvsb.domain.useCase.getContacts.GetContactsUseCase
 import com.pvsb.presentation.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,11 +19,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PrivateContactsViewModel @Inject constructor(
-    private val addContactUseCase: AddContactUseCase
+    private val addContactUseCase: AddContactUseCase,
+    private val getContactsUseCase: GetContactsUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(PrivateContactState())
     val state = _state.asStateFlow()
+
+    fun getContacts() {
+        viewModelScope.launch {
+            when (val state = getContactsUseCase()) {
+                is DataState.Error -> {
+                    handleErrors(state.error)
+                }
+                is DataState.Success -> {
+                    _state.update { it.copy(contactsList = state.data) }
+                }
+            }
+        }
+    }
 
     fun insertContact(contactData: Contact) {
         viewModelScope.launch {
@@ -37,7 +52,6 @@ class PrivateContactsViewModel @Inject constructor(
                         handleErrors(state.error)
                     }
                     is DataState.Success -> Unit
-                    else -> Unit
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.presentation
+package com.pvsb.locktapcompose
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.presentation.di.datasource.sqlDelight
+package com.pvsb.locktapcompose.di.datasource.sqlDelight
 
 import android.content.Context
 import app.cash.sqldelight.db.SqlDriver
