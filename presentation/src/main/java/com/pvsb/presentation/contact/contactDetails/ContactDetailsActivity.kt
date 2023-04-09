@@ -105,17 +105,12 @@ private fun ContactDetailsActivity.ComposeContentContainer(
     var isFavorite by remember { mutableStateOf(contactData.isFavorite) }
 
     val currentContactDetails = Contact(
-        "",
-        contactNameState,
-        contactPhoneNumber,
-        null,
-        isFavorite
+        "", contactNameState, contactPhoneNumber, null, isFavorite
     )
 
-    ComposeContent(
-        contactData = contactData.copy(
-            isFavorite = isFavorite
-        ),
+    ComposeContent(contactData = contactData.copy(
+        isFavorite = isFavorite
+    ),
         contactNameState = contactNameState,
         contactPhoneNumber = contactPhoneNumber,
         error = state.value.error,
@@ -135,7 +130,7 @@ private fun ContactDetailsActivity.ComposeContentContainer(
         onSaveClicked = {
             viewModel.insertContact(
                 Contact(
-                    "", contactNameState, contactPhoneNumber, null, false
+                    contactData.contactId, contactNameState, contactPhoneNumber, null, isFavorite
                 )
             )
         })
@@ -262,8 +257,7 @@ private fun ContactDetailsActivity.ComposeContent(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         ComposeSaveButton(
-                            onClick = onSaveClicked,
-                            isEnabled = isSaveButtonEnabled
+                            onClick = onSaveClicked, isEnabled = isSaveButtonEnabled
                         )
                     }
                 }
@@ -309,9 +303,7 @@ private fun ComposeContactImage(
 
 @Composable
 fun ComposeSaveButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
-    isEnabled: Boolean = false
+    modifier: Modifier = Modifier, onClick: () -> Unit = {}, isEnabled: Boolean = false
 ) {
 
     val backgroundColor = if (isEnabled) lightBlue else secondary

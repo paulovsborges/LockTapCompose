@@ -1,8 +1,11 @@
 package com.pvsb.presentation.contact.contactList
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +20,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,12 +30,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.pvsb.domain.entity.Contact
+import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.presentation.R
 import com.pvsb.presentation.ui.messageTextStyle
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.theme.AppColors.background
+import com.pvsb.presentation.ui.theme.LockTapComposeTheme
 import com.pvsb.presentation.ui.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.ComposeContactCell
@@ -43,33 +48,36 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PrivateContactsActivity : ComponentActivity() {
 
+    private val viewModel: ContactsViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
 
-            PrivateContactsScreen()
+            val state = viewModel.state.collectAsState()
+            PrivateContactsScreen(
+                state.value.error, state.value.contactsList
+            )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getContacts()
     }
 }
 
 @Composable
 private fun PrivateContactsActivity.PrivateContactsScreen(
-    viewModel: ContactsViewModel = hiltViewModel()
+    error: TypedMessage? = null, contacts: List<Contact> = emptyList()
 ) {
 
-    val state = viewModel.state.collectAsState()
-    viewModel.getContacts()
-
     Box(
-        modifier = Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.BottomEnd
+        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd
     ) {
 
         ComposeErrorCard(
-            modifier = Modifier.padding(horizontal = 10.dp),
-            isErrorVisible = state.value.error != null,
-            state.value.error
+            modifier = Modifier.padding(horizontal = 10.dp), isErrorVisible = error != null, error
         )
 
         Column(
@@ -98,16 +106,16 @@ private fun PrivateContactsActivity.PrivateContactsScreen(
 
                 ComposePrimarySearchField()
 
-                if (state.value.contactsList.isEmpty()) {
+                if (contacts.isEmpty()) {
                     ComposeEmptyState(modifier = Modifier.fillMaxSize())
                 } else {
-                    ComposeContactsList(state.value.contactsList)
+                    ComposeContactsList(contacts)
                 }
             }
         }
 
         Row(modifier = Modifier.padding(25.dp)) {
-            FloatingAddButton() {}
+            FloatingAddButton {}
         }
     }
 }
@@ -117,7 +125,7 @@ private fun ComposeContactsList(
     contacts: List<Contact>
 ) {
 
-    Column() {
+    Column {
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -137,15 +145,13 @@ private fun ComposeEmptyState(
 ) {
 
     Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         Spacer(modifier = Modifier.height(100.dp))
 
         Image(
-            painter = painterResource(id = R.drawable.ic_empty_content),
-            contentDescription = ""
+            painter = painterResource(id = R.drawable.ic_empty_content), contentDescription = ""
         )
 
         Spacer(modifier = Modifier.height(20.dp))
