@@ -60,7 +60,9 @@ dependencies {
     implementation(Hilt.compose)
     kapt(Hilt.compiler)
 
+    testImplementation(MockK.core)
     testImplementation(Test.jUnit)
+    testImplementation(Coroutines.test)
     androidTestImplementation(Test.jUInitExt)
     androidTestImplementation(Test.espresso)
 }
