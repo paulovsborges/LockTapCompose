@@ -28,6 +28,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,6 +55,7 @@ import com.pvsb.presentation.ui.theme.AppColors.background
 import com.pvsb.presentation.ui.theme.AppColors.lightBlue
 import com.pvsb.presentation.ui.theme.AppColors.red
 import com.pvsb.presentation.utils.components.BackButton
+import com.pvsb.presentation.utils.components.ComposeErrorCard
 import com.pvsb.presentation.utils.components.textField.ComposeContactInfoTextField
 import com.pvsb.presentation.utils.getFirstLettersFromFullName
 import dagger.hilt.android.AndroidEntryPoint
@@ -88,6 +90,9 @@ private fun ContactDetailsActivity.ComposeContent(
 
     var contactNameState by remember { mutableStateOf(contactData.name) }
     var contactPhoneNumber by remember { mutableStateOf(contactData.phoneNumber) }
+
+    val state = viewModel.state.collectAsState()
+    viewModel.getContacts()
 
     Box(
         modifier = Modifier
@@ -230,6 +235,12 @@ private fun ContactDetailsActivity.ComposeContent(
                 }
             }
         }
+
+        ComposeErrorCard(
+            modifier = Modifier.padding(horizontal = 10.dp),
+            isErrorVisible = state.value.error != null,
+            state.value.error
+        )
     }
 }
 

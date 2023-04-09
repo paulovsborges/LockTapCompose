@@ -35,6 +35,7 @@ import com.pvsb.presentation.ui.theme.AppColors.background
 import com.pvsb.presentation.ui.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.ComposeContactCell
+import com.pvsb.presentation.utils.components.ComposeErrorCard
 import com.pvsb.presentation.utils.components.FloatingAddButton
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,6 +65,12 @@ private fun PrivateContactsActivity.PrivateContactsScreen(
             .fillMaxSize(),
         contentAlignment = Alignment.BottomEnd
     ) {
+
+        ComposeErrorCard(
+            modifier = Modifier.padding(horizontal = 10.dp),
+            isErrorVisible = state.value.error != null,
+            state.value.error
+        )
 
         Column(
             modifier = Modifier
