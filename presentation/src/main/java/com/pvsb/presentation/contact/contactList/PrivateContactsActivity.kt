@@ -1,5 +1,7 @@
 package com.pvsb.presentation.contact.contactList
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -33,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.presentation.R
+import com.pvsb.presentation.contact.contactDetails.ContactDetailsActivity
 import com.pvsb.presentation.ui.messageTextStyle
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.theme.AppColors.background
@@ -115,7 +118,9 @@ private fun PrivateContactsActivity.PrivateContactsScreen(
         }
 
         Row(modifier = Modifier.padding(25.dp)) {
-            FloatingAddButton {}
+            FloatingAddButton {
+                navigateToAddContact(this@PrivateContactsScreen)
+            }
         }
     }
 }
@@ -184,4 +189,11 @@ fun ComposeEmptyStatePreview() {
 @Composable
 private fun PrivateContactsActivity.PrivateContactsScreenPreview() {
     PrivateContactsScreen()
+}
+
+fun navigateToAddContact(
+    context: Context
+) {
+    val intent = Intent(context, ContactDetailsActivity::class.java)
+    context.startActivity(intent)
 }
