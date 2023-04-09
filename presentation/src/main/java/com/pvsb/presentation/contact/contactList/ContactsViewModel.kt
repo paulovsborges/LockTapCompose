@@ -8,6 +8,7 @@ import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.addContact.AddContact
 import com.pvsb.domain.useCase.addContact.AddContactUseCase
+import com.pvsb.domain.useCase.deleteContact.DeleteContactUseCase
 import com.pvsb.domain.useCase.getContacts.GetContactsUseCase
 import com.pvsb.presentation.R
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ContactsViewModel @Inject constructor(
     private val addContactUseCase: AddContactUseCase,
-    private val getContactsUseCase: GetContactsUseCase
+    private val getContactsUseCase: GetContactsUseCase,
+    private val deleteContactUseCase: DeleteContactUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(PrivateContactState())
@@ -42,6 +44,12 @@ class ContactsViewModel @Inject constructor(
     fun setContactDetails(details: Contact) {
         _state.update {
             it.copy(contactDetails = it.contactDetails.copy(details = details))
+        }
+    }
+
+    fun deleteContact(contactId: String) {
+        viewModelScope.launch {
+            deleteContactUseCase(contactId.toInt())
         }
     }
 

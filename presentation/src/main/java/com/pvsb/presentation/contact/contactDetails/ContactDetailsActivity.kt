@@ -142,7 +142,12 @@ private fun ContactDetailsActivity.ComposeContentContainer(
             )
 
             finish()
-        })
+        },
+        onDelete = {
+            viewModel.deleteContact(contactData.contactId)
+            finish()
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -156,7 +161,8 @@ private fun ContactDetailsActivity.ComposeContent(
     onContactNameChange: (String) -> Unit = {},
     onContactPhoneNumberChange: (String) -> Unit = {},
     onFavoriteClicked: (Boolean) -> Unit = {},
-    onSaveClicked: () -> Unit = {}
+    onSaveClicked: () -> Unit = {},
+    onDelete: () -> Unit = {}
 ) {
 
     val modalSheetState = rememberModalBottomSheetState(
@@ -298,10 +304,7 @@ private fun ContactDetailsActivity.ComposeContent(
                 negativeBtnLabel = R.string.button_label_cancel,
                 title = TypedMessage.Reference(R.string.bottom_sheet_confirmation_title),
                 message = TypedMessage.Reference(R.string.bottom_sheet_delete_contact_message),
-                onPositiveClick = {
-
-                },
-                onNegativeClick = {}
+                onPositiveClick = onDelete
             )
         }
     }
