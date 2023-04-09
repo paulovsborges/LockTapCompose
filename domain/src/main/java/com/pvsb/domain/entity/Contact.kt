@@ -1,6 +1,6 @@
 package com.pvsb.domain.entity
 
-data class PrivateContact(
+data class Contact(
     val contactId: String,
     val name: String,
     val phoneNumber: String,

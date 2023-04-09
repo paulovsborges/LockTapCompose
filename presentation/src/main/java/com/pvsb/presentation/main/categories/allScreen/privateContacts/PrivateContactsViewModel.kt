@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pvsb.domain.entity.DataState
-import com.pvsb.domain.entity.PrivateContact
+import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.useCase.addContact.AddContactUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,11 +19,11 @@ class PrivateContactsViewModel @Inject constructor(
 
     var insertContactState by mutableStateOf<DataState>(DataState.Initial)
 
-    fun getContacts(): List<PrivateContact> {
+    fun getContacts(): List<Contact> {
         return emptyList()
     }
 
-    fun insertContact(contactData: PrivateContact) {
+    fun insertContact(contactData: Contact) {
         viewModelScope.launch {
             addContactUseCase(
                 AddContactUseCase.Input(

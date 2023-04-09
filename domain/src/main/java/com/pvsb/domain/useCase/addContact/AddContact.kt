@@ -2,7 +2,7 @@ package com.pvsb.domain.useCase.addContact
 
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
-import com.pvsb.domain.entity.PrivateContact
+import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.repository.ContactsRepository
 import kotlinx.coroutines.flow.Flow
@@ -51,7 +51,7 @@ class AddContact(
 
     private fun checkIfTheContactAlreadyExists(
         contactNumber: String,
-        contacts: List<PrivateContact>
+        contacts: List<Contact>
     ) {
         contacts.map {
             it.phoneNumber

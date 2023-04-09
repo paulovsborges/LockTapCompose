@@ -1,7 +1,7 @@
 package domain.useCase.addContact
 
 import com.pvsb.domain.entity.DataState
-import com.pvsb.domain.entity.PrivateContact
+import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.repository.ContactsRepository
 import com.pvsb.domain.useCase.addContact.AddContact
@@ -33,7 +33,7 @@ class AddContactUseCaseTest {
     @Test
     fun `should call repository to add contact`() = runTest {
 
-        val contact = PrivateContact(
+        val contact = Contact(
             "",
             "john doe",
             "1235",
@@ -52,7 +52,7 @@ class AddContactUseCaseTest {
     @Test
     fun `should return that contact number already exists on repository`() = runTest {
 
-        val contact = PrivateContact(
+        val contact = Contact(
             "",
             "john doe",
             "123",
@@ -76,7 +76,7 @@ class AddContactUseCaseTest {
 
     companion object {
         val dummyContacts = List(5) {
-            PrivateContact(
+            Contact(
                 "$it",
                 "john doe $it",
                 "123",

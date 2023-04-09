@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pvsb.domain.entity.PrivateContact
+import com.pvsb.domain.entity.Contact
 import com.pvsb.presentation.R
 import com.pvsb.presentation.ui.messageTextStyle
 import com.pvsb.presentation.ui.theme.AppColors
@@ -53,7 +53,7 @@ class PrivateContactsActivity : ComponentActivity() {
 private fun PrivateContactsActivity.PrivateContactsScreen() {
 
     val dummyData = List(10) {
-        PrivateContact(
+        Contact(
             it.toString(),
             "John ${it + 1}",
             "123",
@@ -109,7 +109,7 @@ private fun PrivateContactsActivity.PrivateContactsScreen() {
 
 @Composable
 private fun ComposeContactsList(
-    contacts: List<PrivateContact>
+    contacts: List<Contact>
 ) {
 
     Column() {

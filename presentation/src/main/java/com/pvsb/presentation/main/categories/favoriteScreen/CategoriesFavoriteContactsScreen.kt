@@ -9,21 +9,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pvsb.domain.entity.PrivateContact
+import com.pvsb.domain.entity.Contact
 import com.pvsb.presentation.utils.components.ComposeContactCell
 
 @Composable
 fun CategoriesFavoriteContactsScreen() {
 
     val dummyData = listOf(
-        PrivateContact(
+        Contact(
             "12345",
             "John Doe",
             "347-671-1254",
             null,
             false
         ),
-        PrivateContact(
+        Contact(
             "12345",
             "Brian Doe",
             "827-627-1754",

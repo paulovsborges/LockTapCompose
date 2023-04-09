@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.pvsb.domain.entity.PrivateContact
+import com.pvsb.domain.entity.Contact
 import com.pvsb.presentation.R
 import com.pvsb.presentation.contactDetails.ContactDetailsActivity
 import com.pvsb.presentation.contactDetails.SerializablePrivateContact
@@ -44,7 +44,7 @@ import kotlinx.serialization.json.Json
 @Composable
 fun ComposeContactCell(
     modifier: Modifier = Modifier,
-    contactData: PrivateContact
+    contactData: Contact
 ) {
 
     val context = LocalContext.current
@@ -108,7 +108,7 @@ fun ComposeContactCell(
 
 private fun navigateToContactDetails(
     context: Context,
-    contactData: PrivateContact
+    contactData: Contact
 ) {
 
     val serializableData = contactData.run {
@@ -171,7 +171,7 @@ private fun ComposeContactImage(
 @Composable
 private fun ComposeContactCellPreview() {
 
-    val dummyContact = PrivateContact(
+    val dummyContact = Contact(
         "12345",
         "John Doe",
         "347-671-1254",

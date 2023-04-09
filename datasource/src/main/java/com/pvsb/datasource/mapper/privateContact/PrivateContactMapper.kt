@@ -1,11 +1,11 @@
 package com.pvsb.datasource.mapper.privateContact
 
-import com.pvsb.domain.entity.PrivateContact
+import com.pvsb.domain.entity.Contact
 import locktap.locktapdb.PrivateContactEntity
 
 object PrivateContactMapper {
 
-    fun PrivateContactEntity.toModel(): PrivateContact {
+    fun PrivateContactEntity.toModel(): Contact {
         return this.run {
             PrivateContact(
                 id.toString(),
@@ -17,7 +17,7 @@ object PrivateContactMapper {
         }
     }
 
-    fun PrivateContact.toEntity(): PrivateContactEntity {
+    fun Contact.toEntity(): PrivateContactEntity {
         return this.run {
             PrivateContactEntity(
                 id = contactId.toLong(),

@@ -2,7 +2,7 @@ package com.pvsb.datasource.mapper.privateContact
 
 import com.pvsb.datasource.mapper.privateContact.PrivateContactMapper.toEntity
 import com.pvsb.datasource.mapper.privateContact.PrivateContactMapper.toModel
-import com.pvsb.domain.entity.PrivateContact
+import com.pvsb.domain.entity.Contact
 import locktap.locktapdb.PrivateContactEntity
 import org.junit.Assert
 import org.junit.Test
@@ -12,7 +12,7 @@ class PrivateContactMapperTest {
     @Test
     fun `map a model to a entity`() {
 
-        val model = PrivateContact(
+        val model = Contact(
             "1",
             "john",
             "123",
@@ -46,7 +46,7 @@ class PrivateContactMapperTest {
 
         val actual = entity.toModel()
 
-        val expectedResult = PrivateContact(
+        val expectedResult = Contact(
             "1",
             "john",
             "123",

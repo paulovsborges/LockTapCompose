@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
-import com.pvsb.domain.entity.PrivateContact
+import com.pvsb.domain.entity.Contact
 import com.pvsb.presentation.R
 import com.pvsb.presentation.main.categories.allScreen.privateContacts.PrivateContactsViewModel
 import com.pvsb.presentation.ui.theme.AppColors
@@ -198,7 +198,7 @@ private fun ContactDetailsActivity.ComposeContent(
                         Button(
                             onClick = {
                                 viewModel.insertContact(
-                                    PrivateContact(
+                                    Contact(
                                         "",
                                         contactNameState,
                                         contactPhoneNumber,
