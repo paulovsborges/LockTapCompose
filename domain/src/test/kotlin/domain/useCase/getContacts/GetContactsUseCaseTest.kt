@@ -1,5 +1,6 @@
 package domain.useCase.getContacts
 
+import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.repository.ContactsRepository
@@ -45,7 +46,7 @@ class GetContactsUseCaseTest {
 
         val result = useCase()
 
-        val expectedResult: DataState = DataState.Error(ExceptionWrapper.Unknown)
+        val expectedResult: DataState<List<Contact>> = DataState.Error(ExceptionWrapper.Unknown)
 
         assertEquals(expectedResult, result)
     }

@@ -24,7 +24,7 @@ class AddContactUseCaseTest {
     private lateinit var useCase: AddContactUseCase
     private lateinit var contactsRepository: ContactsRepository
 
-    private var state: DataState? = null
+    private var state: DataState<Unit>? = null
 
     @BeforeEach
     fun setup() {
@@ -74,7 +74,7 @@ class AddContactUseCaseTest {
             state = it
         }
 
-        val expectedResult: DataState = DataState.Error(
+        val expectedResult: DataState<Unit> = DataState.Error(
             AddContact.Error.ContactAlreadyExists
         )
 
@@ -90,7 +90,7 @@ class AddContactUseCaseTest {
             state = it
         }
 
-        val expectedResult: DataState = DataState.Error(ExceptionWrapper.Unknown)
+        val expectedResult: DataState<Unit> = DataState.Error(ExceptionWrapper.Unknown)
 
         assertEquals(expectedResult, state)
     }
