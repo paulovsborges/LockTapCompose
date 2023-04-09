@@ -1,4 +1,4 @@
-package com.pvsb.presentation.main.categories.allScreen.privateContacts
+package com.pvsb.presentation.contact.contactList
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

@@ -2,6 +2,8 @@ package com.pvsb.presentation.utils
 
 fun capitalizeFullName(fullName: String): String {
 
+    if (fullName.isEmpty()) return fullName
+
     var capitalizedName = ""
     val splitString = fullName.trim().split(" ")
 
@@ -18,6 +20,8 @@ fun capitalizeFullName(fullName: String): String {
 }
 
 fun getFirstLettersFromFullName(fullName: String): String {
+
+    if (fullName.isEmpty()) return fullName
 
     var letters = ""
     val maxLettersSizeCount = 2

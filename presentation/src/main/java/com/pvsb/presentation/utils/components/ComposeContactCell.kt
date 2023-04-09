@@ -33,8 +33,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.pvsb.domain.entity.Contact
 import com.pvsb.presentation.R
-import com.pvsb.presentation.contactDetails.ContactDetailsActivity
-import com.pvsb.presentation.contactDetails.SerializablePrivateContact
+import com.pvsb.presentation.contact.contactDetails.ContactDetailsActivity
+import com.pvsb.presentation.contact.contactDetails.SerializableContact
 import com.pvsb.presentation.ui.theme.AppColors.gray
 import com.pvsb.presentation.ui.theme.AppColors.secondary
 import com.pvsb.presentation.utils.getFirstLettersFromFullName
@@ -112,7 +112,7 @@ private fun navigateToContactDetails(
 ) {
 
     val serializableData = contactData.run {
-        SerializablePrivateContact(
+        SerializableContact(
             contactId,
             name,
             phoneNumber,
@@ -126,7 +126,7 @@ private fun navigateToContactDetails(
     val intent = Intent(context, ContactDetailsActivity::class.java)
 
     intent.putExtra(
-        SerializablePrivateContact.PRIVATE_CONTACT_DATA_KEY,
+        SerializableContact.PRIVATE_CONTACT_DATA_KEY,
         serializedData
     )
 

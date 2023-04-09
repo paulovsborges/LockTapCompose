@@ -8,7 +8,7 @@ import com.pvsb.domain.useCase.addContact.AddContact
 import com.pvsb.domain.useCase.addContact.AddContactUseCase
 import com.pvsb.domain.useCase.getContacts.GetContactsUseCase
 import com.pvsb.presentation.R
-import com.pvsb.presentation.main.categories.allScreen.privateContacts.ContactsViewModel
+import com.pvsb.presentation.contact.contactList.ContactsViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

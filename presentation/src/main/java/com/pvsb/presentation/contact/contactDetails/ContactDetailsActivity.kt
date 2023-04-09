@@ -1,4 +1,4 @@
-package com.pvsb.presentation.contactDetails
+package com.pvsb.presentation.contact.contactDetails
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -46,10 +46,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.pvsb.domain.entity.Contact
+import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.presentation.R
-import com.pvsb.presentation.main.categories.allScreen.privateContacts.ContactsViewModel
+import com.pvsb.presentation.contact.contactList.ContactsViewModel
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.theme.AppColors.background
 import com.pvsb.presentation.ui.theme.AppColors.lightBlue
@@ -65,37 +67,70 @@ import kotlinx.serialization.json.Json
 @AndroidEntryPoint
 class ContactDetailsActivity : ComponentActivity() {
 
-    private var contactData: SerializablePrivateContact = SerializablePrivateContact(
-        "", "", "", null, false
-    )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        intent.getStringExtra(
-            SerializablePrivateContact.PRIVATE_CONTACT_DATA_KEY
-        )?.let { serializedData ->
-            Json.decodeFromString<SerializablePrivateContact>(
-                serializedData
-            )
-        }
-
         setContent {
-            ComposeContent(contactData)
+
+            val viewModel = viewModel<ContactsViewModel>()
+
+            intent.getStringExtra(
+                SerializableContact.PRIVATE_CONTACT_DATA_KEY
+            )?.let { serializedData ->
+
+                val contactData = Json.decodeFromString<SerializableContact>(
+                    serializedData
+                )
+
+                viewModel.setContactDetails(contactData.toModel())
+            }
+
+            ComposeContentContainer(viewModel)
         }
     }
 }
 
 @Composable
-private fun ContactDetailsActivity.ComposeContent(
-    contactData: SerializablePrivateContact, viewModel: ContactsViewModel = hiltViewModel()
+private fun ContactDetailsActivity.ComposeContentContainer(
+    viewModel: ContactsViewModel
 ) {
+
+    val state = viewModel.state.collectAsState()
+    val contactData = state.value.contactDetails.details
 
     var contactNameState by remember { mutableStateOf(contactData.name) }
     var contactPhoneNumber by remember { mutableStateOf(contactData.phoneNumber) }
 
-    val state = viewModel.state.collectAsState()
-    viewModel.getContacts()
+    ComposeContent(
+        contactData = contactData,
+        contactNameState = contactNameState,
+        contactPhoneNumber = contactPhoneNumber,
+        state.value.error,
+        onContactNameChange = {
+            contactNameState = it
+        },
+        onContactPhoneNumberChange = {
+            contactPhoneNumber = it
+        },
+        onSaveClicked = {
+            viewModel.insertContact(
+                Contact(
+                    "", contactNameState, contactPhoneNumber, null, false
+                )
+            )
+        }
+    )
+}
+
+@Composable
+private fun ContactDetailsActivity.ComposeContent(
+    contactData: Contact,
+    contactNameState: String = "",
+    contactPhoneNumber: String = "",
+    error: TypedMessage? = null,
+    onContactNameChange: (String) -> Unit = {},
+    onContactPhoneNumberChange: (String) -> Unit = {},
+    onSaveClicked: () -> Unit = {}
+) {
 
     Box(
         modifier = Modifier
@@ -114,20 +149,24 @@ private fun ContactDetailsActivity.ComposeContent(
                     .padding(vertical = 12.dp, horizontal = 20.dp),
                 horizontalArrangement = Arrangement.End
             ) {
-                if (contactData.isFavorite) {
+                Box(modifier = Modifier.clickable {
 
-                    Icon(
-                        modifier = Modifier.size(25.dp),
-                        imageVector = Icons.Rounded.Favorite,
-                        contentDescription = "",
-                        tint = lightBlue
-                    )
-                } else {
-                    Icon(
-                        imageVector = Icons.Rounded.FavoriteBorder,
-                        contentDescription = "",
-                        tint = Color.White
-                    )
+                }) {
+                    if (contactData.isFavorite) {
+
+                        Icon(
+                            modifier = Modifier.size(25.dp),
+                            imageVector = Icons.Rounded.Favorite,
+                            contentDescription = "",
+                            tint = lightBlue
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Rounded.FavoriteBorder,
+                            contentDescription = "",
+                            tint = Color.White
+                        )
+                    }
                 }
             }
 
@@ -169,7 +208,7 @@ private fun ContactDetailsActivity.ComposeContent(
                         text = contactNameState,
                         modifier = Modifier.padding(horizontal = 20.dp)
                     ) {
-                        contactNameState = it
+                        onContactNameChange(it)
                     }
 
                     Spacer(modifier = Modifier.height(25.dp))
@@ -179,7 +218,7 @@ private fun ContactDetailsActivity.ComposeContent(
                         text = contactPhoneNumber,
                         modifier = Modifier.padding(horizontal = 20.dp)
                     ) {
-                        contactPhoneNumber = it
+                        onContactPhoneNumberChange(it)
                     }
 
                     Spacer(modifier = Modifier.height(35.dp))
@@ -202,11 +241,7 @@ private fun ContactDetailsActivity.ComposeContent(
                     ) {
                         Button(
                             onClick = {
-                                viewModel.insertContact(
-                                    Contact(
-                                        "", contactNameState, contactPhoneNumber, null, false
-                                    )
-                                )
+                                onSaveClicked()
                             },
                             shape = RoundedCornerShape(corner = CornerSize(40.dp)),
                             modifier = Modifier
@@ -234,8 +269,8 @@ private fun ContactDetailsActivity.ComposeContent(
 
         ComposeErrorCard(
             modifier = Modifier.padding(horizontal = 10.dp),
-            isErrorVisible = state.value.error != null,
-            state.value.error
+            isErrorVisible = error != null,
+            error
         )
     }
 }
@@ -274,11 +309,12 @@ private fun ComposeContactImage(
 @Preview
 @Composable
 private fun ContactDetailsActivity.ComposeContentPreview() {
-
-    val dummyData = SerializablePrivateContact(
-
-        "12345", "John Doe", "347-671-1254", null, true
+    ComposeContent(
+        Contact(
+            "",
+            "",
+            "",
+            null, false
+        )
     )
-
-    ComposeContent(dummyData)
 }

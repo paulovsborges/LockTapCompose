@@ -1,4 +1,4 @@
-package com.pvsb.presentation.main.categories.allScreen.privateContacts
+package com.pvsb.presentation.contact.contactList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -36,6 +36,12 @@ class ContactsViewModel @Inject constructor(
                     _state.update { it.copy(contactsList = state.data) }
                 }
             }
+        }
+    }
+
+    fun setContactDetails(details: Contact) {
+        _state.update {
+            it.copy(contactDetails = it.contactDetails.copy(details = details))
         }
     }
 
