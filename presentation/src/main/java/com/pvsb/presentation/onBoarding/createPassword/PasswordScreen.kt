@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.presentation.R
 import com.pvsb.presentation.main.MainActivity
 import com.pvsb.presentation.onBoarding.OnBoardingScreens
@@ -66,6 +67,7 @@ import com.pvsb.presentation.ui.theme.AppColors.red
 import com.pvsb.presentation.ui.theme.AppColors.secondary
 import com.pvsb.presentation.ui.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
+import com.pvsb.presentation.utils.components.ComposeErrorCard
 
 @Composable
 fun PasswordScreen(
@@ -90,7 +92,8 @@ fun PasswordScreen(
 
         ComposeErrorCard(
             isErrorVisible = isErrorVisible,
-            modifier = Modifier.padding(horizontal = 10.dp)
+            modifier = Modifier.padding(horizontal = 10.dp),
+            error = TypedMessage.Reference(R.string.password_incorrect_label)
         )
 
         Column(
@@ -161,30 +164,30 @@ private fun ComposeTextField(
                 onErrorChanged(false)
             }
         }, decorationBox = {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            shape = RoundedCornerShape(40.dp),
-            border = BorderStroke(1.dp, borderColor)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .background(secondary),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(
-                    30.dp,
-                    Alignment.Horizontal { _, space, _ ->
-                        space / 2
-                    }
-                )
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                shape = RoundedCornerShape(40.dp),
+                border = BorderStroke(1.dp, borderColor)
             ) {
-                repeat(maxChars) {
-                    ComposePasswordPointer(password.length - 1 >= it, isErrorVisible)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .background(secondary),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(
+                        30.dp,
+                        Alignment.Horizontal { _, space, _ ->
+                            space / 2
+                        }
+                    )
+                ) {
+                    repeat(maxChars) {
+                        ComposePasswordPointer(password.length - 1 >= it, isErrorVisible)
+                    }
                 }
             }
-        }
-    },
+        },
         modifier = Modifier
             .width(180.dp)
             .height(52.dp)
@@ -241,64 +244,11 @@ private fun navigateToEnterPassword(navController: NavController) {
     }
 }
 
-@Composable
-private fun ComposeErrorCard(
-    modifier: Modifier = Modifier,
-    isErrorVisible: Boolean
-) {
-
-    val density = LocalDensity.current
-    AnimatedVisibility(
-        visible = isErrorVisible,
-        enter = slideInVertically {
-            with(density) { -40.dp.roundToPx() }
-        } + expandVertically(
-            expandFrom = Alignment.Top
-        ) + fadeIn(
-            initialAlpha = 0.3f
-        ),
-        exit = slideOutVertically() + shrinkVertically() + fadeOut()
-    ) {
-
-        Surface(
-            modifier = modifier
-                .fillMaxWidth()
-                .height(52.dp),
-            shape = RoundedCornerShape(5.dp),
-            color = secondary
-        ) {
-
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-
-                Icon(painter = painterResource(id = R.drawable.ic_error), "", tint = red)
-
-                Spacer(modifier = Modifier.width(10.dp))
-
-                Text(
-                    text = stringResource(id = R.string.password_incorrect_label),
-                    fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
-                    color = red,
-                    fontSize = 14.sp
-                )
-            }
-        }
-    }
-}
 
 fun navigateToMainScreen(context: Context) {
     val intent = Intent(context, MainActivity::class.java)
 
     context.startActivity(intent)
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ComposeErrorCardPreview() {
-    ComposeErrorCard(modifier = Modifier.padding(20.dp), true)
 }
 
 @Preview
