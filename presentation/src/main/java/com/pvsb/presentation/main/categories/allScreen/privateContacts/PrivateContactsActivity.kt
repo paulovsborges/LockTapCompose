@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.pvsb.domain.entity.Contact
 import com.pvsb.presentation.R
 import com.pvsb.presentation.ui.messageTextStyle
@@ -50,16 +52,12 @@ class PrivateContactsActivity : ComponentActivity() {
 }
 
 @Composable
-private fun PrivateContactsActivity.PrivateContactsScreen() {
+private fun PrivateContactsActivity.PrivateContactsScreen(
+    viewModel: ContactsViewModel = hiltViewModel()
+) {
 
-    val dummyData = List(10) {
-        Contact(
-            it.toString(),
-            "John ${it + 1}",
-            "123",
-            null, false
-        )
-    }
+    val state = viewModel.state.collectAsState()
+    viewModel.getContacts()
 
     Box(
         modifier = Modifier
@@ -93,10 +91,10 @@ private fun PrivateContactsActivity.PrivateContactsScreen() {
 
                 ComposePrimarySearchField()
 
-                if (dummyData.isEmpty()) {
+                if (state.value.contactsList.isEmpty()) {
                     ComposeEmptyState(modifier = Modifier.fillMaxSize())
                 } else {
-                    ComposeContactsList(dummyData)
+                    ComposeContactsList(state.value.contactsList)
                 }
             }
         }
