@@ -94,4 +94,49 @@ class AddContactUseCaseTest {
 
         assertEquals(expectedResult, state)
     }
+
+    @Test
+    fun `should not return contact already exists error when the contact has an id`() = runTest {
+
+        val contact = Contact(
+            "146",
+            "john doe",
+            "123",
+            null,
+            false
+        )
+
+        coEvery { contactsRepository.getContacts() } returns dummyContacts
+        coEvery { contactsRepository.addContact(any()) } returns Unit
+
+        useCase(AddContactUseCase.Input(contact)).collect {
+            state = it
+        }
+
+        val expectedResult: DataState<Unit> = DataState.Success(Unit)
+
+        assertEquals(expectedResult, state)
+    }
+    @Test
+    fun `should not return contact already exists er asd asdror when the contact has an id`() = runTest {
+
+        val contact = Contact(
+            "146",
+            "john doe",
+            "123",
+            null,
+            false
+        )
+
+        coEvery { contactsRepository.getContacts() } returns dummyContacts
+        coEvery { contactsRepository.addContact(any()) } returns Unit
+
+        useCase(AddContactUseCase.Input(contact)).collect {
+            state = it
+        }
+
+        val expectedResult: DataState<Unit> = DataState.Success(Unit)
+
+        assertEquals(expectedResult, state)
+    }
 }

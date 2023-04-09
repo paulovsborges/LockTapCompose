@@ -23,16 +23,20 @@ class AddContact(
         val stream = flow {
             val contacts = contactsRepository.getContacts()
 
-            val contact = input.contactData.copy(contactId = "${contacts.size}")
-
             val contactAlreadyExists = checkIfTheContactAlreadyExists(
                 input.contactData.phoneNumber, contacts
             )
 
-            if (contactAlreadyExists) {
+            if (contactAlreadyExists && input.contactData.contactId.isBlank()) {
                 emit(DataState.Error(Error.ContactAlreadyExists))
                 return@flow
             }
+
+            val contactId = input.contactData.contactId.ifEmpty {
+                "${contacts.size}"
+            }
+
+            val contact = input.contactData.copy(contactId = contactId)
 
             contactsRepository.addContact(contact)
 
