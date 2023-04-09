@@ -7,7 +7,7 @@ object PrivateContactMapper {
 
     fun PrivateContactEntity.toModel(): Contact {
         return this.run {
-            PrivateContact(
+            Contact(
                 id.toString(),
                 name = name,
                 phoneNumber = phoneNumber,
