@@ -52,7 +52,6 @@ dependencies {
     implementation(Compose.activity)
     implementation(Compose.material)
     implementation(Compose.constraintLayout)
-    implementation(Compose.preview)
     implementation(Compose.coil)
     implementation(Compose.navigation)
     implementation(Kotlin.serialization)
@@ -65,4 +64,9 @@ dependencies {
     testImplementation(Coroutines.test)
     androidTestImplementation(Test.jUInitExt)
     androidTestImplementation(Test.espresso)
+
+    // workaround to fix bug with the compose preview
+//    implementation(Compose.preview)
+    debugImplementation ("androidx.compose.ui:ui-tooling:1.5.0-alpha02")
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0-alpha02")
 }
