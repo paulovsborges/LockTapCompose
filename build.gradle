@@ -13,6 +13,7 @@ buildscript {
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
+    id 'java'
     id 'com.android.application' version '7.4.1' apply false
     id 'com.android.library' version '7.4.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
@@ -22,6 +23,33 @@ plugins {
 
 allprojects {
     apply plugin: 'org.jlleitschuh.gradle.ktlint'
+}
+
+test {
+    // Discover and execute JUnit based tests
+    useJUnit()
+
+    // Discover and execute JUnit Platform-based tests
+    useJUnitPlatform()
+
+    // show standard out and standard error of the test JVM(s) on the console
+    testLogging.showStandardStreams = true
+
+    // calculate and set half of available processors as parallel fork
+    maxParallelForks(Runtime.runtime.availableProcessors().intdiv(2) ?: 1)
+
+    // disable reports
+    reports.html.required = false
+
+    // set heap size for the test JVM(s)
+    minHeapSize = "128m"
+    maxHeapSize = "512m"
+
+    // set JVM arguments for the test JVM(s)
+    jvmArgs '-XX:MaxPermSize=256m'
+
+    // Fail the 'test' task on the first test failure
+    failFast = true
 }
 
 def testDependencies = [
@@ -39,4 +67,9 @@ task ktlintFormatAll() {
         def ktlintFormat = entry.value.collect { "$module:ktlintFormat" }
         ktlintFormat
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
