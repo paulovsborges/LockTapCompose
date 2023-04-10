@@ -1,8 +1,10 @@
 package com.pvsb.presentation.contact.contactDetails
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.PickVisualMediaRequest
@@ -29,6 +31,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
+import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -104,25 +107,37 @@ class ContactDetailsActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ContactDetailsActivity.ComposeContentContainer(
     viewModel: ContactsViewModel
 ) {
 
+    val bottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmValueChange = { true },
+        skipHalfExpanded = true
+    )
+
     val state = viewModel.state.collectAsState()
     val contactData = state.value.contactDetails.details
     val isSaveButtonEnabled = state.value.contactDetails.isSaveButtonEnabled
 
-    var contactNameState by remember { mutableStateOf(contactData.name) }
-    var contactPhoneNumber by remember { mutableStateOf(contactData.phoneNumber) }
-    var isFavorite by remember { mutableStateOf(contactData.isFavorite) }
+    val scope = rememberCoroutineScope()
+    var currentName by remember { mutableStateOf(contactData.name) }
+    var currentPhoneNumber by remember { mutableStateOf(contactData.phoneNumber) }
+    var currentIsFavorite by remember { mutableStateOf(contactData.isFavorite) }
+    var currentImagePath by remember { mutableStateOf(contactData.imageFilePath) }
 
-    var contactImage by remember {
-        mutableStateOf(contactData.imageFilePath)
+    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        uri?.let(::getUriAccessPermission)
+        currentImagePath = uri.toString()
     }
 
-    Contact(
-        contactData.contactId, contactNameState, contactPhoneNumber, contactImage, isFavorite
+    val currentContactData = Contact(
+        contactData.contactId, currentName, currentPhoneNumber, currentImagePath, currentIsFavorite
     ).also {
         viewModel.onFieldsChanged(it)
     }
@@ -132,79 +147,81 @@ private fun ContactDetailsActivity.ComposeContentContainer(
     }
 
     ComposeContent(
-        contactData = contactData.copy(
-            isFavorite = isFavorite
-        ),
-        contactNameState = contactNameState,
-        contactPhoneNumber = contactPhoneNumber,
+        contactData = currentContactData,
         error = state.value.error,
         isSaveButtonEnabled = isSaveButtonEnabled,
-        contactImage = contactImage,
+        photoPicker = singlePhotoPickerLauncher,
         onContactNameChange = {
-            contactNameState = it
+            currentName = it
         },
         onContactPhoneNumberChange = {
-            contactPhoneNumber = it
+            currentPhoneNumber = it
         },
         onFavoriteClicked = {
-            isFavorite = it
+            currentIsFavorite = it
         },
         onSaveClicked = {
             viewModel.insertContact(
                 Contact(
                     contactData.contactId,
-                    contactNameState,
-                    contactPhoneNumber,
-                    contactImage,
-                    isFavorite
+                    currentName,
+                    currentPhoneNumber,
+                    currentImagePath,
+                    currentIsFavorite
                 )
             )
-        },
-        onDelete = {
-            viewModel.deleteContact(contactData.contactId)
-            finish()
         },
         onDismissError = {
             viewModel.dismissError()
         },
-        onContactImageChanged = {
-            contactImage = it
+        onDeleteClick = {
+            scope.launch {
+                bottomSheetState.show()
+            }
         })
+
+    ComposeDeleteContactConfirmationDialog(
+        bottomSheetState,
+        contactData.contactId,
+        viewModel
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
+private fun ContactDetailsActivity.ComposeDeleteContactConfirmationDialog(
+    state: ModalBottomSheetState,
+    contactId: String,
+    viewModel: ContactsViewModel
+) {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+        ComposeBottomSheetDialog(
+            state = state,
+            positiveBtnLabel = R.string.button_label_confirm,
+            negativeBtnLabel = R.string.button_label_cancel,
+            title = TypedMessage.Reference(R.string.bottom_sheet_confirmation_title),
+            message = TypedMessage.Reference(R.string.bottom_sheet_delete_contact_message),
+            onPositiveClick = {
+                viewModel.deleteContact(contactId)
+                finish()
+            }
+        )
+    }
+}
+
+@Composable
 private fun ContactDetailsActivity.ComposeContent(
     contactData: Contact,
-    contactNameState: String = "",
-    contactPhoneNumber: String = "",
     error: TypedMessage? = null,
-    contactImage: String? = null,
     isSaveButtonEnabled: Boolean = false,
+    photoPicker: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null,
     onContactNameChange: (String) -> Unit = {},
     onContactPhoneNumberChange: (String) -> Unit = {},
     onFavoriteClicked: (Boolean) -> Unit = {},
     onSaveClicked: () -> Unit = {},
-    onDelete: () -> Unit = {},
     onDismissError: () -> Unit = {},
-    onContactImageChanged: (String) -> Unit = {},
+    onDeleteClick: () -> Unit = {}
 ) {
-
-    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri ->
-            uri?.let(::getUriAccessPermission)
-            onContactImageChanged(uri.toString())
-        }
-    )
-
-    val modalSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-        confirmValueChange = { true },
-        skipHalfExpanded = true
-    )
-
-    val scope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
@@ -218,8 +235,7 @@ private fun ContactDetailsActivity.ComposeContent(
         Column {
 
             ComposeFavoriteButton(
-                isFavorite = contactData.isFavorite,
-                onFavoriteClicked = onFavoriteClicked
+                isFavorite = contactData.isFavorite, onFavoriteClicked = onFavoriteClicked
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -231,8 +247,7 @@ private fun ContactDetailsActivity.ComposeContent(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
                     ComposeContactImage(
-                        contactImage = contactImage,
-                        contactName = contactNameState
+                        contactImage = contactData.imageFilePath, contactName = contactData.name
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -243,7 +258,7 @@ private fun ContactDetailsActivity.ComposeContent(
                         textDecoration = TextDecoration.Underline,
                         color = Color.White,
                         modifier = Modifier.clickable {
-                            singlePhotoPickerLauncher.launch(
+                            photoPicker?.launch(
                                 PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                             )
                         })
@@ -252,7 +267,7 @@ private fun ContactDetailsActivity.ComposeContent(
 
                     ComposeContactInfoTextField(
                         fieldLabel = R.string.contact_details_text_field_first_last_name,
-                        text = contactNameState,
+                        text = contactData.name,
                         modifier = Modifier.padding(horizontal = 20.dp)
                     ) {
                         onContactNameChange(it)
@@ -262,7 +277,7 @@ private fun ContactDetailsActivity.ComposeContent(
 
                     ComposeContactInfoTextField(
                         fieldLabel = R.string.contact_details_text_field_phone_number,
-                        text = contactPhoneNumber,
+                        text = contactData.phoneNumber,
                         modifier = Modifier.padding(horizontal = 20.dp)
                     ) {
                         onContactPhoneNumberChange(it)
@@ -277,9 +292,7 @@ private fun ContactDetailsActivity.ComposeContent(
                             color = red,
                             fontSize = 16.sp,
                             modifier = Modifier.clickable {
-                                scope.launch {
-                                    modalSheetState.show()
-                                }
+                                onDeleteClick()
                             })
                     }
 
@@ -307,17 +320,6 @@ private fun ContactDetailsActivity.ComposeContent(
                     onDismissError()
                 }, isErrorVisible = error != null, error
         )
-
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-            ComposeBottomSheetDialog(
-                state = modalSheetState,
-                positiveBtnLabel = R.string.button_label_confirm,
-                negativeBtnLabel = R.string.button_label_cancel,
-                title = TypedMessage.Reference(R.string.bottom_sheet_confirmation_title),
-                message = TypedMessage.Reference(R.string.bottom_sheet_delete_contact_message),
-                onPositiveClick = onDelete
-            )
-        }
     }
 }
 
@@ -357,14 +359,10 @@ private fun ComposeFavoriteButton(
 
 @Composable
 private fun ComposeContactImage(
-    modifier: Modifier = Modifier,
-    contactImage: String? = null,
-    contactName: String = ""
+    modifier: Modifier = Modifier, contactImage: String? = null, contactName: String = ""
 ) {
     Card(
-        shape = CircleShape,
-        modifier = modifier.size(150.dp),
-        backgroundColor = secondary
+        shape = CircleShape, modifier = modifier.size(150.dp), backgroundColor = secondary
     ) {
 
         contactImage?.let { imagePath ->
@@ -398,19 +396,14 @@ private fun ComposeContactImagePlaceholder(
 
 @Composable
 private fun ComposeContactImage(
-    modifier: Modifier = Modifier,
-    imagePath: String
+    modifier: Modifier = Modifier, imagePath: String
 ) {
 
-    val painter = rememberAsyncImagePainter(
-        ImageRequest
-            .Builder(LocalContext.current)
-            .data(data = imagePath)
-            .build(),
-        onError = {
+    val painter =
+        rememberAsyncImagePainter(ImageRequest.Builder(LocalContext.current).data(data = imagePath)
+            .build(), onError = {
             Log.d("", "### ${it.result.throwable.message}")
-        }
-    )
+        })
 
     Image(
         painter = painter,
