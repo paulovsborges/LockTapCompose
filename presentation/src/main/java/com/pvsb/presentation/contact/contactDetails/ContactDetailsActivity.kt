@@ -217,32 +217,10 @@ private fun ContactDetailsActivity.ComposeContent(
 
         Column {
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp, horizontal = 20.dp),
-                horizontalArrangement = Arrangement.End
-            ) {
-                Box(modifier = Modifier.clickable {
-                    onFavoriteClicked(!contactData.isFavorite)
-                }) {
-                    if (contactData.isFavorite) {
-
-                        Icon(
-                            modifier = Modifier.size(25.dp),
-                            imageVector = Icons.Rounded.Favorite,
-                            contentDescription = "",
-                            tint = lightBlue
-                        )
-                    } else {
-                        Icon(
-                            imageVector = Icons.Rounded.FavoriteBorder,
-                            contentDescription = "",
-                            tint = Color.White
-                        )
-                    }
-                }
-            }
+            ComposeFavoriteButton(
+                isFavorite = contactData.isFavorite,
+                onFavoriteClicked = onFavoriteClicked
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -339,6 +317,40 @@ private fun ContactDetailsActivity.ComposeContent(
                 message = TypedMessage.Reference(R.string.bottom_sheet_delete_contact_message),
                 onPositiveClick = onDelete
             )
+        }
+    }
+}
+
+@Composable
+private fun ComposeFavoriteButton(
+    modifier: Modifier = Modifier,
+    isFavorite: Boolean = false,
+    onFavoriteClicked: (Boolean) -> Unit = {}
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp, horizontal = 20.dp),
+        horizontalArrangement = Arrangement.End
+    ) {
+        Box(modifier = Modifier.clickable {
+            onFavoriteClicked(!isFavorite)
+        }) {
+            if (isFavorite) {
+
+                Icon(
+                    modifier = Modifier.size(25.dp),
+                    imageVector = Icons.Rounded.Favorite,
+                    contentDescription = "",
+                    tint = lightBlue
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Rounded.FavoriteBorder,
+                    contentDescription = "",
+                    tint = Color.White
+                )
+            }
         }
     }
 }
