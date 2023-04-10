@@ -72,6 +72,7 @@ import com.pvsb.presentation.utils.components.ComposeBottomSheetDialog
 import com.pvsb.presentation.utils.components.ComposeErrorCard
 import com.pvsb.presentation.utils.components.textField.ComposeContactInfoTextField
 import com.pvsb.presentation.utils.getFirstLettersFromFullName
+import com.pvsb.presentation.utils.getUriAccessPermission
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
@@ -151,7 +152,11 @@ private fun ContactDetailsActivity.ComposeContentContainer(
         onSaveClicked = {
             viewModel.insertContact(
                 Contact(
-                    contactData.contactId, contactNameState, contactPhoneNumber, contactImage, isFavorite
+                    contactData.contactId,
+                    contactNameState,
+                    contactPhoneNumber,
+                    contactImage,
+                    isFavorite
                 )
             )
         },
@@ -189,6 +194,7 @@ private fun ContactDetailsActivity.ComposeContent(
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
+            uri?.let(::getUriAccessPermission)
             onContactImageChanged(uri.toString())
         }
     )
