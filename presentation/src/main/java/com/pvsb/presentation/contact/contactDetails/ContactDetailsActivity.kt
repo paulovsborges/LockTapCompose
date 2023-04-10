@@ -121,9 +121,11 @@ private fun ContactDetailsActivity.ComposeContentContainer(
         mutableStateOf(contactData.imageFilePath)
     }
 
-    val currentContactDetails = Contact(
+    Contact(
         contactData.contactId, contactNameState, contactPhoneNumber, contactImage, isFavorite
-    )
+    ).also {
+        viewModel.onFieldsChanged(it)
+    }
 
     if (state.value.shouldCloseScreen) {
         finish()
@@ -140,15 +142,12 @@ private fun ContactDetailsActivity.ComposeContentContainer(
         contactImage = contactImage,
         onContactNameChange = {
             contactNameState = it
-            viewModel.onFieldsChanged(currentContactDetails)
         },
         onContactPhoneNumberChange = {
             contactPhoneNumber = it
-            viewModel.onFieldsChanged(currentContactDetails)
         },
         onFavoriteClicked = {
             isFavorite = it
-            viewModel.onFieldsChanged(currentContactDetails)
         },
         onSaveClicked = {
             viewModel.insertContact(
@@ -170,7 +169,6 @@ private fun ContactDetailsActivity.ComposeContentContainer(
         },
         onContactImageChanged = {
             contactImage = it
-            viewModel.onFieldsChanged(currentContactDetails)
         })
 }
 
