@@ -129,9 +129,10 @@ private fun ContactDetailsActivity.ComposeContentContainer(
         finish()
     }
 
-    ComposeContent(contactData = contactData.copy(
-        isFavorite = isFavorite
-    ),
+    ComposeContent(
+        contactData = contactData.copy(
+            isFavorite = isFavorite
+        ),
         contactNameState = contactNameState,
         contactPhoneNumber = contactPhoneNumber,
         error = state.value.error,
@@ -253,20 +254,10 @@ private fun ContactDetailsActivity.ComposeContent(
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-                    Card(
-                        shape = CircleShape,
-                        modifier = Modifier.size(150.dp),
-                        backgroundColor = secondary
-                    ) {
-
-                        contactImage?.let { imagePath ->
-                            ComposeContactImage(
-                                imagePath = imagePath
-                            )
-                        } ?: ComposeContactImagePlaceholder(
-                            name = contactData.name
-                        )
-                    }
+                    ComposeContactImage(
+                        contactImage = contactImage,
+                        contactName = contactNameState
+                    )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -349,6 +340,29 @@ private fun ContactDetailsActivity.ComposeContent(
             )
         }
     }
+}
+
+@Composable
+private fun ComposeContactImage(
+    modifier: Modifier = Modifier,
+    contactImage: String? = null,
+    contactName: String = ""
+) {
+    Card(
+        shape = CircleShape,
+        modifier = modifier.size(150.dp),
+        backgroundColor = secondary
+    ) {
+
+        contactImage?.let { imagePath ->
+            ComposeContactImage(
+                imagePath = imagePath
+            )
+        } ?: ComposeContactImagePlaceholder(
+            name = contactName
+        )
+    }
+
 }
 
 @Composable
@@ -453,7 +467,7 @@ fun ComposeSaveButtonPreview() {
 private fun ContactDetailsActivity.ComposeContentPreview() {
     ComposeContent(
         Contact(
-            "", "", "", null, false
+            "", "paulo borges", "", null, false
         )
     )
 }
