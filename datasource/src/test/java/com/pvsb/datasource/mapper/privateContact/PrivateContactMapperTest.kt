@@ -56,5 +56,4 @@ class PrivateContactMapperTest {
 
         Assert.assertEquals(expectedResult, actual)
     }
-
 }

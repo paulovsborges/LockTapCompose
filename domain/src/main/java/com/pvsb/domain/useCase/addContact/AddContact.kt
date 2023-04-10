@@ -1,9 +1,8 @@
 package com.pvsb.domain.useCase.addContact
 
+import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
-import com.pvsb.domain.entity.Contact
-import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.repository.ContactsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -49,7 +48,8 @@ class AddContact(
     }
 
     private fun checkIfTheContactAlreadyExists(
-        contactNumber: String, contacts: List<Contact>
+        contactNumber: String,
+        contacts: List<Contact>
     ): Boolean {
         return contacts.map {
             it.phoneNumber

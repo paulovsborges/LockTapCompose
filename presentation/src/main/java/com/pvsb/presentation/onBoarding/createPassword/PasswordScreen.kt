@@ -2,13 +2,6 @@ package com.pvsb.presentation.onBoarding.createPassword
 
 import android.content.Context
 import android.content.Intent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
@@ -30,7 +23,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -43,16 +35,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.pvsb.domain.entity.TypedMessage
@@ -164,30 +151,30 @@ private fun ComposeTextField(
                 onErrorChanged(false)
             }
         }, decorationBox = {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                shape = RoundedCornerShape(40.dp),
-                border = BorderStroke(1.dp, borderColor)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .background(secondary),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(
-                        30.dp,
-                        Alignment.Horizontal { _, space, _ ->
-                            space / 2
-                        }
-                    )
-                ) {
-                    repeat(maxChars) {
-                        ComposePasswordPointer(password.length - 1 >= it, isErrorVisible)
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            shape = RoundedCornerShape(40.dp),
+            border = BorderStroke(1.dp, borderColor)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .background(secondary),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(
+                    30.dp,
+                    Alignment.Horizontal { _, space, _ ->
+                        space / 2
                     }
+                )
+            ) {
+                repeat(maxChars) {
+                    ComposePasswordPointer(password.length - 1 >= it, isErrorVisible)
                 }
             }
-        },
+        }
+    },
         modifier = Modifier
             .width(180.dp)
             .height(52.dp)
@@ -243,7 +230,6 @@ private fun navigateToEnterPassword(navController: NavController) {
         launchSingleTop = true
     }
 }
-
 
 fun navigateToMainScreen(context: Context) {
     val intent = Intent(context, MainActivity::class.java)

@@ -55,8 +55,8 @@ dependencies {
 }
 
 sqldelight {
-    databases{
-        create("LockTapDataBase"){
+    databases {
+        create("LockTapDataBase") {
             packageName.set("com.pvsb.locktapcompose")
         }
     }

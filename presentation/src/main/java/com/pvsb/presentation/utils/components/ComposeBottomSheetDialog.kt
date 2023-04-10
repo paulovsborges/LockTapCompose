@@ -150,7 +150,8 @@ private fun BottomSheetContent(
             Spacer(modifier = Modifier.height(10.dp))
 
             Card(
-                shape = RoundedCornerShape(5.dp), modifier = Modifier
+                shape = RoundedCornerShape(5.dp),
+                modifier = Modifier
                     .height(4.dp)
                     .width(50.dp),
                 backgroundColor = Color.White

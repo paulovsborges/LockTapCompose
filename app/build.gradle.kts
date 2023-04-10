@@ -78,5 +78,3 @@ dependencies {
     androidTestImplementation(Test.jUInitExt)
     androidTestImplementation(Test.espresso)
 }
-
-

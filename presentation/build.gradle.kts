@@ -67,6 +67,6 @@ dependencies {
 
     // workaround to fix bug with the compose preview
 //    implementation(Compose.preview)
-    debugImplementation ("androidx.compose.ui:ui-tooling:1.5.0-alpha02")
-    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0-alpha02")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.5.0-alpha02")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.0-alpha02")
 }

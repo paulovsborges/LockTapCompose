@@ -1,7 +1,7 @@
 package com.pvsb.domain.useCase.addContact
 
-import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.Contact
+import com.pvsb.domain.entity.DataState
 import kotlinx.coroutines.flow.Flow
 
 interface AddContactUseCase {

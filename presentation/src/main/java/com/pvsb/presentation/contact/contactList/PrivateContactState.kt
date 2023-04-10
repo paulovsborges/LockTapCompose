@@ -7,7 +7,7 @@ data class PrivateContactState(
     val error: TypedMessage? = null,
     val contactsList: List<Contact> = emptyList(),
     val contactDetails: ContactDetailsState = ContactDetailsState(),
-    val shouldCloseScreen : Boolean = false
+    val shouldCloseScreen: Boolean = false
 )
 
 data class ContactDetailsState(

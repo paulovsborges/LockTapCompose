@@ -178,7 +178,8 @@ private fun ContactDetailsActivity.ComposeContentContainer(
             scope.launch {
                 bottomSheetState.show()
             }
-        })
+        }
+    )
 
     ComposeDeleteContactConfirmationDialog(
         bottomSheetState,
@@ -252,7 +253,8 @@ private fun ContactDetailsActivity.ComposeContent(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Text(text = stringResource(id = R.string.contact_details_change_photo_btn_label),
+                    Text(
+                        text = stringResource(id = R.string.contact_details_change_photo_btn_label),
                         fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
                         fontSize = 16.sp,
                         textDecoration = TextDecoration.Underline,
@@ -261,7 +263,8 @@ private fun ContactDetailsActivity.ComposeContent(
                             photoPicker?.launch(
                                 PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                             )
-                        })
+                        }
+                    )
 
                     Spacer(modifier = Modifier.height(25.dp))
 
@@ -287,13 +290,15 @@ private fun ContactDetailsActivity.ComposeContent(
 
                     if (contactData.contactId.isNotBlank()) {
 
-                        Text(text = stringResource(id = R.string.contact_details_delete_contact_btn_label),
+                        Text(
+                            text = stringResource(id = R.string.contact_details_delete_contact_btn_label),
                             fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
                             color = red,
                             fontSize = 16.sp,
                             modifier = Modifier.clickable {
                                 onDeleteClick()
-                            })
+                            }
+                        )
                     }
 
                     Column(
@@ -318,7 +323,8 @@ private fun ContactDetailsActivity.ComposeContent(
                 .padding(horizontal = 10.dp)
                 .clickable {
                     onDismissError()
-                }, isErrorVisible = error != null, error
+                },
+            isErrorVisible = error != null, error
         )
     }
 }
@@ -335,9 +341,11 @@ private fun ComposeFavoriteButton(
             .padding(vertical = 12.dp, horizontal = 20.dp),
         horizontalArrangement = Arrangement.End
     ) {
-        Box(modifier = Modifier.clickable {
-            onFavoriteClicked(!isFavorite)
-        }) {
+        Box(
+            modifier = Modifier.clickable {
+                onFavoriteClicked(!isFavorite)
+            }
+        ) {
             if (isFavorite) {
 
                 Icon(
@@ -359,7 +367,9 @@ private fun ComposeFavoriteButton(
 
 @Composable
 private fun ComposeContactImage(
-    modifier: Modifier = Modifier, contactImage: String? = null, contactName: String = ""
+    modifier: Modifier = Modifier,
+    contactImage: String? = null,
+    contactName: String = ""
 ) {
     Card(
         shape = CircleShape, modifier = modifier.size(150.dp), backgroundColor = secondary
@@ -373,12 +383,12 @@ private fun ComposeContactImage(
             name = contactName
         )
     }
-
 }
 
 @Composable
 private fun ComposeContactImagePlaceholder(
-    modifier: Modifier = Modifier, name: String
+    modifier: Modifier = Modifier,
+    name: String
 ) {
     val firstLetter = getFirstLettersFromFullName(name)
 
@@ -396,14 +406,18 @@ private fun ComposeContactImagePlaceholder(
 
 @Composable
 private fun ComposeContactImage(
-    modifier: Modifier = Modifier, imagePath: String
+    modifier: Modifier = Modifier,
+    imagePath: String
 ) {
 
     val painter =
-        rememberAsyncImagePainter(ImageRequest.Builder(LocalContext.current).data(data = imagePath)
-            .build(), onError = {
-            Log.d("", "### ${it.result.throwable.message}")
-        })
+        rememberAsyncImagePainter(
+            ImageRequest.Builder(LocalContext.current).data(data = imagePath)
+                .build(),
+            onError = {
+                Log.d("", "### ${it.result.throwable.message}")
+            }
+        )
 
     Image(
         painter = painter,
@@ -415,7 +429,9 @@ private fun ComposeContactImage(
 
 @Composable
 fun ComposeSaveButton(
-    modifier: Modifier = Modifier, onClick: () -> Unit = {}, isEnabled: Boolean = false
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    isEnabled: Boolean = false
 ) {
 
     val backgroundColor = if (isEnabled) lightBlue else secondary
