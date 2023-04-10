@@ -292,15 +292,18 @@ private fun ContactDetailsActivity.ComposeContent(
 
                     Spacer(modifier = Modifier.height(35.dp))
 
-                    Text(text = stringResource(id = R.string.contact_details_delete_contact_btn_label),
-                        fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
-                        color = red,
-                        fontSize = 16.sp,
-                        modifier = Modifier.clickable {
-                            scope.launch {
-                                modalSheetState.show()
-                            }
-                        })
+                    if (contactData.contactId.isNotBlank()) {
+
+                        Text(text = stringResource(id = R.string.contact_details_delete_contact_btn_label),
+                            fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
+                            color = red,
+                            fontSize = 16.sp,
+                            modifier = Modifier.clickable {
+                                scope.launch {
+                                    modalSheetState.show()
+                                }
+                            })
+                    }
 
                     Column(
                         modifier = Modifier
