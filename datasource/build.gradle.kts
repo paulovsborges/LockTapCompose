@@ -45,6 +45,7 @@ dependencies {
     implementation(Hilt.android)
     kapt(Hilt.compiler)
     implementation(SqlDelight.driver)
+    implementation(DataStore.core)
 
     implementation(AndroidX.core)
     implementation(AndroidX.lifeCycle)
