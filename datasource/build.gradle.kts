@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("kotlinx-serialization")
     id(SqlDelight.plugin) version SqlDelight.version
 }
 
@@ -46,10 +47,11 @@ dependencies {
     kapt(Hilt.compiler)
     implementation(SqlDelight.driver)
     implementation(DataStore.core)
-
+    implementation(Kotlin.serialization)
     implementation(AndroidX.core)
     implementation(AndroidX.lifeCycle)
     implementation(AndroidX.appCompat)
+
     testImplementation(Test.jUnit)
     androidTestImplementation(Test.jUInitExt)
     androidTestImplementation(Test.espresso)
