@@ -1,4 +1,4 @@
-package domain.useCase.utils
+package domain.utils
 
 import com.pvsb.domain.entity.Contact
 

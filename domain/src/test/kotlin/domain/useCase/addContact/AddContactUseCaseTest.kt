@@ -6,7 +6,7 @@ import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.repository.ContactsRepository
 import com.pvsb.domain.useCase.addContact.AddContact
 import com.pvsb.domain.useCase.addContact.AddContactUseCase
-import domain.useCase.utils.DummyContactData.dummyContacts
+import domain.utils.DummyContactData.dummyContacts
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

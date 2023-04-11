@@ -6,7 +6,7 @@ import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.repository.ContactsRepository
 import com.pvsb.domain.useCase.getContacts.GetContacts
 import com.pvsb.domain.useCase.getContacts.GetContactsUseCase
-import domain.useCase.utils.DummyContactData
+import domain.utils.DummyContactData
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
