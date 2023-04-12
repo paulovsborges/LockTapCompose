@@ -7,12 +7,20 @@ class SkipOnBoarding(
 ) : SkipOnBoardingUseCase {
 
     override suspend fun invoke() {
-        val currentData = userRepository.read()
+        try {
 
-        if (currentData.hasSeenOnBoardingAlready) return
+            val currentData = userRepository.read()
 
-        userRepository.save(
-            currentData.copy(hasSeenOnBoardingAlready = true)
-        )
+            if (currentData.hasSeenOnBoardingAlready) return
+
+            userRepository.save(
+                currentData.copy(
+                    password = "",
+                    hasSeenOnBoardingAlready = true
+                )
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
