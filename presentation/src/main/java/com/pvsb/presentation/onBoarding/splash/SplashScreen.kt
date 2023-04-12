@@ -4,12 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -28,6 +23,11 @@ fun SplashScreen(
     ) {
 
     var countDown by remember { mutableStateOf(5) }
+    val state = viewModel.state.collectAsState()
+
+    LaunchedEffect(key1 = state ){
+        viewModel.resolveNextUsersDestinationFromSplash()
+    }
 
     Box(
         modifier = Modifier
@@ -47,7 +47,7 @@ fun SplashScreen(
             delay(1_000)
             countDown--
         }
-        navController.navigate(OnBoardingScreens.OnBoarding.route) {
+        navController.navigate(state.value.nextDestination.route) {
             popUpTo(OnBoardingScreens.SplashScree.route) { inclusive = true }
             launchSingleTop = true
         }
