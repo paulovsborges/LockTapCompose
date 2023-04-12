@@ -1,4 +1,4 @@
-package com.pvsb.presentation.onBoarding
+package com.pvsb.presentation.onBoarding.onBoarding
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource

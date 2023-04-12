@@ -1,4 +1,4 @@
-package com.pvsb.presentation.onBoarding
+package com.pvsb.presentation.onBoarding.onBoarding
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke

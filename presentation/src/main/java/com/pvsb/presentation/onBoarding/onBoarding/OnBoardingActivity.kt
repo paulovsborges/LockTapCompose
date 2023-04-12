@@ -1,4 +1,4 @@
-package com.pvsb.presentation.onBoarding
+package com.pvsb.presentation.onBoarding.onBoarding
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

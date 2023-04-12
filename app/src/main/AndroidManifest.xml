@@ -25,7 +25,7 @@
             android:windowSoftInputMode="adjustResize"/>
 
         <activity
-            android:name="com.pvsb.presentation.onBoarding.OnBoardingActivity"
+            android:name="com.pvsb.presentation.onBoarding.onBoarding.OnBoardingActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.LockTapCompose"

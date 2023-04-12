@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.useCase.getUserData.GetUserDataUseCase
 import com.pvsb.domain.useCase.skipOnBoarding.SkipOnBoardingUseCase
+import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreenState
+import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

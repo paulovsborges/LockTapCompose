@@ -1,4 +1,4 @@
-package com.pvsb.presentation.onBoarding
+package com.pvsb.presentation.onBoarding.onBoarding
 
 sealed class OnBoardingScreens(val route: String) {
 

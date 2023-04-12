@@ -45,7 +45,7 @@ import androidx.navigation.compose.rememberNavController
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.presentation.R
 import com.pvsb.presentation.main.MainActivity
-import com.pvsb.presentation.onBoarding.OnBoardingScreens
+import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens
 import com.pvsb.presentation.ui.messageTextStyle
 import com.pvsb.presentation.ui.theme.AppColors.background
 import com.pvsb.presentation.ui.theme.AppColors.gray

@@ -4,7 +4,7 @@ import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.User
 import com.pvsb.domain.useCase.getUserData.GetUserDataUseCase
 import com.pvsb.domain.useCase.skipOnBoarding.SkipOnBoardingUseCase
-import com.pvsb.presentation.onBoarding.OnBoardingScreens
+import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens
 import com.pvsb.presentation.onBoarding.OnBoardingViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
