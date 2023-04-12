@@ -7,12 +7,15 @@ import com.pvsb.domain.useCase.getUserData.GetUserDataUseCase
 import com.pvsb.domain.useCase.skipOnBoarding.SkipOnBoardingUseCase
 import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreenState
 import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class OnBoardingViewModel(
+@HiltViewModel
+class OnBoardingViewModel @Inject constructor(
     private val skipOnBoardingUseCase: SkipOnBoardingUseCase,
     private val getUserDataUseCase: GetUserDataUseCase
 ) : ViewModel() {

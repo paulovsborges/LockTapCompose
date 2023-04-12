@@ -36,8 +36,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pvsb.presentation.R
+import com.pvsb.presentation.onBoarding.OnBoardingViewModel
 import com.pvsb.presentation.ui.messageTextStyle
 import com.pvsb.presentation.ui.theme.AppColors.lightBlue
 import com.pvsb.presentation.ui.theme.AppColors.secondary
@@ -46,7 +48,8 @@ import com.pvsb.presentation.ui.titleTextStyle
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun OnBoardingScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: OnBoardingViewModel = hiltViewModel()
 ) {
 
     var selectedPage by remember { mutableStateOf(1) }
@@ -83,9 +86,11 @@ fun OnBoardingScreen(
                         if (selectedPage == onBoardingStepsData.size) {
                             isLastPage = true
                         }
-                    }, onSKipClicked = {
-                    navigateToNextDestination(navController)
-                },
+                    },
+                    onSKipClicked = {
+                        navigateToNextDestination(navController)
+                        viewModel.skipOnBoarding()
+                    },
                     modifier = Modifier.background(secondary)
                 )
             },
