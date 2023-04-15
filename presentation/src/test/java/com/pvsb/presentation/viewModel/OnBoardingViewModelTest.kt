@@ -1,9 +1,15 @@
 package com.pvsb.presentation.viewModel
 
 import com.pvsb.domain.entity.DataState
+import com.pvsb.domain.entity.ExceptionWrapper
+import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.entity.User
 import com.pvsb.domain.useCase.getUserData.GetUserDataUseCase
+import com.pvsb.domain.useCase.login.Login
+import com.pvsb.domain.useCase.login.LoginUseCase
+import com.pvsb.domain.useCase.registerPassword.RegisterPasswordUseCase
 import com.pvsb.domain.useCase.skipOnBoarding.SkipOnBoardingUseCase
+import com.pvsb.presentation.R
 import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens
 import com.pvsb.presentation.onBoarding.OnBoardingViewModel
 import io.mockk.coEvery
@@ -11,6 +17,7 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.spyk
 import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -28,6 +35,8 @@ open class OnBoardingViewModelTest {
     protected lateinit var viewModel: OnBoardingViewModel
     protected lateinit var skipOnBoardingUseCase: SkipOnBoardingUseCase
     protected lateinit var getUserDataUseCase: GetUserDataUseCase
+    private lateinit var registerPasswordUseCase: RegisterPasswordUseCase
+    private lateinit var loginUseCase: LoginUseCase
     private val dispatcher = UnconfinedTestDispatcher()
 
     @Before
@@ -35,7 +44,12 @@ open class OnBoardingViewModelTest {
         Dispatchers.setMain(dispatcher)
         skipOnBoardingUseCase = spyk()
         getUserDataUseCase = mockk()
-        viewModel = OnBoardingViewModel(skipOnBoardingUseCase, getUserDataUseCase)
+        registerPasswordUseCase = mockk()
+        loginUseCase = mockk()
+
+        viewModel = OnBoardingViewModel(
+            skipOnBoardingUseCase, getUserDataUseCase, registerPasswordUseCase, loginUseCase
+        )
     }
 
     @After
@@ -44,11 +58,53 @@ open class OnBoardingViewModelTest {
     }
 
     @Test
-    fun `should call skipOnBoardingUseCase when skipOnBoarding is called`() {
+    fun `should call to skip on boarding`() {
 
         viewModel.skipOnBoarding()
 
         coVerify { skipOnBoardingUseCase() }
+    }
+
+    @Test
+    fun `should call to register password`() {
+
+        viewModel.registerNewPassword("123")
+
+        coVerify { registerPasswordUseCase(any()) }
+    }
+
+    @Test
+    fun `should set invalid password on login`() {
+
+        coEvery { loginUseCase(any()) } returns DataState.Error(Login.Error.INVALID_PASSWORD)
+
+        viewModel.login("123")
+
+        val expectedResult = TypedMessage.Reference(R.string.password_incorrect_label)
+
+        assertEquals(expectedResult, viewModel.state.value.error)
+    }
+
+    @Test
+    fun `should set unknown error on login`() {
+
+        coEvery { loginUseCase(any()) } returns DataState.Error(ExceptionWrapper.Unknown)
+
+        viewModel.login("123")
+
+        val expectedResult = TypedMessage.Reference(R.string.error_there_was_an_unexpected_error)
+
+        assertEquals(expectedResult, viewModel.state.value.error)
+    }
+
+    @Test
+    fun `should set that user is authenticated`() {
+
+        coEvery { loginUseCase(any()) } returns DataState.Success(Unit)
+
+        viewModel.login("123")
+
+        assertTrue(viewModel.state.value.isAuthenticated)
     }
 
     @RunWith(Parameterized::class)
@@ -62,20 +118,17 @@ open class OnBoardingViewModelTest {
             fun data() = listOf(
                 arrayOf(
                     NextUserDestinationParameterizedInput(
-                        User("", false),
-                        OnBoardingScreens.OnBoarding
+                        User("", false), OnBoardingScreens.OnBoarding
                     )
                 ),
                 arrayOf(
                     NextUserDestinationParameterizedInput(
-                        User("123", false),
-                        OnBoardingScreens.PasswordScreen.Enter
+                        User("123", false), OnBoardingScreens.PasswordScreen.Enter
                     )
                 ),
                 arrayOf(
                     NextUserDestinationParameterizedInput(
-                        User("", true),
-                        OnBoardingScreens.PasswordScreen.Create
+                        User("", true), OnBoardingScreens.PasswordScreen.Create
                     )
                 ),
             )
@@ -89,14 +142,12 @@ open class OnBoardingViewModelTest {
             viewModel.resolveNextUsersDestinationFromSplash()
 
             assertEquals(
-                input.expectedNextDestination,
-                viewModel.state.value.nextDestination
+                input.expectedNextDestination, viewModel.state.value.nextDestination
             )
         }
 
         data class NextUserDestinationParameterizedInput(
-            val userData: User,
-            val expectedNextDestination: OnBoardingScreens
+            val userData: User, val expectedNextDestination: OnBoardingScreens
         )
     }
 }
