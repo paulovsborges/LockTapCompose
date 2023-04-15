@@ -21,6 +21,7 @@ import com.pvsb.presentation.R
 import com.pvsb.presentation.contact.contactList.PrivateContactsActivity
 import com.pvsb.presentation.main.MainActivity
 import com.pvsb.presentation.main.shared.sessionOptions.ComposeSessionOptionButton
+import com.pvsb.presentation.passwords.passwordsList.PasswordsListActivity
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
 
 @Composable
@@ -70,7 +71,7 @@ private fun onOptionClicked(
             PrivateContactsActivity::class.java
         }
         SessionOptionsButton.WIFI_PASSWORDS.id -> {
-            MainActivity::class.java
+            PasswordsListActivity::class.java
         }
         SessionOptionsButton.PHOTO_VAULT.id -> {
             PrivateContactsActivity::class.java

@@ -178,7 +178,7 @@ private fun ComposeEmptyState(
 
 @Preview
 @Composable
-fun ComposeEmptyStatePreview() {
+private fun ComposeEmptyStatePreview() {
     ComposeEmptyState()
 }
 
@@ -188,7 +188,7 @@ private fun PrivateContactsActivity.PrivateContactsScreenPreview() {
     PrivateContactsScreen()
 }
 
-fun navigateToAddContact(
+private fun navigateToAddContact(
     context: Context
 ) {
     val intent = Intent(context, ContactDetailsActivity::class.java)
