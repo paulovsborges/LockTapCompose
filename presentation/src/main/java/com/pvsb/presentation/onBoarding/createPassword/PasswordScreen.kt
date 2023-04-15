@@ -35,7 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -60,39 +59,39 @@ import com.pvsb.presentation.ui.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.ComposeErrorCard
 
-
 @Composable
 fun PasswordScreenContainer(
     navController: NavController,
-    screenType: PasswordScreenType = PasswordScreenType.CreatePassword,
+    screenType: PasswordScreenType = PasswordScreenType.RepeatPassword(""),
     viewModel: OnBoardingViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.collectAsState()
 
-//    var isErrorVisible by remember { mutableStateOf(state.value.error != null) }
-    var password by remember { mutableStateOf("") }
     var isTextFieldFocused by remember { mutableStateOf(false) }
 
-    PasswordScreen(
-        state = state.value,
+    if (state.value.isAuthenticated) {
+        navigateToMainScreen(navController.context)
+    }
+
+    PasswordScreen(state = state.value,
         navController = navController,
         screenType = screenType,
-        password = password,
         isTextFieldFocused = isTextFieldFocused,
         onErrorVisibilityChanged = {
-            viewModel.dismissError()
+            if (!it) {
+                viewModel.dismissError()
+            }
         },
-        onPasswordChanged = { password = it },
         onTextFieldFocusChanged = { isTextFieldFocused = it },
-        onPasswordFilled = {
+        onPasswordFilled = { password ->
 
             when (screenType) {
                 PasswordScreenType.CreatePassword -> {
                     navigateToRepeatPassword(navController, password)
                 }
                 is PasswordScreenType.RepeatPassword -> {
-                    if (it == screenType.createdPassword) {
+                    if (password == screenType.createdPassword) {
                         viewModel.registerNewPassword(password)
                         navigateToEnterPassword(navController)
                     } else {
@@ -105,8 +104,7 @@ fun PasswordScreenContainer(
                     viewModel.login(password)
                 }
             }
-        }
-    )
+        })
 }
 
 @Composable
@@ -114,10 +112,8 @@ private fun PasswordScreen(
     state: OnBoardingScreenState = OnBoardingScreenState(),
     navController: NavController = rememberNavController(),
     screenType: PasswordScreenType = PasswordScreenType.CreatePassword,
-    password: String = "",
     isTextFieldFocused: Boolean = false,
     onErrorVisibilityChanged: (Boolean) -> Unit = {},
-    onPasswordChanged: (String) -> Unit = {},
     onTextFieldFocusChanged: (Boolean) -> Unit = {},
     onPasswordFilled: (String) -> Unit = {}
 ) {
@@ -163,10 +159,8 @@ private fun PasswordScreen(
 
             ComposeTextField(
                 isErrorVisible = isErrorVisible,
-                password = password,
                 isTextFieldFocused = isTextFieldFocused,
                 onErrorChanged = onErrorVisibilityChanged,
-                onPasswordChanged = onPasswordChanged,
                 onTextFieldFocusChanged = onTextFieldFocusChanged,
                 onPasswordFilled = onPasswordFilled
             )
@@ -177,13 +171,13 @@ private fun PasswordScreen(
 @Composable
 private fun ComposeTextField(
     isErrorVisible: Boolean,
-    password: String = "",
     isTextFieldFocused: Boolean = false,
     onErrorChanged: (Boolean) -> Unit,
-    onPasswordChanged: (String) -> Unit = {},
     onTextFieldFocusChanged: (Boolean) -> Unit = {},
     onPasswordFilled: (String) -> Unit = {}
 ) {
+
+    var password by remember { mutableStateOf("") }
 
     val maxChars = 4
 
@@ -193,77 +187,52 @@ private fun ComposeTextField(
         else -> Color.Transparent
     }
 
-    BasicTextField(
-        value = password, onValueChange = {
-            onPasswordChanged(it.take(maxChars))
-            if (password.length == maxChars) {
-                onPasswordFilled(password)
-
-//                when (screenType) {
-//                    PasswordScreenType.CreatePassword -> {
-//                        onPasswordFilled(password)
-////                        navigateToRepeatPassword(navController, password)
-//                    }
-//                    is PasswordScreenType.RepeatPassword -> {
-//                        if (it == screenType.createdPassword) {
-//                            onPasswordFilled(password)
-////                            navigateToEnterPassword(navController)
-//                        } else {
-//                            onErrorChanged(true)
-//                        }
-//                    }
-//                    PasswordScreenType.EnterPassword -> {
-////                        navigateToMainScreen(context)
-//                    }
-//                }
-            } else {
-                onErrorChanged(false)
-            }
-        }, decorationBox = {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                shape = RoundedCornerShape(40.dp),
-                border = BorderStroke(1.dp, borderColor)
+    BasicTextField(value = password, onValueChange = {
+        password = it.take(maxChars)
+        if (password.length == maxChars) {
+            onPasswordFilled(password)
+        } else {
+            onErrorChanged(false)
+        }
+    }, decorationBox = {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            shape = RoundedCornerShape(40.dp),
+            border = BorderStroke(1.dp, borderColor)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .background(secondary),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(
+                    30.dp,
+                    Alignment.Horizontal { _, space, _ ->
+                        space / 2
+                    })
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .background(secondary),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(
-                        30.dp,
-                        Alignment.Horizontal { _, space, _ ->
-                            space / 2
-                        }
-                    )
-                ) {
-                    repeat(maxChars) {
-                        ComposePasswordPointer(password.length - 1 >= it, isErrorVisible)
-                    }
+                repeat(maxChars) {
+                    ComposePasswordPointer(password.length - 1 >= it, isErrorVisible)
                 }
             }
-        },
-        modifier = Modifier
-            .width(180.dp)
-            .height(52.dp)
-            .focusable(true)
-            .onFocusChanged {
-                onTextFieldFocusChanged(it.isFocused)
-            },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number
-        ),
-        keyboardActions = KeyboardActions {
-            defaultKeyboardAction(ImeAction.Previous)
         }
-    )
+    }, modifier = Modifier
+        .width(180.dp)
+        .height(52.dp)
+        .focusable(true)
+        .onFocusChanged {
+            onTextFieldFocusChanged(it.isFocused)
+        }, keyboardOptions = KeyboardOptions(
+        keyboardType = KeyboardType.Number
+    ), keyboardActions = KeyboardActions {
+        defaultKeyboardAction(ImeAction.Previous)
+    })
 }
 
 @Composable
 private fun ComposePasswordPointer(
-    isFilled: Boolean = false,
-    isError: Boolean = false
+    isFilled: Boolean = false, isError: Boolean = false
 ) {
 
     val backgroundColor = when {
@@ -278,8 +247,7 @@ private fun ComposePasswordPointer(
 }
 
 private fun navigateToRepeatPassword(
-    navController: NavController,
-    createdPassword: String
+    navController: NavController, createdPassword: String
 ) {
 
     navController.navigate(
@@ -309,29 +277,30 @@ fun navigateToMainScreen(context: Context) {
 @Preview
 @Composable
 private fun ComposePasswordPointerPreview() {
-    Row(
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterVertically),
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp)
+            .height(50.dp)
     ) {
-        repeat(4) {
-            ComposePasswordPointer(false, true)
+        Row {
+
+            repeat(4) {
+                ComposePasswordPointer(isFilled = false, isError = true)
+            }
         }
 
-        repeat(4) {
-            ComposePasswordPointer(true, false)
-        }
-
-        repeat(4) {
-            ComposePasswordPointer(false, false)
+        Row {
+            repeat(4) {
+                ComposePasswordPointer(isFilled = it % 2 == 0, isError = false)
+            }
         }
     }
 }
 
 @Preview
 @Composable
-fun CreatePasswordScreenPreview() {
+private fun CreatePasswordScreenPreview() {
     PasswordScreen()
 }
