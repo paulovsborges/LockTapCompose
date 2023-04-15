@@ -7,6 +7,7 @@ import com.pvsb.domain.useCase.skipOnBoarding.SkipOnBoardingUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
@@ -41,6 +42,23 @@ class SkipOnBoardingUseCaseTest {
         useCase()
 
         coVerify(exactly = 0) { userRepository.save(any()) }
+    }
+
+    @Test
+    fun `there is no user data on repository yet`() = runTest {
+
+        coEvery { userRepository.read() } returns null
+
+        val spy = spyk(
+            recordPrivateCalls = true,
+            objToCopy = SkipOnBoarding(userRepository)
+        )
+
+        spy()
+
+        coVerify {
+            spy["createUserData"]()
+        }
     }
 
     companion object {

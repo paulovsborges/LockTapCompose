@@ -22,8 +22,7 @@ class UserManagerRepository(
         localDataManager.write(DATA_KEY, encodedUser)
     }
 
-    override suspend fun read(): User {
+    override suspend fun read(): User? {
         return localDataManager.read(DATA_KEY).first()?.toUserDTO()?.toEntity()
-            ?: throw NullPointerException("No user data on repository")
     }
 }

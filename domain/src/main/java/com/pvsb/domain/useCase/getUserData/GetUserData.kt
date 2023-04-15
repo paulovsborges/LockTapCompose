@@ -11,7 +11,12 @@ class GetUserData(
 
     override suspend fun invoke(): DataState<User> {
         return try {
-            DataState.Success(userRepository.read())
+
+            val userData = userRepository.read() ?: throw NullPointerException(
+                "No user data on repository"
+            )
+
+            DataState.Success(userData)
         } catch (e: Exception) {
             DataState.Error(ExceptionWrapper.Unknown)
         }

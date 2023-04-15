@@ -41,7 +41,7 @@ class GetUserDataUseCaseTest {
     @Test
     fun `should return error`() = runTest {
 
-        coEvery { userRepository.read() } throws NullPointerException("User data is null")
+        coEvery { userRepository.read() } returns null
 
         val actualResult = useCase()
 
