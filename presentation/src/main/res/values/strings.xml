@@ -65,4 +65,7 @@
     <string name="bottom_sheet_delete_contact_message">This contact will be deleted</string>
 
    <string name="new_password_label">New password</string>
+    <string name="new_password_text_field_title_label">Title</string>
+    <string name="new_password_text_field_password_label">Password</string>
+    <string name="new_password_text_field_additional_info_label">Additional info</string>
 </resources>

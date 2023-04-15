@@ -22,12 +22,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -53,7 +48,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,7 +60,6 @@ import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.presentation.R
 import com.pvsb.presentation.contact.contactList.ContactsViewModel
 import com.pvsb.presentation.ui.theme.AppColors.background
-import com.pvsb.presentation.ui.theme.AppColors.gray
 import com.pvsb.presentation.ui.theme.AppColors.lightBlue
 import com.pvsb.presentation.ui.theme.AppColors.red
 import com.pvsb.presentation.ui.theme.AppColors.secondary
@@ -74,7 +67,7 @@ import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.ComposeBottomSheetDialog
 import com.pvsb.presentation.utils.components.ComposeErrorCard
 import com.pvsb.presentation.utils.components.PrimaryButton
-import com.pvsb.presentation.utils.components.textField.ComposeContactInfoTextField
+import com.pvsb.presentation.utils.components.textField.PrimaryTextField
 import com.pvsb.presentation.utils.getFirstLettersFromFullName
 import com.pvsb.presentation.utils.getUriAccessPermission
 import dagger.hilt.android.AndroidEntryPoint
@@ -269,7 +262,7 @@ private fun ContactDetailsActivity.ComposeContent(
 
                     Spacer(modifier = Modifier.height(25.dp))
 
-                    ComposeContactInfoTextField(
+                    PrimaryTextField(
                         fieldLabel = R.string.contact_details_text_field_first_last_name,
                         text = contactData.name,
                         modifier = Modifier.padding(horizontal = 20.dp)
@@ -279,7 +272,7 @@ private fun ContactDetailsActivity.ComposeContent(
 
                     Spacer(modifier = Modifier.height(25.dp))
 
-                    ComposeContactInfoTextField(
+                    PrimaryTextField(
                         fieldLabel = R.string.contact_details_text_field_phone_number,
                         text = contactData.phoneNumber,
                         modifier = Modifier.padding(horizontal = 20.dp)
