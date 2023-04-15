@@ -53,20 +53,11 @@ fun PrimaryTextField(
     modifier: Modifier = Modifier,
     text: String = "",
     fieldLabel: Int = 0,
-    placeholderRes: Int = 0,
     onValueChanged: (String) -> Unit = {}
 ) {
 
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    val placeHolderText = run {
-        if (placeholderRes != 0) {
-            stringResource(id = placeholderRes)
-        } else {
-            "enter a title"
-        }
-    }
 
     var currentStyle by remember {
         mutableStateOf(TextStyle())
@@ -110,7 +101,7 @@ fun PrimaryTextField(
                         .fillMaxSize()
                         .padding(horizontal = 20.dp),
                     verticalArrangement = Arrangement.spacedBy(
-                        4.dp,
+                        0.dp,
                         alignment = { _, space ->
                             space / 2
                         }
@@ -123,9 +114,7 @@ fun PrimaryTextField(
                             modifier = Modifier.offset(y = offsetY)
                         )
 
-                        Spacer(modifier = Modifier.height(10.dp))
                         it()
-
                         Text(
                             text = text,
                             color = Color.White
@@ -186,17 +175,8 @@ private fun HandleLabelTransition(
         }
     ) {
 
-        when {
-            isTextFilled -> {
-                PrimaryTextFieldConst.NOT_FOCUSED_COLOR
-            }
-            it -> {
-                PrimaryTextFieldConst.FOCUSED_COLOR
-            }
-            else -> {
-                PrimaryTextFieldConst.NOT_FOCUSED_COLOR
-            }
-        }
+        if (it) PrimaryTextFieldConst.FOCUSED_COLOR
+        else PrimaryTextFieldConst.NOT_FOCUSED_COLOR
     }
 
     val offsetY by transition.animateDp(

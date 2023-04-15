@@ -10,6 +10,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -56,7 +57,13 @@ class PasswordDetailsActivity : ComponentActivity() {
     @Composable
     private fun ComposeContent() {
 
-        var searchFieldText by remember {
+        var title by remember {
+            mutableStateOf("")
+        }
+        var password by remember {
+            mutableStateOf("")
+        }
+        var additionalInfo by remember {
             mutableStateOf("")
         }
 
@@ -72,96 +79,26 @@ class PasswordDetailsActivity : ComponentActivity() {
                     finish()
                 }
 
-                Column(modifier = Modifier.padding(20.dp)) {
+                Column(
+                    modifier = Modifier.padding(20.dp)
+                ) {
                     Text(
                         text = stringResource(id = R.string.new_password_label),
                         style = titleTextStyle
                     )
 
-                    PrimaryTextField(
-                        fieldLabel = R.string.new_password_text_field_title_label,
-                        text = searchFieldText,
-                        onValueChanged = { searchFieldText = it }
+                    Spacer(modifier = Modifier.height(35.dp))
+
+                    ComposeFields(
+                        titleText = title,
+                        passwordText = password,
+                        infoText = additionalInfo,
+                        onTitleChanged = { title = it },
+                        onPasswordChanged = { password = it },
+                        onInfoChanged = { additionalInfo = it },
                     )
                 }
-
-                Spacer(modifier = Modifier.height(50.dp))
-/*
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.White),
-                    contentAlignment = Alignment.Center
-                ) {
-
-                    var state by remember {
-                        mutableStateOf(false)
-                    }
-
-                    val transition = updateTransition(
-                        targetState = state,
-                        label = "TextFieldInputState"
-                    )
-
-                    val progress by transition.animateFloat(
-                        label = "labelProgress",
-                        transitionSpec = {
-                            tween(1000)
-                        }
-                    ) {
-                        if (it) 1f else 0f
-                    }
-
-                    val color by transition.animateColor(
-                        label = "labelColor",
-                        transitionSpec = {
-                            tween(1000)
-                        }
-                    ) {
-                        if (it) Color.Black else Color.Green
-                    }
-
-                    val offsetY by transition.animateDp(
-                        label = "labelDp",
-                        transitionSpec = {
-                            tween(1000)
-                        }
-                    ) {
-                        if (it) (-100).dp else 0.dp
-                    }
-
-//                    val textStyle = lerp(
-//                        10.sp,
-//                        20.sp,
-//                        progress
-//                    ).let {
-//
-//                    }
-
-
-                    val textStyle = androidx.compose.ui.text.lerp(
-                        start = MaterialTheme.typography.subtitle1,
-                        stop = MaterialTheme.typography.caption,
-                        fraction = progress
-                    ).copy(color = color)
-
-                    Text(
-                        text = "AAAAAAAAA",
-                        color = color,
-                        style = textStyle,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                state = !state
-                            }
-                            .offset(y = offsetY),
-                        textAlign = TextAlign.Center
-                    )
-                }
-
- */
             }
-
 
             Box(
                 modifier = Modifier
@@ -176,20 +113,42 @@ class PasswordDetailsActivity : ComponentActivity() {
         }
     }
 
+    @Composable
+    private fun ComposeFields(
+        modifier: Modifier = Modifier,
+        titleText: String,
+        passwordText: String,
+        infoText: String,
+        onTitleChanged: (String) -> Unit,
+        onPasswordChanged: (String) -> Unit,
+        onInfoChanged: (String) -> Unit,
+    ) {
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(25.dp),
+            modifier = modifier
+        ) {
+            PrimaryTextField(
+                fieldLabel = R.string.new_password_text_field_title_label,
+                text = titleText,
+                onValueChanged = onTitleChanged
+            )
+            PrimaryTextField(
+                fieldLabel = R.string.new_password_text_field_password_label,
+                text = passwordText,
+                onValueChanged = onPasswordChanged
+            )
+            PrimaryTextField(
+                fieldLabel = R.string.new_password_text_field_additional_info_label,
+                text = infoText,
+                onValueChanged = onInfoChanged
+            )
+        }
+    }
+
     @Preview
     @Composable
     private fun ComposeContentPreview() {
         ComposeContent()
-    }
-
-    enum class InputPhase {
-        // Text field is focused
-        Focused,
-
-        // Text field is not focused and input text is empty
-        UnfocusedEmpty,
-
-        // Text field is not focused but input text is not empty
-        UnfocusedNotEmpty
     }
 }
