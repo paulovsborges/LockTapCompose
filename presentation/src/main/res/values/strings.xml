@@ -63,4 +63,6 @@
     <string name="bottom_sheet_generic_message">This action can`t be undone</string>
     <string name="bottom_sheet_confirmation_title">Are you sure?</string>
     <string name="bottom_sheet_delete_contact_message">This contact will be deleted</string>
+
+   <string name="new_password_label">New password</string>
 </resources>

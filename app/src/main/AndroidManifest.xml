@@ -31,11 +31,11 @@
             android:theme="@style/Theme.LockTapCompose"
             android:windowSoftInputMode="adjustResize">
 
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
 
         <activity
@@ -54,7 +54,13 @@
             android:name="com.pvsb.presentation.passwords.passwordsList.PasswordsListActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.LockTapCompose" >
+            android:theme="@style/Theme.LockTapCompose" />
+
+        <activity
+            android:name="com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.LockTapCompose">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
