@@ -77,6 +77,7 @@ fun OnBoardingScreen(
                     selectedPage, onNextClicked = {
 
                         if (isLastPage) {
+                            viewModel.skipOnBoarding()
                             navigateToNextDestination(navController)
                             return@BottomSheetContent
                         }

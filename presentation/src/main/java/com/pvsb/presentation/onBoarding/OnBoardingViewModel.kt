@@ -33,12 +33,24 @@ class OnBoardingViewModel @Inject constructor(
         viewModelScope.launch {
             val state = getUserDataUseCase()
 
-            if (state is DataState.Success && state.data.hasSeenOnBoardingAlready) {
+            if (state is DataState.Success) {
+
+                val nextDestination = when {
+                    state.data.password.isNotEmpty() -> {
+                        OnBoardingScreens.PasswordScreen.Enter
+                    }
+                    state.data.hasSeenOnBoardingAlready -> {
+                        OnBoardingScreens.PasswordScreen.Create
+                    }
+                    else -> {
+                        OnBoardingScreens.OnBoarding
+                    }
+                }
+
                 _state.update {
-                    it.copy(nextDestination = OnBoardingScreens.PasswordScreen.Enter)
+                    it.copy(nextDestination = nextDestination)
                 }
             }
-
         }
     }
 }

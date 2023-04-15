@@ -19,13 +19,15 @@ import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 
 @ExperimentalCoroutinesApi
-class OnBoardingViewModelTest {
+open class OnBoardingViewModelTest {
 
-    private lateinit var viewModel: OnBoardingViewModel
-    private lateinit var skipOnBoardingUseCase: SkipOnBoardingUseCase
-    private lateinit var getUserDataUseCase: GetUserDataUseCase
+    protected lateinit var viewModel: OnBoardingViewModel
+    protected lateinit var skipOnBoardingUseCase: SkipOnBoardingUseCase
+    protected lateinit var getUserDataUseCase: GetUserDataUseCase
     private val dispatcher = UnconfinedTestDispatcher()
 
     @Before
@@ -37,7 +39,7 @@ class OnBoardingViewModelTest {
     }
 
     @After
-    fun tearDown(){
+    fun tearDown() {
         Dispatchers.resetMain()
     }
 
@@ -49,34 +51,52 @@ class OnBoardingViewModelTest {
         coVerify { skipOnBoardingUseCase() }
     }
 
-    @Test
-    fun `should set next destination to on boarding`(){
+    @RunWith(Parameterized::class)
+    class NextUserDestinationParameterizedTest(
+        private val input: NextUserDestinationParameterizedInput
+    ) : OnBoardingViewModelTest() {
 
-        val dummyUser = User(
-            "123",
-            false
+        companion object {
+            @JvmStatic
+            @Parameterized.Parameters
+            fun data() = listOf(
+                arrayOf(
+                    NextUserDestinationParameterizedInput(
+                        User("", false),
+                        OnBoardingScreens.OnBoarding
+                    )
+                ),
+                arrayOf(
+                    NextUserDestinationParameterizedInput(
+                        User("123", false),
+                        OnBoardingScreens.PasswordScreen.Enter
+                    )
+                ),
+                arrayOf(
+                    NextUserDestinationParameterizedInput(
+                        User("", true),
+                        OnBoardingScreens.PasswordScreen.Create
+                    )
+                ),
+            )
+        }
+
+        @Test
+        fun `should handle next user destination`() {
+
+            coEvery { getUserDataUseCase() } returns DataState.Success(input.userData)
+
+            viewModel.resolveNextUsersDestinationFromSplash()
+
+            assertEquals(
+                input.expectedNextDestination,
+                viewModel.state.value.nextDestination
+            )
+        }
+
+        data class NextUserDestinationParameterizedInput(
+            val userData: User,
+            val expectedNextDestination: OnBoardingScreens
         )
-
-        coEvery { getUserDataUseCase() } returns DataState.Success(dummyUser)
-
-        viewModel.resolveNextUsersDestinationFromSplash()
-
-        assertEquals(OnBoardingScreens.OnBoarding, viewModel.state.value.nextDestination)
-    }
-
-    @Test
-    fun `should set next destination to enter password`(){
-
-        val dummyUser = User(
-            "123",
-            true
-        )
-
-        coEvery { getUserDataUseCase() } returns DataState.Success(dummyUser)
-
-        viewModel.resolveNextUsersDestinationFromSplash()
-
-        assertEquals(OnBoardingScreens.PasswordScreen.Enter, viewModel.state.value.nextDestination)
-
     }
 }
