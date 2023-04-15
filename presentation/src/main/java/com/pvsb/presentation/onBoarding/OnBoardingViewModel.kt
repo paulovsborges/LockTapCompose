@@ -3,6 +3,7 @@ package com.pvsb.presentation.onBoarding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pvsb.domain.entity.DataState
+import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.getUserData.GetUserDataUseCase
 import com.pvsb.domain.useCase.skipOnBoarding.SkipOnBoardingUseCase
 import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreenState
@@ -29,6 +30,16 @@ class OnBoardingViewModel @Inject constructor(
         }
     }
 
+    fun registerNewPassword(
+        newPassword: String
+    ) {
+
+    }
+
+    fun login(password: String){
+
+    }
+
     fun resolveNextUsersDestinationFromSplash() {
         viewModelScope.launch {
             val state = getUserDataUseCase()
@@ -52,5 +63,13 @@ class OnBoardingViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun setError(error: TypedMessage) {
+        _state.update { it.copy(error = error) }
+    }
+
+    fun dismissError() {
+        _state.update { it.copy(error = null) }
     }
 }

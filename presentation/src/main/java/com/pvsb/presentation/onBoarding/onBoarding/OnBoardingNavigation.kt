@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.pvsb.presentation.onBoarding.createPassword.PasswordScreen
+import com.pvsb.presentation.onBoarding.createPassword.PasswordScreenContainer
 import com.pvsb.presentation.onBoarding.createPassword.PasswordScreenType
 import com.pvsb.presentation.onBoarding.splash.SplashScreen
 
@@ -23,7 +23,7 @@ fun OnBoardingNavigation() {
         }
 
         composable(route = OnBoardingScreens.PasswordScreen.Create.route) {
-            PasswordScreen(
+            PasswordScreenContainer(
                 navController = navController,
                 screenType = PasswordScreenType.CreatePassword
             )
@@ -33,14 +33,14 @@ fun OnBoardingNavigation() {
 
             val createdPassword = it.arguments?.getString("createdPassword") ?: return@composable
 
-            PasswordScreen(
+            PasswordScreenContainer(
                 navController = navController,
                 screenType = PasswordScreenType.RepeatPassword(createdPassword)
             )
         }
 
         composable(route = OnBoardingScreens.PasswordScreen.Enter.route) {
-            PasswordScreen(
+            PasswordScreenContainer(
                 navController = navController, screenType = PasswordScreenType.EnterPassword
             )
         }
