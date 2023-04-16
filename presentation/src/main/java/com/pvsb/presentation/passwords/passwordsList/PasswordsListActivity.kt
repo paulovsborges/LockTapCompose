@@ -18,6 +18,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -46,6 +48,7 @@ import com.pvsb.presentation.ui.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.FloatingAddButton
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
+import com.pvsb.presentation.utils.copyTextToClipBoard
 import com.pvsb.presentation.utils.formatToStringDate
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
@@ -62,22 +65,20 @@ class PasswordsListActivity : ComponentActivity() {
 
     @Composable
     private fun ComposeContent() {
+
+        val passwords = List(20) {
+            Password(
+                "$it", "Title $it", password = it.toString(), Date(), it % 2 == 0, null
+            )
+        }
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(AppColors.background)
         ) {
 
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(25.dp),
-                contentAlignment = Alignment.BottomEnd
-            ) {
-                FloatingAddButton {}
-            }
-
-            Column() {
+            Column {
                 BackButton {
                     finish()
                 }
@@ -91,7 +92,7 @@ class PasswordsListActivity : ComponentActivity() {
                 ) {
 
                     Text(
-                        text = stringResource(id = R.string.session_option_label_wifi_passwords),
+                        text = stringResource(id = R.string.session_option_label_passwords),
                         style = titleTextStyle
                     )
 
@@ -99,7 +100,38 @@ class PasswordsListActivity : ComponentActivity() {
 
                     ComposePrimarySearchField()
 
-                    ComposeEmptyState(modifier = Modifier.fillMaxSize())
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    if (passwords.isEmpty()) {
+                        ComposeEmptyState(modifier = Modifier.fillMaxSize())
+                    } else {
+                        ComposePasswordsList(passwords = passwords)
+                    }
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(25.dp),
+                contentAlignment = Alignment.BottomEnd
+            ) {
+                FloatingAddButton {}
+            }
+        }
+    }
+
+    @Composable
+    private fun ComposePasswordsList(
+        modifier: Modifier = Modifier, passwords: List<Password>
+    ) {
+
+        Box(modifier = modifier.fillMaxSize()) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(passwords) {
+                    ComposePasswordCard(password = it)
                 }
             }
         }
@@ -142,8 +174,7 @@ class PasswordsListActivity : ComponentActivity() {
 
     @Composable
     private fun ComposePasswordCard(
-        modifier: Modifier = Modifier,
-        password: Password
+        modifier: Modifier = Modifier, password: Password
     ) {
 
         Card(
@@ -153,13 +184,13 @@ class PasswordsListActivity : ComponentActivity() {
             shape = RoundedCornerShape(8.dp),
             backgroundColor = AppColors.secondary
         ) {
-            Box() {
+            Box {
 
                 Column(
                     modifier = Modifier.padding(top = 12.dp, start = 15.dp)
                 ) {
                     Text(
-                        text = "Title",
+                        text = stringResource(id = R.string.password_card_title_label),
                         color = AppColors.gray,
                         fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
                         fontSize = 10.sp
@@ -177,7 +208,7 @@ class PasswordsListActivity : ComponentActivity() {
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Text(
-                        text = "Password",
+                        text = stringResource(id = R.string.password_card_password_label),
                         color = AppColors.gray,
                         fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
                         fontSize = 10.sp
@@ -199,23 +230,22 @@ class PasswordsListActivity : ComponentActivity() {
                         modifier = Modifier.padding(end = 16.dp)
                     ) {
 
-                        Row(modifier = Modifier.fillMaxWidth()) {
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                copyTextToClipBoard(password.password)
+                            }) {
 
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_copy),
                                 contentDescription = "",
-                                tint = AppColors.gray,
-                                modifier = Modifier.clickable {
-//                            context.copyTextToClipBoard(contactData.phoneNumber)
-                                }
+                                tint = AppColors.gray
                             )
 
                             Spacer(modifier = Modifier.width(5.dp))
 
-//                        stringResource(id = R.string.copy_password)
-
                             Text(
-                                text = "Copy password",
+                                text = stringResource(id = R.string.copy_password),
                                 fontSize = 16.sp,
                                 fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
                                 color = AppColors.gray
@@ -257,11 +287,9 @@ class PasswordsListActivity : ComponentActivity() {
                 .padding(vertical = 25.dp, horizontal = 28.dp),
             horizontalArrangement = Arrangement.End
         ) {
-            Box(
-                modifier = Modifier.clickable {
-                    onFavoriteClicked(!isFavorite)
-                }
-            ) {
+            Box(modifier = Modifier.clickable {
+                onFavoriteClicked(!isFavorite)
+            }) {
                 if (isFavorite) {
 
                     Icon(
@@ -287,12 +315,7 @@ class PasswordsListActivity : ComponentActivity() {
         Box(modifier = Modifier.padding(20.dp)) {
             ComposePasswordCard(
                 password = Password(
-                    "",
-                    "Home wifi",
-                    "123456",
-                    null,
-                    true,
-                    null
+                    "", "Home wifi", "123456", null, true, null
                 )
             )
         }

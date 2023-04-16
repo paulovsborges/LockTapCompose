@@ -30,7 +30,7 @@ fun AllScreenContent(
 
     val optionsLabels = listOf(
         R.string.session_option_label_private_contacts,
-        R.string.session_option_label_wifi_passwords,
+        R.string.session_option_label_passwords,
         R.string.session_option_label_photo_vault
     )
 

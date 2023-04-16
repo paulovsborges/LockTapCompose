@@ -43,7 +43,7 @@
     <string name="search_field_placeholder_enter_a_title">Enter a title</string>
 
     <string name="session_option_label_private_contacts">Private contacts</string>
-    <string name="session_option_label_wifi_passwords">Wi-fi passwords</string>
+    <string name="session_option_label_passwords">Passwords</string>
     <string name="session_option_label_photo_vault">Photo vault</string>
 
     <string name="contact_details_change_photo_btn_label">Change photo</string>
@@ -70,4 +70,7 @@
     <string name="new_password_text_field_additional_info_label">Additional info</string>
 
     <string name="copy_password">Copy password</string>
+    <string name="password_card_title_label">Title</string>
+    <string name="password_card_password_label">Password</string>
+
 </resources>
