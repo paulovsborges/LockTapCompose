@@ -1,4 +1,4 @@
-package com.pvsb.domain.useCase.registerPassword
+package com.pvsb.domain.useCase.password.registerPassword
 
 import com.pvsb.domain.entity.DataState
 

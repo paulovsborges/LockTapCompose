@@ -1,4 +1,4 @@
-package com.pvsb.domain.useCase.getContacts
+package com.pvsb.domain.useCase.contact.getContacts
 
 import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.DataState

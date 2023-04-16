@@ -4,10 +4,10 @@ import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.TypedMessage
-import com.pvsb.domain.useCase.addContact.AddContact
-import com.pvsb.domain.useCase.addContact.AddContactUseCase
-import com.pvsb.domain.useCase.deleteContact.DeleteContactUseCase
-import com.pvsb.domain.useCase.getContacts.GetContactsUseCase
+import com.pvsb.domain.useCase.contact.addContact.AddContact
+import com.pvsb.domain.useCase.contact.addContact.AddContactUseCase
+import com.pvsb.domain.useCase.contact.deleteContact.DeleteContactUseCase
+import com.pvsb.domain.useCase.contact.getContacts.GetContactsUseCase
 import com.pvsb.presentation.R
 import com.pvsb.presentation.contact.contactList.ContactsViewModel
 import io.mockk.coEvery

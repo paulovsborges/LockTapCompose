@@ -1,8 +1,8 @@
 package com.pvsb.locktapcompose.di.domain.contacts
 
 import com.pvsb.domain.repository.ContactsRepository
-import com.pvsb.domain.useCase.deleteContact.DeleteContact
-import com.pvsb.domain.useCase.deleteContact.DeleteContactUseCase
+import com.pvsb.domain.useCase.contact.deleteContact.DeleteContact
+import com.pvsb.domain.useCase.contact.deleteContact.DeleteContactUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -4,8 +4,8 @@ import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.repository.ContactsRepository
-import com.pvsb.domain.useCase.addContact.AddContact
-import com.pvsb.domain.useCase.addContact.AddContactUseCase
+import com.pvsb.domain.useCase.contact.addContact.AddContact
+import com.pvsb.domain.useCase.contact.addContact.AddContactUseCase
 import domain.utils.DummyContactData.dummyContacts
 import io.mockk.coEvery
 import io.mockk.coVerify

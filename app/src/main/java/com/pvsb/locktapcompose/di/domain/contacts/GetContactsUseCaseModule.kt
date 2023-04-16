@@ -1,8 +1,8 @@
 package com.pvsb.locktapcompose.di.domain.contacts
 
 import com.pvsb.domain.repository.ContactsRepository
-import com.pvsb.domain.useCase.getContacts.GetContacts
-import com.pvsb.domain.useCase.getContacts.GetContactsUseCase
+import com.pvsb.domain.useCase.contact.getContacts.GetContacts
+import com.pvsb.domain.useCase.contact.getContacts.GetContactsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
