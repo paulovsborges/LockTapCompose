@@ -2,7 +2,9 @@ package com.pvsb.presentation.passwords.passwordsDetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.DataState
+import com.pvsb.domain.entity.Password
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.password.getPassword.GetPasswordUseCase
 import com.pvsb.presentation.R
@@ -34,7 +36,22 @@ class PasswordDetailsViewModel @Inject constructor(
         }
     }
 
+    fun onFieldsChanged(
+        newData: Password
+    ) {
+        _state.update {
+            it.copy(
+                details = newData,
+                isSaveButtonEnabled = it.toggleButtonEnabled(newData)
+            )
+        }
+    }
+
     private fun setError(error: TypedMessage) {
         _state.update { it.copy(error = error) }
+    }
+
+    fun dismissError() {
+        _state.update { it.copy(error = null) }
     }
 }

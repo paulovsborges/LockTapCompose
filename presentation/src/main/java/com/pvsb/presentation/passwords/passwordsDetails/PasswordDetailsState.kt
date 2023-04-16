@@ -12,5 +12,11 @@ data class PasswordDetailsState(
         false,
         null
     ),
-    val error: TypedMessage? = null
-)
+    val error: TypedMessage? = null,
+    val shouldCloseScreen: Boolean = false,
+    val isSaveButtonEnabled: Boolean = false
+) {
+    fun toggleButtonEnabled(newData: Password): Boolean {
+        return this.details != newData
+    }
+}

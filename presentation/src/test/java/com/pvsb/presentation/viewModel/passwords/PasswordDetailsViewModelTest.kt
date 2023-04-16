@@ -16,6 +16,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -67,5 +68,17 @@ class PasswordDetailsViewModelTest {
         val expectedError = TypedMessage.Reference(R.string.error_there_was_an_unexpected_error)
 
         assertEquals(expectedError, viewModel.state.value.error)
+    }
+
+    @Test
+    fun `enable button to save changes`() {
+
+        viewModel.onFieldsChanged(
+            viewModel.state.value.details.copy(
+                title = "super secret home wifi pass"
+            )
+        )
+
+        assertTrue(viewModel.state.value.isSaveButtonEnabled)
     }
 }
