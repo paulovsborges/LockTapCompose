@@ -421,43 +421,6 @@ private fun ComposeContactImage(
     )
 }
 
-// @Composable
-// fun ComposeSaveButton(
-//    modifier: Modifier = Modifier,
-//    onClick: () -> Unit = {},
-//    isEnabled: Boolean = false
-// ) {
-//
-//    val backgroundColor = if (isEnabled) lightBlue else secondary
-//    val textColor = if (isEnabled) Color.White else gray
-//
-//    Button(
-//        onClick = {
-//            if (isEnabled) {
-//                onClick()
-//            }
-//        },
-//        shape = RoundedCornerShape(corner = CornerSize(40.dp)),
-//        modifier = modifier
-//            .fillMaxWidth()
-//            .height(40.dp),
-//        colors = ButtonDefaults.buttonColors(
-//            backgroundColor = backgroundColor
-//        ),
-//        elevation = null
-//    ) {
-//        Text(
-//            text = stringResource(id = R.string.contact_details_save_contact),
-//            fontFamily = FontFamily(
-//                Font(
-//                    R.font.sf_pro_display_regular, weight = FontWeight.Thin
-//                )
-//            ),
-//            color = textColor
-//        )
-//    }
-// }
-
 @Preview
 @Composable
 private fun ContactDetailsActivity.ComposeContentPreview() {

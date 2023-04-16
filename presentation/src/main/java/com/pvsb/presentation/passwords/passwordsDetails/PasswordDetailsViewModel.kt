@@ -6,6 +6,7 @@ import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.Password
 import com.pvsb.domain.entity.TypedMessage
+import com.pvsb.domain.useCase.password.addPassword.AddPasswordUseCase
 import com.pvsb.domain.useCase.password.getPassword.GetPasswordUseCase
 import com.pvsb.presentation.R
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,11 +18,25 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PasswordDetailsViewModel @Inject constructor(
-    private val getPassword: GetPasswordUseCase
+    private val getPassword: GetPasswordUseCase,
+    private val addPasswordUseCase: AddPasswordUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(PasswordDetailsState())
     val state = _state.asStateFlow()
+
+    fun addPassword(input: AddPasswordUseCase.Input) {
+        viewModelScope.launch {
+            when (addPasswordUseCase(input)) {
+                is DataState.Error -> {
+                    setError(TypedMessage.Reference(R.string.error_there_was_an_unexpected_error))
+                }
+                is DataState.Success -> {
+                    _state.update { it.copy(shouldCloseScreen = true) }
+                }
+            }
+        }
+    }
 
     fun getPasswordDetails(passwordId: String) {
         viewModelScope.launch {
