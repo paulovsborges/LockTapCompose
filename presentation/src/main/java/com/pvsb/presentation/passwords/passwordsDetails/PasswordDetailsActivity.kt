@@ -51,8 +51,6 @@ class PasswordDetailsActivity : ComponentActivity() {
         state: PasswordDetailsState = PasswordDetailsState()
     ) {
 
-        val fields = state.fields
-
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -76,30 +74,7 @@ class PasswordDetailsActivity : ComponentActivity() {
                     Spacer(modifier = Modifier.height(35.dp))
 
                     ComposeFields(
-                        titleText = fields.title,
-                        passwordText = fields.password,
-                        infoText = fields.additionalInfo,
-                        onTitleChanged = {
-                            viewModel.onFieldChanged(
-                                PasswordDetailsViewModel.FieldType.Title(
-                                    it
-                                )
-                            )
-                        },
-                        onPasswordChanged = {
-                            viewModel.onFieldChanged(
-                                PasswordDetailsViewModel.FieldType.Password(
-                                    it
-                                )
-                            )
-                        },
-                        onInfoChanged = {
-                            viewModel.onFieldChanged(
-                                PasswordDetailsViewModel.FieldType.AdditionalInfo(
-                                    it
-                                )
-                            )
-                        },
+                        fields = state.fields
                     )
                 }
             }
@@ -129,32 +104,40 @@ class PasswordDetailsActivity : ComponentActivity() {
     @Composable
     private fun ComposeFields(
         modifier: Modifier = Modifier,
-        titleText: String,
-        passwordText: String,
-        infoText: String,
-        onTitleChanged: (String) -> Unit,
-        onPasswordChanged: (String) -> Unit,
-        onInfoChanged: (String) -> Unit,
+        fields: PasswordDetailsFields = PasswordDetailsFields(),
     ) {
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(25.dp), modifier = modifier
+            verticalArrangement = Arrangement.spacedBy(25.dp),
+            modifier = modifier
         ) {
-            PrimaryTextField(
-                fieldLabel = R.string.new_password_text_field_title_label,
-                text = titleText,
-                onValueChanged = onTitleChanged
-            )
-            PrimaryTextField(
-                fieldLabel = R.string.new_password_text_field_password_label,
-                text = passwordText,
-                onValueChanged = onPasswordChanged
-            )
-            PrimaryTextField(
-                fieldLabel = R.string.new_password_text_field_additional_info_label,
-                text = infoText,
-                onValueChanged = onInfoChanged
-            )
+            PrimaryTextField(fieldLabel = R.string.new_password_text_field_title_label,
+                text = fields.title,
+                onValueChanged = {
+                    viewModel.onFieldChanged(
+                        PasswordDetailsViewModel.FieldType.Title(
+                            it
+                        )
+                    )
+                })
+            PrimaryTextField(fieldLabel = R.string.new_password_text_field_password_label,
+                text = fields.password,
+                onValueChanged = {
+                    viewModel.onFieldChanged(
+                        PasswordDetailsViewModel.FieldType.Password(
+                            it
+                        )
+                    )
+                })
+            PrimaryTextField(fieldLabel = R.string.new_password_text_field_additional_info_label,
+                text = fields.additionalInfo,
+                onValueChanged = {
+                    viewModel.onFieldChanged(
+                        PasswordDetailsViewModel.FieldType.AdditionalInfo(
+                            it
+                        )
+                    )
+                })
         }
     }
 
