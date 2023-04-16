@@ -23,4 +23,8 @@ class PasswordsSqlDelightRepository(
     override suspend fun delete(passwordId: Int) {
         queries.delete(passwordId.toLong())
     }
+
+    override suspend fun getPassword(passwordId: Int): Password? {
+        return queries.getPasswordById(passwordId.toLong()).executeAsOneOrNull()?.toModel()
+    }
 }
