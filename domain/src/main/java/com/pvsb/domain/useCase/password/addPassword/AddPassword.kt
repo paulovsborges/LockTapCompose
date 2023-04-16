@@ -31,4 +31,14 @@ class AddPassword(
             DataState.Error(ExceptionWrapper.Unknown)
         }
     }
+
+    override suspend fun invoke(password: Password): DataState<Unit> {
+        return try {
+            passwordsRepository.add(password)
+            DataState.Success(Unit)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            DataState.Error(ExceptionWrapper.Unknown)
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.pvsb.domain.useCase.password.addPassword
 
 import com.pvsb.domain.entity.DataState
+import com.pvsb.domain.entity.Password
 
 interface AddPasswordUseCase {
 
@@ -11,4 +12,5 @@ interface AddPasswordUseCase {
     )
 
     suspend operator fun invoke(input: Input): DataState<Unit>
+    suspend operator fun invoke(password: Password): DataState<Unit>
 }
