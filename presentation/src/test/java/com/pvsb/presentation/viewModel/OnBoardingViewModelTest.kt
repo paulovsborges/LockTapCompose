@@ -10,8 +10,8 @@ import com.pvsb.domain.useCase.login.LoginUseCase
 import com.pvsb.domain.useCase.registerPassword.RegisterPasswordUseCase
 import com.pvsb.domain.useCase.skipOnBoarding.SkipOnBoardingUseCase
 import com.pvsb.presentation.R
-import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens
 import com.pvsb.presentation.onBoarding.OnBoardingViewModel
+import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -147,7 +147,8 @@ open class OnBoardingViewModelTest {
         }
 
         data class NextUserDestinationParameterizedInput(
-            val userData: User, val expectedNextDestination: OnBoardingScreens
+            val userData: User,
+            val expectedNextDestination: OnBoardingScreens
         )
     }
 }

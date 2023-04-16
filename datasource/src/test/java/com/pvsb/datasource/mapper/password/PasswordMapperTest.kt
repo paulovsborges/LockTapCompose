@@ -70,7 +70,7 @@ class PasswordMapperTest {
     }
 
     @Test
-    fun `should set date string on entity to empty`(){
+    fun `should set date string on entity to empty`() {
 
         val model = Password(
             "1",
@@ -96,7 +96,7 @@ class PasswordMapperTest {
     }
 
     @Test
-    fun `should set date to null on model`(){
+    fun `should set date to null on model`() {
         val entity = PasswordsEntity(
             1L,
             "",

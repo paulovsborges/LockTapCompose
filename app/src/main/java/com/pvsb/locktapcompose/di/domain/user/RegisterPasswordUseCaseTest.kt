@@ -17,7 +17,7 @@ object RegisterPasswordUseCaseTest {
     @ViewModelScoped
     fun provides(
         userRepository: UserRepository
-    ): RegisterPasswordUseCase{
+    ): RegisterPasswordUseCase {
         return RegisterPassword(userRepository)
     }
 }

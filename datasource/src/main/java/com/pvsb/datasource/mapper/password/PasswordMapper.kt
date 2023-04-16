@@ -1,6 +1,5 @@
 package com.pvsb.datasource.mapper.password
 
-import com.pvsb.datasource.mapper.privateContact.PrivateContactMapper
 import com.pvsb.domain.entity.Password
 import locktap.locktapdb.PasswordsEntity
 import java.text.SimpleDateFormat
@@ -61,5 +60,4 @@ object PasswordMapper {
     private fun isFavoriteLong(isFavorite: Boolean): Long {
         return if (isFavorite) 1L else 0L
     }
-
 }

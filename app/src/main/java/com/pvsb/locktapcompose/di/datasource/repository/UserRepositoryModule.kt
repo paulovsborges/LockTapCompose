@@ -17,7 +17,7 @@ object UserRepositoryModule {
     @Singleton
     fun provides(
         localDataManager: LocalDataManager
-    ): UserRepository{
+    ): UserRepository {
         return UserManagerRepository(localDataManager)
     }
 }

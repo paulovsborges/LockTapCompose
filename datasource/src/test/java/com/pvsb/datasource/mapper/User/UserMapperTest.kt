@@ -25,7 +25,6 @@ class UserMapperTest {
         )
 
         assertEquals(expectedResult, actualResult)
-
     }
 
     @Test
@@ -55,7 +54,6 @@ class UserMapperTest {
         val expectedResult = """{"password":"123","hasSeenOnBoardingAlready":true}""".trimIndent()
 
         assertEquals(expectedResult, actualResult)
-
     }
 
     @Test

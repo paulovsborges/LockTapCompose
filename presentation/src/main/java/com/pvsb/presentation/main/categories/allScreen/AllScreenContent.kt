@@ -19,7 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.pvsb.presentation.R
 import com.pvsb.presentation.contact.contactList.PrivateContactsActivity
-import com.pvsb.presentation.main.MainActivity
 import com.pvsb.presentation.main.shared.sessionOptions.ComposeSessionOptionButton
 import com.pvsb.presentation.passwords.passwordsList.PasswordsListActivity
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField

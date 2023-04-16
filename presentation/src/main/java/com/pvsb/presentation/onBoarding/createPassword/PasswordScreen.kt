@@ -74,7 +74,8 @@ fun PasswordScreenContainer(
         navigateToMainScreen(navController.context)
     }
 
-    PasswordScreen(state = state.value,
+    PasswordScreen(
+        state = state.value,
         navController = navController,
         screenType = screenType,
         isTextFieldFocused = isTextFieldFocused,
@@ -104,7 +105,8 @@ fun PasswordScreenContainer(
                     viewModel.login(password)
                 }
             }
-        })
+        }
+    )
 }
 
 @Composable
@@ -187,14 +189,15 @@ private fun ComposeTextField(
         else -> Color.Transparent
     }
 
-    BasicTextField(value = password, onValueChange = {
-        password = it.take(maxChars)
-        if (password.length == maxChars) {
-            onPasswordFilled(password)
-        } else {
-            onErrorChanged(false)
-        }
-    }, decorationBox = {
+    BasicTextField(
+        value = password, onValueChange = {
+            password = it.take(maxChars)
+            if (password.length == maxChars) {
+                onPasswordFilled(password)
+            } else {
+                onErrorChanged(false)
+            }
+        }, decorationBox = {
         Surface(
             modifier = Modifier.fillMaxSize(),
             shape = RoundedCornerShape(40.dp),
@@ -210,29 +213,35 @@ private fun ComposeTextField(
                     30.dp,
                     Alignment.Horizontal { _, space, _ ->
                         space / 2
-                    })
+                    }
+                )
             ) {
                 repeat(maxChars) {
                     ComposePasswordPointer(password.length - 1 >= it, isErrorVisible)
                 }
             }
         }
-    }, modifier = Modifier
-        .width(180.dp)
-        .height(52.dp)
-        .focusable(true)
-        .onFocusChanged {
-            onTextFieldFocusChanged(it.isFocused)
-        }, keyboardOptions = KeyboardOptions(
-        keyboardType = KeyboardType.Number
-    ), keyboardActions = KeyboardActions {
-        defaultKeyboardAction(ImeAction.Previous)
-    })
+    },
+        modifier = Modifier
+            .width(180.dp)
+            .height(52.dp)
+            .focusable(true)
+            .onFocusChanged {
+                onTextFieldFocusChanged(it.isFocused)
+            },
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number
+        ),
+        keyboardActions = KeyboardActions {
+            defaultKeyboardAction(ImeAction.Previous)
+        }
+    )
 }
 
 @Composable
 private fun ComposePasswordPointer(
-    isFilled: Boolean = false, isError: Boolean = false
+    isFilled: Boolean = false,
+    isError: Boolean = false
 ) {
 
     val backgroundColor = when {
@@ -247,7 +256,8 @@ private fun ComposePasswordPointer(
 }
 
 private fun navigateToRepeatPassword(
-    navController: NavController, createdPassword: String
+    navController: NavController,
+    createdPassword: String
 ) {
 
     navController.navigate(

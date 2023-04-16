@@ -71,7 +71,6 @@ class PasswordsListActivity : ComponentActivity() {
                         .padding(horizontal = 20.dp)
                 ) {
 
-
                     Text(
                         text = stringResource(id = R.string.session_option_label_wifi_passwords),
                         style = titleTextStyle

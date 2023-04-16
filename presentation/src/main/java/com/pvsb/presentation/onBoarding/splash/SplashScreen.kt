@@ -4,15 +4,21 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pvsb.presentation.R
-import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens
 import com.pvsb.presentation.onBoarding.OnBoardingViewModel
+import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens
 import com.pvsb.presentation.ui.theme.AppColors.background
 import kotlinx.coroutines.delay
 
@@ -20,12 +26,12 @@ import kotlinx.coroutines.delay
 fun SplashScreen(
     navController: NavController,
     viewModel: OnBoardingViewModel = hiltViewModel()
-    ) {
+) {
 
     var countDown by remember { mutableStateOf(5) }
     val state = viewModel.state.collectAsState()
 
-    LaunchedEffect(key1 = state ){
+    LaunchedEffect(key1 = state) {
         viewModel.resolveNextUsersDestinationFromSplash()
     }
 

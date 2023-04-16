@@ -67,5 +67,4 @@ class RegisterPasswordUseCaseTest {
         coVerify(exactly = 0) { userRepository.save(any()) }
         Assertions.assertEquals(expectedState, state)
     }
-
 }
