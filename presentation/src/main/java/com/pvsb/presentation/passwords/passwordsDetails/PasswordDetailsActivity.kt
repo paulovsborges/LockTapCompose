@@ -16,16 +16,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pvsb.domain.useCase.password.addPassword.AddPasswordUseCase
 import com.pvsb.presentation.R
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.titleTextStyle
@@ -56,9 +51,7 @@ class PasswordDetailsActivity : ComponentActivity() {
         state: PasswordDetailsState = PasswordDetailsState()
     ) {
 
-        var title by remember { mutableStateOf(state.details.title) }
-        var password by remember { mutableStateOf(state.details.password) }
-        var additionalInfo by remember { mutableStateOf(state.details.additionalInfo ?: "") }
+        val fields = state.fields
 
         Box(
             modifier = Modifier
@@ -83,20 +76,29 @@ class PasswordDetailsActivity : ComponentActivity() {
                     Spacer(modifier = Modifier.height(35.dp))
 
                     ComposeFields(
-                        titleText = title,
-                        passwordText = password,
-                        infoText = additionalInfo,
+                        titleText = fields.title,
+                        passwordText = fields.password,
+                        infoText = fields.additionalInfo,
                         onTitleChanged = {
-                            title = it
-                            viewModel.onFieldsChanged(state.details.copy(title = it))
+                            viewModel.onFieldChanged(
+                                PasswordDetailsViewModel.FieldType.Title(
+                                    it
+                                )
+                            )
                         },
                         onPasswordChanged = {
-                            password = it
-                            viewModel.onFieldsChanged(state.details.copy(password = it))
+                            viewModel.onFieldChanged(
+                                PasswordDetailsViewModel.FieldType.Password(
+                                    it
+                                )
+                            )
                         },
                         onInfoChanged = {
-                            additionalInfo = it
-                            viewModel.onFieldsChanged(state.details.copy(additionalInfo = it))
+                            viewModel.onFieldChanged(
+                                PasswordDetailsViewModel.FieldType.AdditionalInfo(
+                                    it
+                                )
+                            )
                         },
                     )
                 }
@@ -109,15 +111,9 @@ class PasswordDetailsActivity : ComponentActivity() {
                         horizontal = 20.dp, vertical = 25.dp
                     ), contentAlignment = Alignment.BottomCenter
             ) {
-                PrimaryButton(
-                    isEnabled = state.isSaveButtonEnabled,
-                    onClick = {
-                        viewModel.addPassword(
-                            AddPasswordUseCase.Input(
-                                title, password, additionalInfo
-                            )
-                        )
-                    })
+                PrimaryButton(isEnabled = state.isSaveButtonEnabled, onClick = {
+                    viewModel.savePassword()
+                })
             }
 
             ComposeErrorCard(
@@ -125,8 +121,7 @@ class PasswordDetailsActivity : ComponentActivity() {
                     .padding(horizontal = 10.dp)
                     .clickable {
                         viewModel.dismissError()
-                    },
-                isErrorVisible = state.error != null
+                    }, isErrorVisible = state.error != null
             )
         }
     }

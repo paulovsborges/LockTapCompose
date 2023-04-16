@@ -4,8 +4,10 @@ import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.Password
 import com.pvsb.domain.entity.TypedMessage
+import com.pvsb.domain.useCase.password.addPassword.AddPasswordUseCase
 import com.pvsb.domain.useCase.password.getPassword.GetPasswordUseCase
 import com.pvsb.presentation.R
+import com.pvsb.presentation.StringExtTest
 import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -19,19 +21,23 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 
 @ExperimentalCoroutinesApi
-class PasswordDetailsViewModelTest {
+open class PasswordDetailsViewModelTest {
 
-    private lateinit var viewModel: PasswordDetailsViewModel
+    protected lateinit var viewModel: PasswordDetailsViewModel
     private lateinit var getPassword: GetPasswordUseCase
+    private lateinit var addPasswordUseCase: AddPasswordUseCase
     private val dispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
         getPassword = mockk()
-        viewModel = PasswordDetailsViewModel(getPassword)
+        addPasswordUseCase = mockk()
+        viewModel = PasswordDetailsViewModel(getPassword, addPasswordUseCase)
     }
 
     @After
@@ -43,19 +49,14 @@ class PasswordDetailsViewModelTest {
     fun `set password details`() {
 
         val password = Password(
-            "3",
-            "home wifi",
-            "123456",
-            null,
-            false,
-            "do not share it"
+            "3", "home wifi", "123456", null, false, "do not share it"
         )
 
         coEvery { getPassword("3") } returns DataState.Success(password)
 
         viewModel.getPasswordDetails("3")
 
-        assertEquals(password, viewModel.state.value.details)
+        assertEquals(password, viewModel.state.value.passwordDetails.details)
     }
 
     @Test
@@ -70,15 +71,63 @@ class PasswordDetailsViewModelTest {
         assertEquals(expectedError, viewModel.state.value.error)
     }
 
-    @Test
-    fun `enable button to save changes`() {
+    @RunWith(Parameterized::class)
+    class FieldChangesParameterizedTest(
+        private val data: FieldChangedParameterizedData
+    ) : PasswordDetailsViewModelTest() {
 
-        viewModel.onFieldsChanged(
-            viewModel.state.value.details.copy(
-                title = "super secret home wifi pass"
+        companion object {
+            @JvmStatic
+            @Parameterized.Parameters
+            fun data() = listOf(
+                arrayOf(
+                    FieldChangedParameterizedData(
+                        PasswordDetailsViewModel.FieldType.Title(
+                            "123"
+                        ),
+                        true
+                    )
+                ),
+                arrayOf(
+                    FieldChangedParameterizedData(
+                        PasswordDetailsViewModel.FieldType.Password(
+                            "123"
+                        ),
+                        true
+                    )
+                ),
+                arrayOf(
+                    FieldChangedParameterizedData(
+                        PasswordDetailsViewModel.FieldType.AdditionalInfo(
+                            "123"
+                        ),
+                        true
+                    )
+                ),
+                arrayOf(
+                    FieldChangedParameterizedData(
+                        PasswordDetailsViewModel.FieldType.AdditionalInfo(
+                            "",
+                        ),
+                        false
+                    )
+                ),
             )
-        )
+        }
 
-        assertTrue(viewModel.state.value.isSaveButtonEnabled)
+        @Test
+        fun `enable save button on field changed`() {
+
+            print("testing with ${data.field}")
+
+            viewModel.onFieldChanged(data.field)
+
+            assertEquals(data.expectedResult, viewModel.state.value.isSaveButtonEnabled)
+        }
+
+        data class FieldChangedParameterizedData(
+            val field: PasswordDetailsViewModel.FieldType,
+            val expectedResult: Boolean
+        )
     }
 }

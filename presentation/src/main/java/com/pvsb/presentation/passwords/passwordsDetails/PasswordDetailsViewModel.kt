@@ -2,9 +2,7 @@ package com.pvsb.presentation.passwords.passwordsDetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.DataState
-import com.pvsb.domain.entity.Password
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.password.addPassword.AddPasswordUseCase
 import com.pvsb.domain.useCase.password.getPassword.GetPasswordUseCase
@@ -22,11 +20,58 @@ class PasswordDetailsViewModel @Inject constructor(
     private val addPasswordUseCase: AddPasswordUseCase
 ) : ViewModel() {
 
+    sealed class FieldType() {
+        data class Title(val text: String) : FieldType()
+        data class Password(val text: String) : FieldType()
+        data class AdditionalInfo(val text: String) : FieldType()
+    }
+
     private val _state = MutableStateFlow(PasswordDetailsState())
     val state = _state.asStateFlow()
 
-    fun addPassword(input: AddPasswordUseCase.Input) {
+    fun savePassword() {
         viewModelScope.launch {
+            if (_state.value.passwordDetails.details.id.isEmpty()) {
+                addPassword()
+            } else {
+                updatePassword()
+            }
+        }
+    }
+
+    private fun addPassword() {
+        viewModelScope.launch {
+
+            val fields = _state.value.fields
+
+            val input = AddPasswordUseCase.Input(
+                fields.title,
+                fields.password,
+                fields.additionalInfo
+            )
+
+            when (addPasswordUseCase(input)) {
+                is DataState.Error -> {
+                    setError(TypedMessage.Reference(R.string.error_there_was_an_unexpected_error))
+                }
+                is DataState.Success -> {
+                    _state.update { it.copy(shouldCloseScreen = true) }
+                }
+            }
+        }
+    }
+
+    private fun updatePassword() {
+        viewModelScope.launch {
+
+            val fields = _state.value.fields
+
+            val input = _state.value.passwordDetails.details.copy(
+                title = fields.title,
+                password = fields.password,
+                additionalInfo = fields.additionalInfo
+            )
+
             when (addPasswordUseCase(input)) {
                 is DataState.Error -> {
                     setError(TypedMessage.Reference(R.string.error_there_was_an_unexpected_error))
@@ -45,21 +90,34 @@ class PasswordDetailsViewModel @Inject constructor(
                     setError(TypedMessage.Reference(R.string.error_there_was_an_unexpected_error))
                 }
                 is DataState.Success -> {
-                    _state.update { it.copy(details = state.data) }
+                    _state.update {
+                        it.copy(passwordDetails = it.passwordDetails.copy(details = state.data))
+                    }
                 }
             }
         }
     }
 
-    fun onFieldsChanged(
-        newData: Password
-    ) {
-        _state.update {
-            it.copy(
-                details = newData,
-                isSaveButtonEnabled = it.toggleButtonEnabled(newData)
-            )
+    fun onFieldChanged(field: FieldType) {
+        when (field) {
+            is FieldType.AdditionalInfo -> {
+                _state.update {
+                    it.copy(fields = it.fields.copy(additionalInfo = field.text))
+                }
+            }
+            is FieldType.Password -> {
+                _state.update {
+                    it.copy(fields = it.fields.copy(password = field.text))
+                }
+            }
+            is FieldType.Title -> {
+                _state.update {
+                    it.copy(fields = it.fields.copy(title = field.text))
+                }
+            }
         }
+
+        _state.update { it.copy(isSaveButtonEnabled = it.toggleButtonEnabled()) }
     }
 
     private fun setError(error: TypedMessage) {
