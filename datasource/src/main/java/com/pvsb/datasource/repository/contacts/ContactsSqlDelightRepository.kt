@@ -1,4 +1,4 @@
-package com.pvsb.datasource.repository
+package com.pvsb.datasource.repository.contacts
 
 import com.pvsb.datasource.mapper.privateContact.PrivateContactMapper.toEntity
 import com.pvsb.datasource.mapper.privateContact.PrivateContactMapper.toModel
@@ -7,7 +7,7 @@ import com.pvsb.domain.repository.ContactsRepository
 import com.pvsb.locktapcompose.LockTapDataBase
 
 class ContactsSqlDelightRepository(
-    private val db: LockTapDataBase
+    db: LockTapDataBase
 ) : ContactsRepository {
 
     private val queries = db.privateContactEntityQueries

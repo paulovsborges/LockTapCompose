@@ -1,4 +1,4 @@
-package com.pvsb.datasource.repository
+package com.pvsb.datasource.repository.user
 
 import com.pvsb.datasource.local.dataStore.LocalDataManager
 import com.pvsb.datasource.mapper.User.UserMapper.toDto
