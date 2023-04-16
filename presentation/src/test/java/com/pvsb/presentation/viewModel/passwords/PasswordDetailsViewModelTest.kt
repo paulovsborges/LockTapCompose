@@ -10,7 +10,9 @@ import com.pvsb.presentation.R
 import com.pvsb.presentation.StringExtTest
 import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsViewModel
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.spyk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -36,7 +38,7 @@ open class PasswordDetailsViewModelTest {
     fun setup() {
         Dispatchers.setMain(dispatcher)
         getPassword = mockk()
-        addPasswordUseCase = mockk()
+        addPasswordUseCase = spyk()
         viewModel = PasswordDetailsViewModel(getPassword, addPasswordUseCase)
     }
 
@@ -69,6 +71,30 @@ open class PasswordDetailsViewModelTest {
         val expectedError = TypedMessage.Reference(R.string.error_there_was_an_unexpected_error)
 
         assertEquals(expectedError, viewModel.state.value.error)
+    }
+
+    @Test
+    fun `add contact`() {
+
+        viewModel.savePassword()
+
+        coVerify { addPasswordUseCase(any<AddPasswordUseCase.Input>()) }
+    }
+
+    @Test
+    fun `update contact`() {
+
+        val password = Password(
+            "3", "home wifi", "123456", null, false, "do not share it"
+        )
+
+        coEvery { getPassword("3") } returns DataState.Success(password)
+
+        viewModel.getPasswordDetails("3")
+
+        viewModel.savePassword()
+
+        coVerify { addPasswordUseCase(any<Password>()) }
     }
 
     @RunWith(Parameterized::class)
