@@ -1,11 +1,11 @@
-package domain.useCase.registerPassword
+package domain.useCase.onBoarding.registerPassword
 
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.User
 import com.pvsb.domain.repository.UserRepository
-import com.pvsb.domain.useCase.password.registerPassword.RegisterPassword
-import com.pvsb.domain.useCase.password.registerPassword.RegisterPasswordUseCase
+import com.pvsb.domain.useCase.onBoarding.registerPassword.RegisterPassword
+import com.pvsb.domain.useCase.onBoarding.registerPassword.RegisterPasswordUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

@@ -1,8 +1,8 @@
 package com.pvsb.locktapcompose.di.domain.user
 
 import com.pvsb.domain.repository.UserRepository
-import com.pvsb.domain.useCase.skipOnBoarding.SkipOnBoarding
-import com.pvsb.domain.useCase.skipOnBoarding.SkipOnBoardingUseCase
+import com.pvsb.domain.useCase.onBoarding.skipOnBoarding.SkipOnBoarding
+import com.pvsb.domain.useCase.onBoarding.skipOnBoarding.SkipOnBoardingUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

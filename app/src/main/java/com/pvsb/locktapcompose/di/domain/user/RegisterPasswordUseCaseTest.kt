@@ -1,8 +1,8 @@
 package com.pvsb.locktapcompose.di.domain.user
 
 import com.pvsb.domain.repository.UserRepository
-import com.pvsb.domain.useCase.password.registerPassword.RegisterPassword
-import com.pvsb.domain.useCase.password.registerPassword.RegisterPasswordUseCase
+import com.pvsb.domain.useCase.onBoarding.registerPassword.RegisterPassword
+import com.pvsb.domain.useCase.onBoarding.registerPassword.RegisterPasswordUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

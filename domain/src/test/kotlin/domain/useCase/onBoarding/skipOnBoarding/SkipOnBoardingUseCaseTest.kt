@@ -1,9 +1,9 @@
-package domain.useCase.skipOnBoarding
+package domain.useCase.onBoarding.skipOnBoarding
 
 import com.pvsb.domain.entity.User
 import com.pvsb.domain.repository.UserRepository
-import com.pvsb.domain.useCase.skipOnBoarding.SkipOnBoarding
-import com.pvsb.domain.useCase.skipOnBoarding.SkipOnBoardingUseCase
+import com.pvsb.domain.useCase.onBoarding.skipOnBoarding.SkipOnBoarding
+import com.pvsb.domain.useCase.onBoarding.skipOnBoarding.SkipOnBoardingUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

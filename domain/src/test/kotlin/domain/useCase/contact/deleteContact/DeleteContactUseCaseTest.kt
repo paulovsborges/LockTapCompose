@@ -1,4 +1,4 @@
-package domain.useCase.deleteContact
+package domain.useCase.contact.deleteContact
 
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper

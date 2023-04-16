@@ -7,8 +7,8 @@ import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.getUserData.GetUserDataUseCase
 import com.pvsb.domain.useCase.login.Login
 import com.pvsb.domain.useCase.login.LoginUseCase
-import com.pvsb.domain.useCase.password.registerPassword.RegisterPasswordUseCase
-import com.pvsb.domain.useCase.skipOnBoarding.SkipOnBoardingUseCase
+import com.pvsb.domain.useCase.onBoarding.registerPassword.RegisterPasswordUseCase
+import com.pvsb.domain.useCase.onBoarding.skipOnBoarding.SkipOnBoardingUseCase
 import com.pvsb.presentation.R
 import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreenState
 import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens

@@ -1,4 +1,4 @@
-package com.pvsb.domain.useCase.password.registerPassword
+package com.pvsb.domain.useCase.onBoarding.registerPassword
 
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper

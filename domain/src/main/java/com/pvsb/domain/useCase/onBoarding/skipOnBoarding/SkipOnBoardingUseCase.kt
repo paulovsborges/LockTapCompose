@@ -1,4 +1,4 @@
-package com.pvsb.domain.useCase.skipOnBoarding
+package com.pvsb.domain.useCase.onBoarding.skipOnBoarding
 
 interface SkipOnBoardingUseCase {
 

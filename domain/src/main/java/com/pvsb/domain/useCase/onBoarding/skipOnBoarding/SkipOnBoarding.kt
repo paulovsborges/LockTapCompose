@@ -1,4 +1,4 @@
-package com.pvsb.domain.useCase.skipOnBoarding
+package com.pvsb.domain.useCase.onBoarding.skipOnBoarding
 
 import com.pvsb.domain.entity.User
 import com.pvsb.domain.repository.UserRepository
