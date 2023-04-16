@@ -68,4 +68,6 @@
     <string name="new_password_text_field_title_label">Title</string>
     <string name="new_password_text_field_password_label">Password</string>
     <string name="new_password_text_field_additional_info_label">Additional info</string>
+
+    <string name="copy_password">Copy password</string>
 </resources>

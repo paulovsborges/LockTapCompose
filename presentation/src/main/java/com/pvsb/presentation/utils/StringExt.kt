@@ -1,5 +1,8 @@
 package com.pvsb.presentation.utils
 
+import java.text.SimpleDateFormat
+import java.util.Date
+
 fun capitalizeFullName(fullName: String): String {
 
     if (fullName.isEmpty()) return fullName
@@ -37,4 +40,8 @@ fun getFirstLettersFromFullName(fullName: String): String {
     }
 
     return letters.uppercase().take(maxLettersSizeCount)
+}
+
+fun Date.formatToStringDate(): String {
+    return SimpleDateFormat.getInstance().format(this)
 }
