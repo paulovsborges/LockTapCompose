@@ -3,6 +3,7 @@ package com.pvsb.presentation.passwords.passwordsList
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,6 +29,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -56,6 +58,8 @@ import java.util.Date
 @AndroidEntryPoint
 class PasswordsListActivity : ComponentActivity() {
 
+    private val viewModel: PasswordsListViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -66,11 +70,10 @@ class PasswordsListActivity : ComponentActivity() {
     @Composable
     private fun ComposeContent() {
 
-        val passwords = List(20) {
-            Password(
-                "$it", "Title $it", password = it.toString(), Date(), it % 2 == 0, null
-            )
-        }
+        val state = viewModel.state.collectAsState()
+        viewModel.getPasswords()
+
+        val passwords = state.value.passwords
 
         Box(
             modifier = Modifier
@@ -268,7 +271,7 @@ class PasswordsListActivity : ComponentActivity() {
                     ComposeFavoriteButton(
                         isFavorite = password.isFavorite
                     ) {
-
+                        viewModel.toggleFavorite(password.id)
                     }
                 }
             }
