@@ -35,7 +35,7 @@ class GetPasswordsUseCaseTest {
     @Test
     fun `should return a list of passwords`() = runTest {
 
-        val stream = flow<List<Password>> { dummyPasswords }
+        val stream = flow { emit(dummyPasswords) }
 
         coEvery { passwordsRepository.getAllAsFlow() } returns stream
 

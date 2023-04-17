@@ -4,13 +4,12 @@ import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.Password
 import com.pvsb.domain.useCase.password.getPasswords.GetPasswordsUseCase
-import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsViewModel
 import com.pvsb.presentation.passwords.passwordsList.PasswordsListViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
-import io.mockk.spyk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
@@ -50,7 +49,7 @@ class PasswordsListViewModelTest {
             )
         }
 
-        coEvery { getPasswordsUseCase() } returns DataState.Success(dummyPasswords)
+        coEvery { getPasswordsUseCase() } returns DataState.Success(flow { emit(dummyPasswords) })
 
         viewModel.getPasswords()
 
@@ -110,7 +109,7 @@ class PasswordsListViewModelTest {
             )
         )
 
-        coEvery { getPasswordsUseCase() } returns DataState.Success(passwords)
+        coEvery { getPasswordsUseCase() } returns DataState.Success(flow { emit(passwords) })
 
         viewModel.getPasswords()
 
