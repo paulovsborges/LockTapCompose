@@ -7,6 +7,7 @@ import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.Password
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.password.getPasswords.GetPasswordsUseCase
+import com.pvsb.domain.useCase.password.togglePasswordFavorite.TogglePasswordFavoriteUseCase
 import com.pvsb.presentation.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PasswordsListViewModel @Inject constructor(
-    private val getPasswordsUseCase: GetPasswordsUseCase
+    private val getPasswordsUseCase: GetPasswordsUseCase,
+    private val togglePasswordFavoriteUseCase: TogglePasswordFavoriteUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(PasswordsListState())
@@ -42,25 +44,9 @@ class PasswordsListViewModel @Inject constructor(
     fun toggleFavorite(
         passwordId: String
     ) {
-        val currentList = state.value.passwords
-
-        val mutableListCopy = mutableListOf<Password>()
-        mutableListCopy.addAll(currentList)
-
-        val indexOfPassword = mutableListCopy.indexOfFirst {
-            it.id == passwordId
+        viewModelScope.launch {
+            togglePasswordFavoriteUseCase(passwordId)
         }
-
-        if (indexOfPassword == -1) return
-
-        val password = mutableListCopy[indexOfPassword]
-
-        val updatedPassword = password.copy(isFavorite = !password.isFavorite)
-
-        mutableListCopy.removeAt(indexOfPassword)
-        mutableListCopy.add(indexOfPassword, updatedPassword)
-
-        _state.update { it.copy(passwords = mutableListCopy) }
     }
 
     private fun handleError(error: ExceptionWrapper) {

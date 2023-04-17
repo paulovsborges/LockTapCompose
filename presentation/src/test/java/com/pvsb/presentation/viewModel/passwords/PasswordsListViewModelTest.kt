@@ -4,9 +4,12 @@ import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.Password
 import com.pvsb.domain.useCase.password.getPasswords.GetPasswordsUseCase
+import com.pvsb.domain.useCase.password.togglePasswordFavorite.TogglePasswordFavoriteUseCase
 import com.pvsb.presentation.passwords.passwordsList.PasswordsListViewModel
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.spyk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -26,13 +29,15 @@ class PasswordsListViewModelTest {
 
     private lateinit var viewModel: PasswordsListViewModel
     private lateinit var getPasswordsUseCase: GetPasswordsUseCase
+    private lateinit var togglePasswordFavoriteUseCase: TogglePasswordFavoriteUseCase
     private val dispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
         getPasswordsUseCase = mockk()
-        viewModel = PasswordsListViewModel(getPasswordsUseCase)
+        togglePasswordFavoriteUseCase = spyk()
+        viewModel = PasswordsListViewModel(getPasswordsUseCase, togglePasswordFavoriteUseCase)
     }
 
     @After
@@ -80,68 +85,10 @@ class PasswordsListViewModelTest {
     }
 
     @Test
-    fun `toggle favorite of a single password`() {
+    fun `toggle favorite of password`() {
 
-        val passwords = listOf(
-            Password(
-                "1",
-                "",
-                "",
-                null,
-                false,
-                null
-            ),
-            Password(
-                "2",
-                "",
-                "",
-                null,
-                false,
-                null
-            ),
-            Password(
-                "3",
-                "",
-                "",
-                null,
-                false,
-                null
-            )
-        )
+        viewModel.toggleFavorite("1")
 
-        coEvery { getPasswordsUseCase() } returns DataState.Success(flow { emit(passwords) })
-
-        viewModel.getPasswords()
-
-        viewModel.toggleFavorite("3")
-
-        val expectedPasswords = listOf(
-            Password(
-                "1",
-                "",
-                "",
-                null,
-                false,
-                null
-            ),
-            Password(
-                "2",
-                "",
-                "",
-                null,
-                false,
-                null
-            ),
-            Password(
-                "3",
-                "",
-                "",
-                null,
-                true,
-                null
-            )
-        )
-
-        assertEquals(expectedPasswords, viewModel.state.value.passwords)
+        coVerify { togglePasswordFavoriteUseCase(any()) }
     }
 }
