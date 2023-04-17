@@ -11,6 +11,7 @@ import com.pvsb.presentation.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,7 +31,9 @@ class PasswordsListViewModel @Inject constructor(
                     handleError(state.error)
                 }
                 is DataState.Success -> {
-                    _state.update { it.copy(passwords = state.data) }
+                    state.data.collect { passwords ->
+                        _state.update { it.copy(passwords = passwords) }
+                    }
                 }
             }
         }

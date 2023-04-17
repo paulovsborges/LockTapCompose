@@ -13,6 +13,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -34,11 +35,13 @@ class GetPasswordsUseCaseTest {
     @Test
     fun `should return a list of passwords`() = runTest {
 
-        coEvery { passwordsRepository.getAll() } returns dummyPasswords
+        val stream = flow<List<Password>> { dummyPasswords }
+
+        coEvery { passwordsRepository.getAllAsFlow() } returns stream
 
         val state = useCase()
 
-        val expectedResult = DataState.Success(dummyPasswords)
+        val expectedResult = DataState.Success(stream)
 
         assertEquals(expectedResult, state)
     }
