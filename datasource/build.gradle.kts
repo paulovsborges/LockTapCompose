@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -46,6 +44,7 @@ dependencies {
     implementation(Hilt.android)
     kapt(Hilt.compiler)
     implementation(SqlDelight.driver)
+    implementation(SqlDelight.coroutines)
     implementation(DataStore.core)
     implementation(Kotlin.serialization)
     implementation(AndroidX.core)
