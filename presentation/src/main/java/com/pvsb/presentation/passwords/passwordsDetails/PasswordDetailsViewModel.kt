@@ -91,7 +91,21 @@ class PasswordDetailsViewModel @Inject constructor(
                 }
                 is DataState.Success -> {
                     _state.update {
-                        it.copy(passwordDetails = it.passwordDetails.copy(details = state.data))
+
+                        val details = state.data
+
+                        val fields = it.fields.copy(
+                            title = details.title,
+                            password = details.password,
+                            additionalInfo = details.additionalInfo ?: ""
+                        )
+
+                        it.copy(
+                            passwordDetails = it.passwordDetails.copy(
+                                details = details
+                            ),
+                            fields = fields
+                        )
                     }
                 }
             }

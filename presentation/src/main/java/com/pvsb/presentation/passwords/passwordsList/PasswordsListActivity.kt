@@ -1,5 +1,6 @@
 package com.pvsb.presentation.passwords.passwordsList
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -44,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pvsb.domain.entity.Password
 import com.pvsb.presentation.R
+import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsActivity
 import com.pvsb.presentation.ui.messageTextStyle
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.titleTextStyle
@@ -119,7 +121,9 @@ class PasswordsListActivity : ComponentActivity() {
                     .padding(25.dp),
                 contentAlignment = Alignment.BottomEnd
             ) {
-                FloatingAddButton {}
+                FloatingAddButton {
+                    navigateToDetails()
+                }
             }
         }
     }
@@ -183,9 +187,10 @@ class PasswordsListActivity : ComponentActivity() {
         Card(
             modifier = modifier
                 .fillMaxWidth()
-                .wrapContentHeight(unbounded = true),
-            shape = RoundedCornerShape(8.dp),
-            backgroundColor = AppColors.secondary
+                .wrapContentHeight(unbounded = true)
+                .clickable {
+                    navigateToDetails(password.id)
+                }, shape = RoundedCornerShape(8.dp), backgroundColor = AppColors.secondary
         ) {
             Box {
 
@@ -310,6 +315,19 @@ class PasswordsListActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun navigateToDetails(
+        passwordId: String? = null
+    ) {
+
+        val intent = Intent(this, PasswordDetailsActivity::class.java)
+
+        passwordId?.let {
+            intent.putExtra(PasswordDetailsActivity.PASSWORD_ID_KEY, passwordId)
+        }
+
+        startActivity(intent)
     }
 
     @Preview(showBackground = true)

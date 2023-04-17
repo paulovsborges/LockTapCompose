@@ -38,6 +38,11 @@ class PasswordDetailsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+
+            intent.getStringExtra(PASSWORD_ID_KEY)?.let { passwordId ->
+                viewModel.getPasswordDetails(passwordId)
+            }
+
             val state = viewModel.state.collectAsState()
 
             if (state.value.shouldCloseScreen) finish()
@@ -145,5 +150,9 @@ class PasswordDetailsActivity : ComponentActivity() {
     @Composable
     private fun ComposeContentPreview() {
         ComposeContent()
+    }
+
+    companion object {
+        const val PASSWORD_ID_KEY = "PASSWORD_ID_KEY"
     }
 }
