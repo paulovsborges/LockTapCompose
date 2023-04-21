@@ -25,35 +25,6 @@ allprojects {
     apply plugin: 'org.jlleitschuh.gradle.ktlint'
 }
 
-test {
-    // Discover and execute JUnit based tests
-    useJUnit()
-
-    // Discover and execute JUnit Platform-based tests
-    useJUnitPlatform()
-
-    // show standard out and standard error of the test JVM(s) on the console
-    testLogging.showStandardStreams = true
-
-    // calculate and set half of available processors as parallel fork
-    maxParallelForks(Runtime.runtime.availableProcessors().intdiv(2) ?: 1)
-
-    // disable reports
-    reports.html.required = false
-
-    // set heap size for the test JVM(s)
-    minHeapSize = "128m"
-    maxHeapSize = "512m"
-
-    // set JVM arguments for the test JVM(s)
-    jvmArgs '-XX:MaxPermSize=256m'
-
-    // Fail the 'test' task on the first test failure
-    failFast = true
-}
-
-
-
 task runAllTests(type: org.gradle.api.tasks.testing.Test, group: 'Verification') {
     group = 'Verification'
     description = 'Run all tests'

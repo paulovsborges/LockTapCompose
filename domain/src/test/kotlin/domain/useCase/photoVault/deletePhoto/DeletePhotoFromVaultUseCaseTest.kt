@@ -22,7 +22,6 @@ class DeletePhotoFromVaultUseCaseTest {
     fun setup() {
         repository = mockk()
         useCase = DeletePhotoFromVault(repository)
-
     }
 
     @Test
