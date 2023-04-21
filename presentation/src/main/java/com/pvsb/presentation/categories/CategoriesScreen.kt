@@ -1,4 +1,4 @@
-package com.pvsb.presentation.main.categories
+package com.pvsb.presentation.categories
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -11,16 +11,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pvsb.presentation.main.MainScreens
-import com.pvsb.presentation.main.categories.allScreen.AllScreenContent
-import com.pvsb.presentation.main.categories.favoriteScreen.FavoriteScreenContent
+import com.pvsb.presentation.mainBottomNav.MainScreens
+import com.pvsb.presentation.categories.allScreen.AllScreenContent
+import com.pvsb.presentation.categories.favoriteScreen.FavoriteScreenContent
 import com.pvsb.presentation.ui.theme.AppColors.background
 import com.pvsb.presentation.ui.titleTextStyle
 import com.pvsb.presentation.utils.components.viewPager.ComposePrimaryViewPager

@@ -1,4 +1,4 @@
-package com.pvsb.presentation.main.categories.allScreen
+package com.pvsb.presentation.categories.allScreen
 
 enum class SessionOptionsButton(val id: Int) {
     PRIVATE_CONTACTS(0),

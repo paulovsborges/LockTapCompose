@@ -1,4 +1,4 @@
-package com.pvsb.presentation.main.settings
+package com.pvsb.presentation.passwords
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import com.pvsb.presentation.ui.theme.AppColors.background
 
 @Composable
-fun SettingsScreen() {
+fun PasswordsScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -18,6 +18,6 @@ fun SettingsScreen() {
         contentAlignment = Alignment.Center
     ) {
 
-        Text(text = "Settings Screen")
+        Text(text = "Passwords Screen")
     }
 }

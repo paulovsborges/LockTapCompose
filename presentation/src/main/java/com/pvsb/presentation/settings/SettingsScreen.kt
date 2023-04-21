@@ -1,4 +1,4 @@
-package com.pvsb.presentation.main.memos
+package com.pvsb.presentation.settings
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,13 +10,14 @@ import androidx.compose.ui.Modifier
 import com.pvsb.presentation.ui.theme.AppColors.background
 
 @Composable
-fun MemosScreen() {
+fun SettingsScreen() {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(background),
         contentAlignment = Alignment.Center
     ) {
 
-        Text(text = "Memos Screen")
+        Text(text = "Settings Screen")
     }
 }

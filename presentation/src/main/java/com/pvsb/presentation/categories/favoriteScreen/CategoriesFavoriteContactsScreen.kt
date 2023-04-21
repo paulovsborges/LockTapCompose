@@ -1,4 +1,4 @@
-package com.pvsb.presentation.main.categories.favoriteScreen
+package com.pvsb.presentation.categories.favoriteScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

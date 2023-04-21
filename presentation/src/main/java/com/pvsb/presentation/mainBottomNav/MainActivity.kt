@@ -1,4 +1,4 @@
-package com.pvsb.presentation.main
+package com.pvsb.presentation.mainBottomNav
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

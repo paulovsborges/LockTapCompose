@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package com.pvsb.presentation.main
+package com.pvsb.presentation.mainBottomNav
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,10 +27,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.pvsb.presentation.R
-import com.pvsb.presentation.main.categories.CategoriesScreen
-import com.pvsb.presentation.main.memos.MemosScreen
-import com.pvsb.presentation.main.passwords.PasswordsScreen
-import com.pvsb.presentation.main.settings.SettingsScreen
+import com.pvsb.presentation.categories.CategoriesScreen
+import com.pvsb.presentation.memos.MemosScreen
+import com.pvsb.presentation.passwords.PasswordsScreen
+import com.pvsb.presentation.settings.SettingsScreen
 import com.pvsb.presentation.ui.theme.AppColors.secondary
 
 @Composable

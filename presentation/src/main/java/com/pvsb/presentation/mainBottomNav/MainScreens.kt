@@ -1,4 +1,4 @@
-package com.pvsb.presentation.main
+package com.pvsb.presentation.mainBottomNav
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

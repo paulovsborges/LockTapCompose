@@ -1,4 +1,4 @@
-package com.pvsb.presentation.main.passwords
+package com.pvsb.presentation.memos
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,14 +10,13 @@ import androidx.compose.ui.Modifier
 import com.pvsb.presentation.ui.theme.AppColors.background
 
 @Composable
-fun PasswordsScreen() {
+fun MemosScreen() {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
             .background(background),
         contentAlignment = Alignment.Center
     ) {
 
-        Text(text = "Passwords Screen")
+        Text(text = "Memos Screen")
     }
 }

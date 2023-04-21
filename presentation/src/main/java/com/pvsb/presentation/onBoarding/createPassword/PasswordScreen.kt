@@ -45,7 +45,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.presentation.R
-import com.pvsb.presentation.main.MainActivity
+import com.pvsb.presentation.mainBottomNav.MainActivity
 import com.pvsb.presentation.onBoarding.OnBoardingViewModel
 import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreenState
 import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens
