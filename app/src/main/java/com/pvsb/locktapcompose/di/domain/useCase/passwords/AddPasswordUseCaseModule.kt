@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.di.domain.passwords
+package com.pvsb.locktapcompose.di.domain.useCase.passwords
 
 import com.pvsb.domain.repository.PasswordsRepository
 import com.pvsb.domain.useCase.password.addPassword.AddPassword

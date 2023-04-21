@@ -1,8 +1,8 @@
-package com.pvsb.locktapcompose.di.domain.user
+package com.pvsb.locktapcompose.di.domain.useCase.user
 
 import com.pvsb.domain.repository.UserRepository
-import com.pvsb.domain.useCase.onBoarding.registerPassword.RegisterPassword
-import com.pvsb.domain.useCase.onBoarding.registerPassword.RegisterPasswordUseCase
+import com.pvsb.domain.useCase.getUserData.GetUserData
+import com.pvsb.domain.useCase.getUserData.GetUserDataUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,13 +11,13 @@ import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-object RegisterPasswordUseCaseTest {
+object GetUserDataUseCaseModule {
 
     @Provides
     @ViewModelScoped
     fun provides(
         userRepository: UserRepository
-    ): RegisterPasswordUseCase {
-        return RegisterPassword(userRepository)
+    ): GetUserDataUseCase {
+        return GetUserData(userRepository)
     }
 }

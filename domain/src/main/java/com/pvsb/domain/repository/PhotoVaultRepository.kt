@@ -7,6 +7,5 @@ interface PhotoVaultRepository {
     suspend fun getPhotoById(photoId: Long): Photo?
     suspend fun getAllPhotos(): List<Photo>
     suspend fun addOrReplacePhoto(photo: Photo)
-    suspend fun togglePhotoFavorite(photoId: Long)
     suspend fun deletePhoto(photoId: Long)
 }

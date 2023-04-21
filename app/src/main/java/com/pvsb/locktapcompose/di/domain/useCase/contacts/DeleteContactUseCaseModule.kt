@@ -1,4 +1,4 @@
-package com.pvsb.locktapcompose.di.domain.contacts
+package com.pvsb.locktapcompose.di.domain.useCase.contacts
 
 import com.pvsb.domain.repository.ContactsRepository
 import com.pvsb.domain.useCase.contact.deleteContact.DeleteContact

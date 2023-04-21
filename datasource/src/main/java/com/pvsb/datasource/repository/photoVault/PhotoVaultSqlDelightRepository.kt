@@ -1,33 +1,30 @@
 package com.pvsb.datasource.repository.photoVault
 
+import com.pvsb.datasource.mapper.photoVault.PhotoMapper.toEntity
+import com.pvsb.datasource.mapper.photoVault.PhotoMapper.toModel
 import com.pvsb.domain.entity.Photo
 import com.pvsb.domain.repository.PhotoVaultRepository
 import com.pvsb.locktapcompose.LockTapDataBase
 
 class PhotoVaultSqlDelightRepository(
     db: LockTapDataBase
-): PhotoVaultRepository {
+) : PhotoVaultRepository {
 
     private val queries = db.photoVaultQueries
 
     override suspend fun getPhotoById(photoId: Long): Photo? {
-        return null
-//        return queries.getById(photoId).executeAsOneOrNull()
+        return queries.getById(photoId).executeAsOneOrNull()?.toModel()
     }
 
     override suspend fun getAllPhotos(): List<Photo> {
-        TODO("Not yet implemented")
+        return queries.getAll().executeAsList().map { it.toModel() }
     }
 
     override suspend fun addOrReplacePhoto(photo: Photo) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun togglePhotoFavorite(photoId: Long) {
-        TODO("Not yet implemented")
+        queries.isertOrReplace(photo.toEntity())
     }
 
     override suspend fun deletePhoto(photoId: Long) {
-        TODO("Not yet implemented")
+        queries.delete(photoId)
     }
 }
