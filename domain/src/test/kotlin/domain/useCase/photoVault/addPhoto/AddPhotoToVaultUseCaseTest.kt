@@ -32,12 +32,7 @@ class AddPhotoToVaultUseCaseTest {
         coEvery { photoVaultRepository.getAllPhotos() } returns dummyPhotos
         coEvery { photoVaultRepository.addOrReplacePhoto(any()) } returns Unit
 
-        val input = AddPhotoToVaultUseCase.Input(
-            "",
-            false
-        )
-
-        useCase(input)
+        useCase("")
 
         coVerify { photoVaultRepository.addOrReplacePhoto(any()) }
     }
@@ -48,12 +43,7 @@ class AddPhotoToVaultUseCaseTest {
         coEvery { photoVaultRepository.getAllPhotos() } returns dummyPhotos
         coEvery { photoVaultRepository.addOrReplacePhoto(any()) } returns Unit
 
-        val input = AddPhotoToVaultUseCase.Input(
-            "",
-            false
-        )
-
-        useCase(input)
+        useCase("")
 
         coVerify {
             photoVaultRepository.addOrReplacePhoto(
@@ -72,12 +62,7 @@ class AddPhotoToVaultUseCaseTest {
         coEvery { photoVaultRepository.getAllPhotos() } returns dummyPhotos
         coEvery { photoVaultRepository.addOrReplacePhoto(any()) } throws IllegalStateException()
 
-        val input = AddPhotoToVaultUseCase.Input(
-            "",
-            false
-        )
-
-        val state = useCase(input)
+        val state = useCase("")
 
         Assertions.assertInstanceOf(DataState.Error::class.java, state)
     }

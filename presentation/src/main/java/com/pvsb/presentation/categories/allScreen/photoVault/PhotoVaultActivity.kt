@@ -3,6 +3,7 @@ package com.pvsb.presentation.categories.allScreen.photoVault
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -46,9 +47,13 @@ import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.FloatingAddButton
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class PhotoVaultActivity : ComponentActivity() {
+
+    private val viewModel: PhotoVaultViewModel by viewModels()
 
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +71,11 @@ class PhotoVaultActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxSize(), state = bottomSheetState
             )
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getPhotos()
     }
 
     @Composable
@@ -283,7 +293,7 @@ class PhotoVaultActivity : ComponentActivity() {
 
             Spacer(modifier = Modifier.width(12.dp))
 
-            Column() {
+            Column {
                 Text(
                     text = stringResource(id = label),
                     style = titleTextStyle,

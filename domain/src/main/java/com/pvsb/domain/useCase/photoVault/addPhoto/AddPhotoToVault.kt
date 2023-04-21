@@ -9,7 +9,7 @@ class AddPhotoToVault(
     private val repository: PhotoVaultRepository
 ) : AddPhotoToVaultUseCase {
 
-    override suspend fun invoke(input: AddPhotoToVaultUseCase.Input): DataState<Unit> {
+    override suspend fun invoke(imageFilePath: String): DataState<Unit> {
         return try {
 
             val allPhotos = repository.getAllPhotos()
@@ -17,8 +17,8 @@ class AddPhotoToVault(
 
             val photo = Photo(
                 photoId,
-                input.imageFilePath,
-                input.isFavorite
+                imageFilePath,
+                false,
             )
 
             repository.addOrReplacePhoto(photo)
