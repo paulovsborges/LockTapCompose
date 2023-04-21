@@ -5,16 +5,35 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -22,13 +41,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pvsb.presentation.R
-import com.pvsb.presentation.passwords.passwordsList.PasswordsListState
 import com.pvsb.presentation.ui.messageTextStyle
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.FloatingAddButton
-import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
+import kotlinx.coroutines.launch
 
 class PhotoVaultActivity : ComponentActivity() {
 
@@ -40,8 +58,17 @@ class PhotoVaultActivity : ComponentActivity() {
         }
     }
 
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     private fun ComposeContent() {
+
+        val bottomSheetState = rememberModalBottomSheetState(
+            initialValue = ModalBottomSheetValue.Hidden,
+            confirmValueChange = { true },
+            skipHalfExpanded = true
+        )
+
+        val scope = rememberCoroutineScope()
 
         Box(
             modifier = Modifier
@@ -80,10 +107,16 @@ class PhotoVaultActivity : ComponentActivity() {
                 contentAlignment = Alignment.BottomEnd
             ) {
                 FloatingAddButton {
-
+                    scope.launch {
+                        bottomSheetState.show()
+                    }
                 }
             }
         }
+
+        ComposeAddPhotoBottomSheetOptions(
+            modifier = Modifier.fillMaxSize(), state = bottomSheetState
+        )
     }
 
     @Composable
@@ -121,9 +154,196 @@ class PhotoVaultActivity : ComponentActivity() {
         }
     }
 
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    private fun ComposeAddPhotoBottomSheetOptions(
+        modifier: Modifier = Modifier,
+        state: ModalBottomSheetState,
+    ) {
+
+        Box(
+            modifier = modifier, contentAlignment = Alignment.BottomCenter
+        ) {
+
+            ModalBottomSheetLayout(
+                modifier = Modifier
+                    .fillMaxHeight(0.4f)
+                    .fillMaxWidth(),
+                sheetContent = {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        ComposeAddPhotoBottomSheetOptionsLayout()
+                    }
+                },
+                sheetState = state,
+                sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
+                scrimColor = Color.Transparent
+            ) {
+
+            }
+        }
+
+        /**
+
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
+        ComposeBottomSheetDialog(
+        state = state,
+        positiveBtnLabel = R.string.button_label_confirm,
+        negativeBtnLabel = R.string.button_label_cancel,
+        title = TypedMessage.Reference(R.string.bottom_sheet_confirmation_title),
+        message = TypedMessage.Reference(R.string.bottom_sheet_delete_contact_message),
+        onPositiveClick = {
+
+        }
+        )
+        }
+         */
+    }
+
+    @Composable
+    private fun ComposeAddPhotoBottomSheetOptionsLayout(
+        modifier: Modifier = Modifier
+    ) {
+
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .background(AppColors.secondary),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Card(
+                shape = RoundedCornerShape(5.dp),
+                modifier = Modifier
+                    .height(4.dp)
+                    .width(50.dp),
+                backgroundColor = Color.White
+            ) { }
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Text(
+                text = stringResource(id = R.string.photo_vault_add_photo_options_bottom_sheet_label),
+                style = titleTextStyle,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                textAlign = TextAlign.Start
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            ComposeAddPhotoBottomSheetOptionButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                icon = R.drawable.ic_add_photo_by_camera,
+                label = R.string.photo_vault_add_photo_option_bottom_sheet_by_camera_label,
+                description = R.string.photo_vault_add_photo_option_bottom_sheet_by_camera_description
+            ){
+
+            }
+
+            Spacer(modifier = Modifier.height(28.dp))
+
+            ComposeAddPhotoBottomSheetOptionButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp),
+                icon = R.drawable.ic_add_photo_by_gallery,
+                label = R.string.photo_vault_add_photo_option_bottom_sheet_by_gallery_label,
+                description = R.string.photo_vault_add_photo_option_bottom_sheet_by_gallery_description
+            ){
+
+            }
+        }
+    }
+
+    @Composable
+    private fun ComposeAddPhotoBottomSheetOptionButton(
+        modifier: Modifier = Modifier,
+        icon: Int = 0,
+        label: Int = 0,
+        description: Int = 0,
+        onClick: () -> Unit = {}
+    ) {
+        Row(
+            modifier = modifier.clickable {
+                onClick()
+            },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Card(
+                shape = CircleShape,
+                modifier = Modifier.size(45.dp),
+                backgroundColor = AppColors.lightBlue
+            ) {
+
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = icon),
+                        contentDescription = "option icon",
+                        tint = Color.White
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Column() {
+                Text(
+                    text = stringResource(id = label),
+                    style = titleTextStyle,
+                    fontSize = 16.sp
+                )
+
+                Text(
+                    text = stringResource(id = description),
+                    style = messageTextStyle
+                )
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_arrow_left),
+                    contentDescription = "",
+                    tint = Color.White
+                )
+            }
+        }
+    }
+
     @Preview
     @Composable
-    fun ComposeContentPreview(){
+    fun ComposeAddPhotoBottomSheetOptionButtonPreview() {
+        ComposeAddPhotoBottomSheetOptionButton(
+            modifier = Modifier.fillMaxWidth(),
+            icon = R.drawable.ic_add_photo_by_camera,
+            label = R.string.photo_vault_add_photo_option_bottom_sheet_by_camera_label,
+            description = R.string.photo_vault_add_photo_option_bottom_sheet_by_camera_description
+        )
+    }
+
+    @Preview
+    @Composable
+    private fun ComposeAddPhotoBottomSheetOptionsLayoutPreview() {
+        ComposeAddPhotoBottomSheetOptionsLayout(
+            modifier = Modifier.wrapContentHeight(unbounded = true)
+        )
+    }
+
+    @Preview
+    @Composable
+    private fun ComposeContentPreview() {
         ComposeContent()
     }
 }

@@ -76,24 +76,6 @@ fun ComposeBottomSheetDialog(
                     }
                 }
             )
-//            BottomSheetContent(
-//                selectedPage, onNextClicked = {
-//
-//                    if (isLastPage) {
-//                        navigateToNextDestination(navController)
-//                        return@BottomSheetContent
-//                    }
-//
-//                    selectedPage++
-//
-//                    if (selectedPage == onBoardingStepsData.size) {
-//                        isLastPage = true
-//                    }
-//                }, onSKipClicked = {
-//                    navigateToNextDestination(navController)
-//                },
-//                modifier = Modifier.background(AppColors.secondary)
-//            )
         },
         sheetState = state,
         sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),

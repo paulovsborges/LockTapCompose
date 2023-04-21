@@ -65,7 +65,7 @@
     <string name="bottom_sheet_confirmation_title">Are you sure?</string>
     <string name="bottom_sheet_delete_contact_message">This contact will be deleted</string>
 
-   <string name="new_password_label">New password</string>
+    <string name="new_password_label">New password</string>
     <string name="new_password_text_field_title_label">Title</string>
     <string name="new_password_text_field_password_label">Password</string>
     <string name="new_password_text_field_additional_info_label">Additional info</string>
@@ -74,4 +74,9 @@
     <string name="password_card_title_label">Title</string>
     <string name="password_card_password_label">Password</string>
 
+    <string name="photo_vault_add_photo_options_bottom_sheet_label">Add new</string>
+    <string name="photo_vault_add_photo_option_bottom_sheet_by_camera_label">Take the photo</string>
+    <string name="photo_vault_add_photo_option_bottom_sheet_by_camera_description">Use the camera</string>
+    <string name="photo_vault_add_photo_option_bottom_sheet_by_gallery_label">Choose the gallery</string>
+    <string name="photo_vault_add_photo_option_bottom_sheet_by_gallery_description">Upload photos from the gallery</string>
 </resources>
