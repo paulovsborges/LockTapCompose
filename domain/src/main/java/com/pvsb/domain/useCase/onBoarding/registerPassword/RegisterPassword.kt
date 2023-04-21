@@ -32,6 +32,7 @@ class RegisterPassword(
 
             return DataState.Success(Unit)
         } catch (e: Exception) {
+            e.printStackTrace()
             return DataState.Error(ExceptionWrapper.Unknown)
         }
     }

@@ -33,6 +33,7 @@ class RegisterPasswordUseCaseTest {
         val userData = User("", true)
 
         coEvery { userRepository.read() } returns userData
+        coEvery { userRepository.save(any()) } returns Unit
 
         val state = useCase("123")
 
