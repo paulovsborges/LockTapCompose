@@ -15,7 +15,6 @@ class TogglePasswordFavorite(
             val updatedPassword = password.copy(isFavorite = !password.isFavorite)
 
             passwordsRepository.add(updatedPassword)
-
         } catch (e: Exception) {
             e.printStackTrace()
         }

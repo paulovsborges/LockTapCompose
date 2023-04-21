@@ -7,7 +7,6 @@ import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.password.addPassword.AddPasswordUseCase
 import com.pvsb.domain.useCase.password.getPassword.GetPasswordUseCase
 import com.pvsb.presentation.R
-import com.pvsb.presentation.StringExtTest
 import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -20,7 +19,6 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

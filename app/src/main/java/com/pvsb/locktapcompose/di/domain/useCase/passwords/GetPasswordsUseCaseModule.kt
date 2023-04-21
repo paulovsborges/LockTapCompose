@@ -1,8 +1,6 @@
 package com.pvsb.locktapcompose.di.domain.useCase.passwords
 
 import com.pvsb.domain.repository.PasswordsRepository
-import com.pvsb.domain.useCase.password.getPassword.GetPassword
-import com.pvsb.domain.useCase.password.getPassword.GetPasswordUseCase
 import com.pvsb.domain.useCase.password.getPasswords.GetPasswords
 import com.pvsb.domain.useCase.password.getPasswords.GetPasswordsUseCase
 import dagger.Module

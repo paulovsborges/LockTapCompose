@@ -1,8 +1,6 @@
 package com.pvsb.locktapcompose.di.domain.useCase.photoVault
 
 import com.pvsb.domain.repository.PhotoVaultRepository
-import com.pvsb.domain.useCase.photoVault.getPhotos.GetPhotosFromVault
-import com.pvsb.domain.useCase.photoVault.getPhotos.GetPhotosFromVaultUseCase
 import com.pvsb.domain.useCase.photoVault.togglePhotoFavorite.TogglePhotoFavorite
 import com.pvsb.domain.useCase.photoVault.togglePhotoFavorite.TogglePhotoFavoriteUseCase
 import dagger.Module

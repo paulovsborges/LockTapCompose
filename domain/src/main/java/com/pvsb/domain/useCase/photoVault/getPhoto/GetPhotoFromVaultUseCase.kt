@@ -4,5 +4,5 @@ import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.Photo
 
 interface GetPhotoFromVaultUseCase {
-    suspend operator fun invoke(photoId: Long) : DataState<Photo>
+    suspend operator fun invoke(photoId: Long): DataState<Photo>
 }

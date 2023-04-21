@@ -55,7 +55,6 @@ import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchFiel
 import com.pvsb.presentation.utils.copyTextToClipBoard
 import com.pvsb.presentation.utils.formatToStringDate
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Date
 
 @AndroidEntryPoint
 class PasswordsListActivity : ComponentActivity() {
@@ -130,7 +129,8 @@ class PasswordsListActivity : ComponentActivity() {
 
     @Composable
     private fun ComposePasswordsList(
-        modifier: Modifier = Modifier, passwords: List<Password>
+        modifier: Modifier = Modifier,
+        passwords: List<Password>
     ) {
 
         Box(modifier = modifier.fillMaxSize()) {
@@ -181,7 +181,8 @@ class PasswordsListActivity : ComponentActivity() {
 
     @Composable
     private fun ComposePasswordCard(
-        modifier: Modifier = Modifier, password: Password
+        modifier: Modifier = Modifier,
+        password: Password
     ) {
 
         Card(
@@ -190,7 +191,8 @@ class PasswordsListActivity : ComponentActivity() {
                 .wrapContentHeight(unbounded = true)
                 .clickable {
                     navigateToDetails(password.id)
-                }, shape = RoundedCornerShape(8.dp), backgroundColor = AppColors.secondary
+                },
+            shape = RoundedCornerShape(8.dp), backgroundColor = AppColors.secondary
         ) {
             Box {
 
@@ -238,11 +240,13 @@ class PasswordsListActivity : ComponentActivity() {
                         modifier = Modifier.padding(end = 16.dp)
                     ) {
 
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                copyTextToClipBoard(password.password)
-                            }) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    copyTextToClipBoard(password.password)
+                                }
+                        ) {
 
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_copy),
@@ -295,9 +299,11 @@ class PasswordsListActivity : ComponentActivity() {
                 .padding(vertical = 25.dp, horizontal = 28.dp),
             horizontalArrangement = Arrangement.End
         ) {
-            Box(modifier = Modifier.clickable {
-                onFavoriteClicked(!isFavorite)
-            }) {
+            Box(
+                modifier = Modifier.clickable {
+                    onFavoriteClicked(!isFavorite)
+                }
+            ) {
                 if (isFavorite) {
 
                     Icon(

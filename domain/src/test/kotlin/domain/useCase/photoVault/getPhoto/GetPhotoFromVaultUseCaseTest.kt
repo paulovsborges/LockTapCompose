@@ -39,7 +39,6 @@ class GetPhotoFromVaultUseCaseTest {
         val state = useCase(1L)
 
         Assertions.assertEquals(photo, (state as DataState.Success).data)
-
     }
 
     @Test

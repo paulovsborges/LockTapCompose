@@ -89,7 +89,8 @@ class PasswordDetailsActivity : ComponentActivity() {
                     .fillMaxSize()
                     .padding(
                         horizontal = 20.dp, vertical = 25.dp
-                    ), contentAlignment = Alignment.BottomCenter
+                    ),
+                contentAlignment = Alignment.BottomCenter
             ) {
                 PrimaryButton(isEnabled = state.isSaveButtonEnabled, onClick = {
                     viewModel.savePassword()
@@ -101,7 +102,8 @@ class PasswordDetailsActivity : ComponentActivity() {
                     .padding(horizontal = 10.dp)
                     .clickable {
                         viewModel.dismissError()
-                    }, isErrorVisible = state.error != null
+                    },
+                isErrorVisible = state.error != null
             )
         }
     }
@@ -116,7 +118,8 @@ class PasswordDetailsActivity : ComponentActivity() {
             verticalArrangement = Arrangement.spacedBy(25.dp),
             modifier = modifier
         ) {
-            PrimaryTextField(fieldLabel = R.string.new_password_text_field_title_label,
+            PrimaryTextField(
+                fieldLabel = R.string.new_password_text_field_title_label,
                 text = fields.title,
                 onValueChanged = {
                     viewModel.onFieldChanged(
@@ -124,8 +127,10 @@ class PasswordDetailsActivity : ComponentActivity() {
                             it
                         )
                     )
-                })
-            PrimaryTextField(fieldLabel = R.string.new_password_text_field_password_label,
+                }
+            )
+            PrimaryTextField(
+                fieldLabel = R.string.new_password_text_field_password_label,
                 text = fields.password,
                 onValueChanged = {
                     viewModel.onFieldChanged(
@@ -133,8 +138,10 @@ class PasswordDetailsActivity : ComponentActivity() {
                             it
                         )
                     )
-                })
-            PrimaryTextField(fieldLabel = R.string.new_password_text_field_additional_info_label,
+                }
+            )
+            PrimaryTextField(
+                fieldLabel = R.string.new_password_text_field_additional_info_label,
                 text = fields.additionalInfo,
                 onValueChanged = {
                     viewModel.onFieldChanged(
@@ -142,7 +149,8 @@ class PasswordDetailsActivity : ComponentActivity() {
                             it
                         )
                     )
-                })
+                }
+            )
         }
     }
 

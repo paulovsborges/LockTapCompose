@@ -69,7 +69,6 @@ class PasswordsListViewModelTest {
         viewModel.getPasswords()
 
         assertNotNull(viewModel.state.value.error)
-
     }
 
     @Test

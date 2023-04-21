@@ -61,7 +61,6 @@ class AddPasswordUseCaseTest {
         assertEquals(DataState.Error<Unit>(ExceptionWrapper.Unknown), state)
     }
 
-
     companion object {
         val dummyPasswords = List(5) {
             Password(

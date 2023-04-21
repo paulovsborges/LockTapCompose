@@ -38,4 +38,3 @@ data class PasswordDetailsFields(
     val password: String = "",
     val additionalInfo: String = "",
 )
-

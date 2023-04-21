@@ -4,7 +4,7 @@ import com.pvsb.domain.entity.DataState
 
 interface AddPhotoToVaultUseCase {
 
-    suspend operator fun invoke(input: Input) : DataState<Unit>
+    suspend operator fun invoke(input: Input): DataState<Unit>
 
     data class Input(
         val imageFilePath: String,
