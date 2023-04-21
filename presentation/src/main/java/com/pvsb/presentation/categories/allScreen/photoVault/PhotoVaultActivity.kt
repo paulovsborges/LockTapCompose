@@ -50,25 +50,28 @@ import kotlinx.coroutines.launch
 
 class PhotoVaultActivity : ComponentActivity() {
 
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            ComposeContent()
+
+            val bottomSheetState = rememberModalBottomSheetState(
+                initialValue = ModalBottomSheetValue.Hidden,
+                confirmValueChange = { true },
+                skipHalfExpanded = true
+            )
+
+            ComposeAddPhotoBottomSheetOptions(
+                modifier = Modifier.fillMaxSize(), state = bottomSheetState
+            )
         }
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
     @Composable
-    private fun ComposeContent() {
-
-        val bottomSheetState = rememberModalBottomSheetState(
-            initialValue = ModalBottomSheetValue.Hidden,
-            confirmValueChange = { true },
-            skipHalfExpanded = true
-        )
-
-        val scope = rememberCoroutineScope()
+    private fun ComposeContent(
+        onAddClick: () -> Unit = {}
+    ) {
 
         Box(
             modifier = Modifier
@@ -107,16 +110,10 @@ class PhotoVaultActivity : ComponentActivity() {
                 contentAlignment = Alignment.BottomEnd
             ) {
                 FloatingAddButton {
-                    scope.launch {
-                        bottomSheetState.show()
-                    }
+                    onAddClick()
                 }
             }
         }
-
-        ComposeAddPhotoBottomSheetOptions(
-            modifier = Modifier.fillMaxSize(), state = bottomSheetState
-        )
     }
 
     @Composable
@@ -161,42 +158,34 @@ class PhotoVaultActivity : ComponentActivity() {
         state: ModalBottomSheetState,
     ) {
 
+        val scope = rememberCoroutineScope()
+
         Box(
             modifier = modifier, contentAlignment = Alignment.BottomCenter
         ) {
 
             ModalBottomSheetLayout(
                 modifier = Modifier
-                    .fillMaxHeight(0.4f)
                     .fillMaxWidth(),
                 sheetContent = {
-                    Box(modifier = Modifier.fillMaxSize()) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.4f)
+                    ) {
                         ComposeAddPhotoBottomSheetOptionsLayout()
                     }
                 },
                 sheetState = state,
-                sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
-                scrimColor = Color.Transparent
+                sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
             ) {
-
+                ComposeContent {
+                    scope.launch {
+                        state.show()
+                    }
+                }
             }
         }
-
-        /**
-
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomCenter) {
-        ComposeBottomSheetDialog(
-        state = state,
-        positiveBtnLabel = R.string.button_label_confirm,
-        negativeBtnLabel = R.string.button_label_cancel,
-        title = TypedMessage.Reference(R.string.bottom_sheet_confirmation_title),
-        message = TypedMessage.Reference(R.string.bottom_sheet_delete_contact_message),
-        onPositiveClick = {
-
-        }
-        )
-        }
-         */
     }
 
     @Composable
@@ -241,7 +230,7 @@ class PhotoVaultActivity : ComponentActivity() {
                 icon = R.drawable.ic_add_photo_by_camera,
                 label = R.string.photo_vault_add_photo_option_bottom_sheet_by_camera_label,
                 description = R.string.photo_vault_add_photo_option_bottom_sheet_by_camera_description
-            ){
+            ) {
 
             }
 
@@ -254,7 +243,7 @@ class PhotoVaultActivity : ComponentActivity() {
                 icon = R.drawable.ic_add_photo_by_gallery,
                 label = R.string.photo_vault_add_photo_option_bottom_sheet_by_gallery_label,
                 description = R.string.photo_vault_add_photo_option_bottom_sheet_by_gallery_description
-            ){
+            ) {
 
             }
         }
