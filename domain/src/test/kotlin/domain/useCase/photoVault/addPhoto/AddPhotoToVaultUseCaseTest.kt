@@ -30,7 +30,7 @@ class AddPhotoToVaultUseCaseTest {
     fun `should call repository to add`() = runTest {
 
         coEvery { photoVaultRepository.getAllPhotos() } returns dummyPhotos
-        coEvery { photoVaultRepository.addPhoto(any()) } returns Unit
+        coEvery { photoVaultRepository.addOrReplacePhoto(any()) } returns Unit
 
         val input = AddPhotoToVaultUseCase.Input(
             "",
@@ -39,14 +39,14 @@ class AddPhotoToVaultUseCaseTest {
 
         useCase(input)
 
-        coVerify { photoVaultRepository.addPhoto(any()) }
+        coVerify { photoVaultRepository.addOrReplacePhoto(any()) }
     }
 
     @Test
     fun `should generate the id of the photo by the highest id`() = runTest {
 
         coEvery { photoVaultRepository.getAllPhotos() } returns dummyPhotos
-        coEvery { photoVaultRepository.addPhoto(any()) } returns Unit
+        coEvery { photoVaultRepository.addOrReplacePhoto(any()) } returns Unit
 
         val input = AddPhotoToVaultUseCase.Input(
             "",
@@ -56,7 +56,7 @@ class AddPhotoToVaultUseCaseTest {
         useCase(input)
 
         coVerify {
-            photoVaultRepository.addPhoto(
+            photoVaultRepository.addOrReplacePhoto(
                 Photo(
                     6L,
                     "",
@@ -70,7 +70,7 @@ class AddPhotoToVaultUseCaseTest {
     fun `should return error state when something goes wrong`() = runTest {
 
         coEvery { photoVaultRepository.getAllPhotos() } returns dummyPhotos
-        coEvery { photoVaultRepository.addPhoto(any()) } throws IllegalStateException()
+        coEvery { photoVaultRepository.addOrReplacePhoto(any()) } throws IllegalStateException()
 
         val input = AddPhotoToVaultUseCase.Input(
             "",

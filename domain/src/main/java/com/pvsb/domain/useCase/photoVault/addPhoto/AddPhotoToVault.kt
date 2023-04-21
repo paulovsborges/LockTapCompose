@@ -21,7 +21,7 @@ class AddPhotoToVault(
                 input.isFavorite
             )
 
-            repository.addPhoto(photo)
+            repository.addOrReplacePhoto(photo)
 
             DataState.Success(Unit)
         } catch (e: Exception) {
