@@ -1,5 +1,6 @@
 package com.pvsb.datasource.mapper.password
 
+import com.pvsb.datasource.mapper.isFavorite
 import com.pvsb.domain.entity.Password
 import locktap.locktapdb.PasswordsEntity
 import java.text.SimpleDateFormat
@@ -14,7 +15,7 @@ object PasswordMapper {
                 title = title,
                 password = password,
                 createdAt = getDateFromString(createdAt),
-                isFavorite = isFavoriteBool(isFavorite),
+                isFavorite = isFavorite(isFavorite),
                 additionalInfo = additionalInfo
             )
         }
@@ -27,7 +28,7 @@ object PasswordMapper {
                 title = title,
                 password = password,
                 createdAt = formatDateToString(createdAt),
-                isFavorite = isFavoriteLong(isFavorite),
+                isFavorite = isFavorite(isFavorite),
                 additionalInfo = additionalInfo
             )
         }
@@ -51,13 +52,5 @@ object PasswordMapper {
             e.printStackTrace()
             ""
         }
-    }
-
-    private fun isFavoriteBool(code: Long): Boolean {
-        return code.toInt() != 0
-    }
-
-    private fun isFavoriteLong(isFavorite: Boolean): Long {
-        return if (isFavorite) 1L else 0L
     }
 }

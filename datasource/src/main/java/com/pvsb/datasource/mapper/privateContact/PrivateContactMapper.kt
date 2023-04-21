@@ -1,5 +1,6 @@
 package com.pvsb.datasource.mapper.privateContact
 
+import com.pvsb.datasource.mapper.isFavorite
 import com.pvsb.domain.entity.Contact
 import locktap.locktapdb.PrivateContactEntity
 
@@ -12,7 +13,7 @@ object PrivateContactMapper {
                 name = name,
                 phoneNumber = phoneNumber,
                 imageFilePath = imageFilePath,
-                isFavorite = isFavoriteBool(isFavorite.toInt())
+                isFavorite = isFavorite(isFavorite)
             )
         }
     }
@@ -24,16 +25,8 @@ object PrivateContactMapper {
                 name = name,
                 phoneNumber = phoneNumber,
                 imageFilePath = imageFilePath,
-                isFavorite = isFavoriteLong(isFavorite)
+                isFavorite = isFavorite(isFavorite)
             )
         }
-    }
-
-    private fun isFavoriteBool(code: Int): Boolean {
-        return code != 0
-    }
-
-    private fun isFavoriteLong(isFavorite: Boolean): Long {
-        return if (isFavorite) 1L else 0L
     }
 }
