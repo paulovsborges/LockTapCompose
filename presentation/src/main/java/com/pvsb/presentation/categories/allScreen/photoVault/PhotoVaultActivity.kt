@@ -2,7 +2,10 @@ package com.pvsb.presentation.categories.allScreen.photoVault
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -47,6 +50,7 @@ import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.FloatingAddButton
+import com.pvsb.presentation.utils.getUriAccessPermission
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -203,6 +207,13 @@ class PhotoVaultActivity : ComponentActivity() {
         modifier: Modifier = Modifier
     ) {
 
+        val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia()
+        ) { uri ->
+            uri?.let(::getUriAccessPermission)
+            viewModel.addPhoto(uri.toString())
+        }
+
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -254,7 +265,9 @@ class PhotoVaultActivity : ComponentActivity() {
                 label = R.string.photo_vault_add_photo_option_bottom_sheet_by_gallery_label,
                 description = R.string.photo_vault_add_photo_option_bottom_sheet_by_gallery_description
             ) {
-
+                singlePhotoPickerLauncher.launch(
+                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                )
             }
         }
     }
