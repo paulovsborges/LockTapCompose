@@ -52,17 +52,36 @@ test {
     failFast = true
 }
 
-def testDependencies = [
-        ':app'         : [':testMockedDebugUnitTest'],
-        ':datasource'  : [':testDebugUnitTest'],
-        ':domain'      : [':test'],
-        ':presentation': [':testDebugUnitTest'],
-]
+
+
+task runAllTests(type: org.gradle.api.tasks.testing.Test, group: 'Verification') {
+    group = 'Verification'
+    description = 'Run all tests'
+
+    def testDependencies = [
+            ':datasource'  : [':testDebugUnitTest'],
+            ':domain'      : [':test'],
+            ':presentation': [':testDebugUnitTest'],
+    ]
+
+    dependsOn testDependencies.collectMany { entry ->
+        def module = entry.key
+        def tests = entry.value.collect { "$module$it" }
+        tests
+    }
+}
 
 task ktlintFormatAll() {
     group = 'Verification'
     description = 'Run ktlintFormat in all modules'
-    dependsOn testDependencies.collectMany { entry ->
+    def formatDependencies  = [
+            ':app'         : [':testMockedDebugUnitTest'],
+            ':datasource'  : [':testDebugUnitTest'],
+            ':domain'      : [':test'],
+            ':presentation': [':testDebugUnitTest'],
+    ]
+
+    dependsOn formatDependencies.collectMany { entry ->
         def module = entry.key
         def ktlintFormat = entry.value.collect { "$module:ktlintFormat" }
         ktlintFormat
