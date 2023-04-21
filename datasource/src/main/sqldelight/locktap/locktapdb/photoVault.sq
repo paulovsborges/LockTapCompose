@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS PhotoVaultEntity(
+    id INTEGER NOT NULL PRIMARY KEY,
+    imageFilePath TEXT NOT NULL,
+    isFavorite INTEGER NOT NULL DEFAULT 0
+);
+
+isertOrReplace:
+INSERT OR REPLACE INTO PhotoVaultEntity VALUES ?;
+
+getAll:
+SELECT * FROM PhotoVaultEntity;
+
+delete:
+DELETE FROM PhotoVaultEntity WHERE id = :id;
+
+getById:
+SELECT * FROM PhotoVaultEntity WHERE id = :id;
