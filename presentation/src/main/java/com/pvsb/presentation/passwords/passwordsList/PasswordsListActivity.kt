@@ -64,17 +64,20 @@ class PasswordsListActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ComposeContent()
+
+            val state = viewModel.state.collectAsState()
+            viewModel.getPasswords()
+
+            ComposeContent(state.value)
         }
     }
 
     @Composable
-    private fun ComposeContent() {
+    private fun ComposeContent(
+        state: PasswordsListState = PasswordsListState()
+    ) {
 
-        val state = viewModel.state.collectAsState()
-        viewModel.getPasswords()
-
-        val passwords = state.value.passwords
+        val passwords = state.passwords
 
         Box(
             modifier = Modifier

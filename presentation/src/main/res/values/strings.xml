@@ -56,6 +56,7 @@
 
     <string name="private_contacts_empty_content_message">Tap on the + at the bottom \nto create a new contact</string>
     <string name="wifi_passwords_empty_content_message">Tap on the + at the bottom \nto create a new passwords</string>
+    <string name="photo_vault_empty_content_message">Tap on the + at the bottom \nto create a new photo</string>
 
     <string name="error_contact_already_exists">The contact already exists</string>
     <string name="error_there_was_an_unexpected_error">There was an unexpected error</string>
