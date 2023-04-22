@@ -1,9 +1,12 @@
 package com.pvsb.presentation.categories.allScreen.photoVault
 
+import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -45,9 +48,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pvsb.presentation.R
+import com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.PhotoDetailsActivity
 import com.pvsb.presentation.ui.messageTextStyle
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.ui.titleTextStyle
+import com.pvsb.presentation.utils.checkSelfPermissionCompat
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.FloatingAddButton
 import com.pvsb.presentation.utils.getUriAccessPermission
@@ -59,9 +64,12 @@ class PhotoVaultActivity : ComponentActivity() {
 
     private val viewModel: PhotoVaultViewModel by viewModels()
 
+    private var requestPermissionLauncher: ActivityResultLauncher<String>? = null
+
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        registerPermissionRequestLauncher()
 
         setContent {
 
@@ -179,8 +187,7 @@ class PhotoVaultActivity : ComponentActivity() {
         ) {
 
             ModalBottomSheetLayout(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 sheetContent = {
                     Box(
                         modifier = Modifier
@@ -253,6 +260,11 @@ class PhotoVaultActivity : ComponentActivity() {
                 description = R.string.photo_vault_add_photo_option_bottom_sheet_by_camera_description
             ) {
 
+                if (checkSelfPermissionCompat(Manifest.permission.CAMERA)) {
+                    navigateToPhotoDetailsOrTakePicture()
+                } else {
+                    requestPermissionLauncher?.launch(Manifest.permission.CAMERA)
+                }
             }
 
             Spacer(modifier = Modifier.height(28.dp))
@@ -283,8 +295,7 @@ class PhotoVaultActivity : ComponentActivity() {
         Row(
             modifier = modifier.clickable {
                 onClick()
-            },
-            verticalAlignment = Alignment.CenterVertically
+            }, verticalAlignment = Alignment.CenterVertically
         ) {
             Card(
                 shape = CircleShape,
@@ -293,8 +304,7 @@ class PhotoVaultActivity : ComponentActivity() {
             ) {
 
                 Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         painter = painterResource(id = icon),
@@ -308,14 +318,11 @@ class PhotoVaultActivity : ComponentActivity() {
 
             Column {
                 Text(
-                    text = stringResource(id = label),
-                    style = titleTextStyle,
-                    fontSize = 16.sp
+                    text = stringResource(id = label), style = titleTextStyle, fontSize = 16.sp
                 )
 
                 Text(
-                    text = stringResource(id = description),
-                    style = messageTextStyle
+                    text = stringResource(id = description), style = messageTextStyle
                 )
             }
 
@@ -331,6 +338,26 @@ class PhotoVaultActivity : ComponentActivity() {
                     tint = Color.White
                 )
             }
+        }
+    }
+
+    private fun navigateToPhotoDetailsOrTakePicture(
+        photoId: Long? = null
+    ) {
+        val intent = Intent(this, PhotoDetailsActivity::class.java)
+
+        photoId?.let {
+            intent.putExtra(PhotoDetailsActivity.PHOTO_FROM_VAULT_ID_KEY, it)
+        }
+
+        startActivity(intent)
+    }
+
+    private fun registerPermissionRequestLauncher() {
+        requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) navigateToPhotoDetailsOrTakePicture()
         }
     }
 

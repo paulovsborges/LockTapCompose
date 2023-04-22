@@ -59,6 +59,11 @@ dependencies {
     implementation(Hilt.compose)
     kapt(Hilt.compiler)
 
+    implementation(CameraX.core)
+    implementation(CameraX.lifecycle)
+    implementation(CameraX.view)
+    implementation(CameraX.extensions)
+
     testImplementation(MockK.core)
     testImplementation(Test.jUnit)
     testImplementation(Coroutines.test)

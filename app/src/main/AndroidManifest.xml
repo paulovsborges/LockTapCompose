@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".LockTap"
@@ -30,11 +31,11 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.LockTapCompose"
             android:windowSoftInputMode="adjustResize">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
         </activity>
 
         <activity
@@ -57,6 +58,12 @@
 
         <activity
             android:name="com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.LockTapCompose" />
+
+        <activity
+            android:name="com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.PhotoDetailsActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.LockTapCompose" />
