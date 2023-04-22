@@ -62,7 +62,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class PhotoVaultActivity : ComponentActivity() {
 
-    private val viewModel: PhotoVaultViewModel by viewModels()
+    private val viewModel: PhotoVaultListViewModel by viewModels()
 
     private var requestPermissionLauncher: ActivityResultLauncher<String>? = null
 

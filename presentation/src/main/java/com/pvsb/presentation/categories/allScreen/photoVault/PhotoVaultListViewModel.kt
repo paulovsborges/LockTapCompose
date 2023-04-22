@@ -13,12 +13,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PhotoVaultViewModel @Inject constructor(
+class PhotoVaultListViewModel @Inject constructor(
     private val getPhotosFromVaultUseCase: GetPhotosFromVaultUseCase,
     private val addPhotoToVaultUseCase: AddPhotoToVaultUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(PhotoVaultScreenState())
+    private val _state = MutableStateFlow(PhotoVaultListState())
     val state = _state.asStateFlow()
 
     fun getPhotos() {
