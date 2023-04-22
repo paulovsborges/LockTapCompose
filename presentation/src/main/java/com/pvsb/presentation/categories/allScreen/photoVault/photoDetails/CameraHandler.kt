@@ -18,9 +18,10 @@ import java.util.Locale
 class CameraHandler : ICameraHandler {
 
     private var imageCapture: ImageCapture? = null
+    private var isLensFacingBack: Boolean = true
 
     override fun ComponentActivity.startCamera(
-        previewView: PreviewView, lensFacingBack: Boolean
+        previewView: PreviewView
     ) {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
@@ -28,7 +29,7 @@ class CameraHandler : ICameraHandler {
             {
                 val cameraProvider = cameraProviderFuture.get()
 
-                val lensFacing = if (lensFacingBack) {
+                val lensFacing = if (isLensFacingBack) {
                     CameraSelector.LENS_FACING_BACK
                 } else {
                     CameraSelector.LENS_FACING_FRONT
@@ -92,6 +93,13 @@ class CameraHandler : ICameraHandler {
                         .show()
                 }
             })
+    }
+
+    override fun ComponentActivity.toggleLensFacing(
+        previewView: PreviewView
+    ) {
+        isLensFacingBack = !isLensFacingBack
+        startCamera(previewView)
     }
 
     private companion object {

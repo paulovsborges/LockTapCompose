@@ -8,6 +8,7 @@ import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,11 +26,12 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -38,6 +40,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,6 +51,7 @@ import coil.request.ImageRequest
 import com.pvsb.presentation.R
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.utils.components.BackButton
+import com.pvsb.presentation.utils.getUriAccessPermission
 
 class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandler() {
 
@@ -102,7 +106,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                         )
                 ) {
 
-                    ComposeDetailsImageOptions(
+                    ComposeImageDetailsOptions(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentHeight()
@@ -122,6 +126,10 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
             mutableStateOf(PreviewView(this))
         }
 
+        var imagePath by remember {
+            mutableStateOf("")
+        }
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -129,32 +137,97 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
             contentAlignment = Alignment.BottomCenter
         ) {
 
-            AndroidView(
-                factory = {
-                    preview
-                }, modifier = Modifier.fillMaxSize()
-            )
-
-            Button(onClick = {
-                takePhoto {
-
-                }
-            }) {
-                Text(text = "take photo")
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
-                horizontalArrangement = Arrangement.End
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_change_camera_lens),
-                    contentDescription = "",
-                    tint = Color.White,
-                    modifier = Modifier.size(40.dp)
+            if (imagePath.isEmpty()) {
+                AndroidView(
+                    factory = {
+                        preview
+                    }, modifier = Modifier.fillMaxSize()
                 )
+
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_shoot_photo),
+                    contentDescription = "take photo",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clickable(
+                            interactionSource = remember {
+                                MutableInteractionSource()
+                            },
+                            indication = rememberRipple(bounded = false, radius = 20.dp)
+                        ) {
+                            takePhoto { uri ->
+                                imagePath = uri.toString()
+                            }
+                        }
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_change_camera_lens),
+                        contentDescription = "turn camera lens",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clickable(
+                                interactionSource = remember {
+                                    MutableInteractionSource()
+                                },
+                                indication = rememberRipple(bounded = false, radius = 20.dp)
+                            ) {
+                                toggleLensFacing(preview)
+                            }
+                    )
+                }
+            } else {
+                ComposeImage(modifier = Modifier.fillMaxSize(), imagePath = imagePath)
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(
+                        20.dp,
+                        Alignment.CenterHorizontally
+                    )
+                ) {
+
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_try_again),
+                        contentDescription = "try again",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clickable(
+                                interactionSource = remember {
+                                    MutableInteractionSource()
+                                },
+                                indication = rememberRipple(bounded = false, radius = 20.dp)
+                            ) {
+                                imagePath = ""
+                            }
+                    )
+
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_confirm),
+                        contentDescription = "confirm",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clickable(
+                                interactionSource = remember {
+                                    MutableInteractionSource()
+                                },
+                                indication = rememberRipple(bounded = false, radius = 20.dp)
+                            ) {
+                            }
+                    )
+                }
             }
         }
 
@@ -172,7 +245,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
     }
 
     @Composable
-    private fun ComposeDetailsImageOptions(modifier: Modifier = Modifier) {
+    private fun ComposeImageDetailsOptions(modifier: Modifier = Modifier) {
 
         Row(
             modifier = modifier, horizontalArrangement = Arrangement.spacedBy(
@@ -266,7 +339,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
     ) {
 
         val painter = rememberAsyncImagePainter(ImageRequest.Builder(LocalContext.current)
-            .data(data = "content://com.android.providers.media.documents/document/image%3A59")
+            .data(data = imagePath)
             .build(), onError = {
             Log.d("", "### ${it.result.throwable.message}")
         })
