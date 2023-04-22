@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -58,7 +59,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandler() {
 
-    private val viewModel : PhotoDetailsViewModel by viewModels()
+    private val viewModel: PhotoDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,9 +76,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
             PHOTO_FROM_VAULT_ID_KEY, DEFAULT_PHOTO_FROM_VAULT_ID
         )
 
-        var isPhotoOptionsVisible by remember {
-            mutableStateOf(false)
-        }
+        val isPhotoDetails = photoId != DEFAULT_PHOTO_FROM_VAULT_ID
 
         Column(
             modifier = Modifier
@@ -93,7 +92,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                 modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom
             ) {
 
-                if (photoId != DEFAULT_PHOTO_FROM_VAULT_ID) {
+                if (isPhotoDetails) {
                     ComposeImageDetails()
                 } else {
                     InitCameraPreview()
@@ -113,14 +112,16 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                         )
                 ) {
 
-                    ComposeImageDetailsOptions(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                            .padding(top = 12.dp, start = 80.dp, end = 80.dp)
-                    )
+                    if (isPhotoDetails) {
+                        ComposeImageDetailsOptions(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                                .padding(top = 12.dp, start = 80.dp, end = 80.dp)
+                        )
 
-                    Spacer(modifier = Modifier.height(20.dp))
+                        Spacer(modifier = Modifier.height(20.dp))
+                    }
                 }
             }
         }
@@ -138,9 +139,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
         }
 
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(630.dp),
+            modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.BottomCenter
         ) {
 
