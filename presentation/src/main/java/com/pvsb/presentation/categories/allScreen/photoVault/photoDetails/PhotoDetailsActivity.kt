@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -52,8 +53,12 @@ import com.pvsb.presentation.R
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.getUriAccessPermission
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandler() {
+
+    private val viewModel : PhotoDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
