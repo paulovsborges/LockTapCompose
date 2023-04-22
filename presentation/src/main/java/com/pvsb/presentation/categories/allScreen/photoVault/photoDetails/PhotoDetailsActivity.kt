@@ -30,6 +30,7 @@ import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -65,12 +66,21 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
         super.onCreate(savedInstanceState)
 
         setContent {
-            ComposeScreenLayout()
+
+            val state = viewModel.state.collectAsState()
+
+            ComposeScreenLayout(state.value)
         }
     }
 
     @Composable
-    private fun ComposeScreenLayout() {
+    private fun ComposeScreenLayout(
+        state: PhotoDetailsState = PhotoDetailsState()
+    ) {
+
+        if (state.shouldFinishScreen) {
+            finish()
+        }
 
         val photoId = intent.getLongExtra(
             PHOTO_FROM_VAULT_ID_KEY, DEFAULT_PHOTO_FROM_VAULT_ID
@@ -93,7 +103,11 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
             ) {
 
                 if (isPhotoDetails) {
-                    ComposeImageDetails()
+                    viewModel.getPhotoDetails(photoId)
+
+                    state.details?.imageFilePath?.let { imagePath ->
+                        ComposeImageDetails(imagePath)
+                    }
                 } else {
                     InitCameraPreview()
                 }
@@ -231,6 +245,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                                 },
                                 indication = rememberRipple(bounded = false, radius = 20.dp)
                             ) {
+                                viewModel.addPhoto(imagePath)
                             }
                     )
                 }
@@ -241,10 +256,12 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
     }
 
     @Composable
-    private fun ComposeImageDetails() {
+    private fun ComposeImageDetails(
+        imagePath: String
+    ) {
 
         ComposeImage(
-            imagePath = "", modifier = Modifier
+            imagePath = imagePath, modifier = Modifier
                 .fillMaxWidth()
                 .height(630.dp)
         )

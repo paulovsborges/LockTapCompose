@@ -23,11 +23,12 @@ class PhotoDetailsViewModel @Inject constructor(
 
     fun addPhoto(imageFilePath: String) {
         viewModelScope.launch {
-            when (val state = addPhotoToVaultUseCase(imageFilePath)) {
+            when (addPhotoToVaultUseCase(imageFilePath)) {
                 is DataState.Error -> {
 
                 }
                 is DataState.Success -> {
+                    _state.update { it.copy(shouldFinishScreen = true) }
                 }
             }
         }
