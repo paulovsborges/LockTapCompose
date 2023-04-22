@@ -70,6 +70,10 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
             PHOTO_FROM_VAULT_ID_KEY, DEFAULT_PHOTO_FROM_VAULT_ID
         )
 
+        var isPhotoOptionsVisible by remember {
+            mutableStateOf(false)
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -85,10 +89,8 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
             ) {
 
                 if (photoId != DEFAULT_PHOTO_FROM_VAULT_ID) {
-                    // set image from vault
                     ComposeImageDetails()
                 } else {
-                    // init camera
                     InitCameraPreview()
                 }
 

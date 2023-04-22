@@ -78,19 +78,11 @@ class CameraHandler : ICameraHandler {
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-
                     outputFileResults.savedUri?.let(onPhotoSaved)
-
-                    Toast.makeText(
-                        this@takePhoto,
-                        "image saved ${outputFileResults.savedUri}",
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
 
                 override fun onError(exception: ImageCaptureException) {
-                    Toast.makeText(this@takePhoto, "fail: ${exception.message}", Toast.LENGTH_SHORT)
-                        .show()
+                    exception.printStackTrace()
                 }
             })
     }
