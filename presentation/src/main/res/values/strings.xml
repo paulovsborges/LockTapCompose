@@ -79,4 +79,7 @@
     <string name="photo_vault_add_photo_option_bottom_sheet_by_camera_description">Use the camera</string>
     <string name="photo_vault_add_photo_option_bottom_sheet_by_gallery_label">Choose the gallery</string>
     <string name="photo_vault_add_photo_option_bottom_sheet_by_gallery_description">Upload photos from the gallery</string>
+    <string name="photo_vault_details_share_label">Share</string>
+    <string name="photo_vault_details_favorite_label">Add to Fav</string>
+    <string name="photo_vault_details_delete_label">Delete</string>
 </resources>

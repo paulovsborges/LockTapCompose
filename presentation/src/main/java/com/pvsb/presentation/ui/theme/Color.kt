@@ -13,4 +13,5 @@ object AppColors {
     val secondary = Color(35, 41, 56)
     val red = Color(247, 72, 67)
     val background = Color(16, 23, 39)
+    val translucent = Color(255, 255, 255, 51)
 }
