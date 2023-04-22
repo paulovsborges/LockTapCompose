@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,6 +25,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -36,34 +41,31 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.pvsb.presentation.R
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.utils.components.BackButton
 
-class PhotoDetailsActivity : ComponentActivity() {
+class PhotoDetailsActivity : ComponentActivity(),
+    ICameraHandler by CameraHandler() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            ComposeContent()
+            ComposeScreenLayout()
         }
+    }
+
+    @Composable
+    private fun ComposeScreenLayout() {
 
         val photoId = intent.getLongExtra(
             PHOTO_FROM_VAULT_ID_KEY, DEFAULT_PHOTO_FROM_VAULT_ID
         )
 
-        if (photoId != DEFAULT_PHOTO_FROM_VAULT_ID) {
-            // set image from vault
-        } else {
-            // init camera
-        }
-    }
-
-    @Composable
-    private fun ComposeContent() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -78,11 +80,13 @@ class PhotoDetailsActivity : ComponentActivity() {
                 modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom
             ) {
 
-                ComposeImage(
-                    imagePath = "", modifier = Modifier
-                        .fillMaxWidth()
-                        .height(630.dp)
-                )
+                if (photoId != DEFAULT_PHOTO_FROM_VAULT_ID) {
+                    // set image from vault
+                    ComposeImageDetails()
+                } else {
+                    // init camera
+                    InitCameraPreview()
+                }
 
                 Spacer(modifier = Modifier.height(5.dp))
 
@@ -109,6 +113,36 @@ class PhotoDetailsActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    @Composable
+    private fun InitCameraPreview() {
+
+        val preview by remember {
+            mutableStateOf(PreviewView(this))
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(630.dp)
+        ) {
+            AndroidView(factory = {
+                preview
+            })
+        }
+
+        startCamera(preview)
+    }
+
+    @Composable
+    private fun ComposeImageDetails() {
+
+        ComposeImage(
+            imagePath = "", modifier = Modifier
+                .fillMaxWidth()
+                .height(630.dp)
+        )
     }
 
     @Composable
@@ -225,8 +259,9 @@ class PhotoDetailsActivity : ComponentActivity() {
     @Preview
     @Composable
     private fun ComposeContentPreview() {
-        ComposeContent()
+        ComposeScreenLayout()
     }
+
 
     companion object {
         const val PHOTO_FROM_VAULT_ID_KEY = "PHOTO_FROM_VAULT_ID_KEY"
