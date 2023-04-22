@@ -1,96 +1,26 @@
 package com.pvsb.presentation.categories.allScreen.photoVault.photoDetails
 
-import android.content.Context
+import android.content.ContentValues
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import kotlin.coroutines.suspendCoroutine
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class CameraHandler : ICameraHandler {
 
-    /*
-    @Composable
-    fun ComponentActivity.CameraView(
-        outputDirectory: File,
-        executor: Executor,
-        onImageCaptured: (Uri) -> Unit,
-        onError: (ImageCaptureException) -> Unit
-    ) {
-        // 1
-        val lensFacing = CameraSelector.LENS_FACING_BACK
-        val context = LocalContext.current
-        val lifecycleOwner = LocalLifecycleOwner.current
-
-        val preview = Preview.Builder().build()
-        val previewView = remember { PreviewView(context) }
-        val imageCapture: ImageCapture = remember { ImageCapture.Builder().build() }
-        val cameraSelector = CameraSelector.Builder()
-            .requireLensFacing(lensFacing)
-            .build()
-
-        LaunchedEffect(lensFacing) {
-            val cameraProvider = getCameraProvider()
-            cameraProvider.unbindAll()
-            cameraProvider.bindToLifecycle(
-                lifecycleOwner,
-                cameraSelector,
-                preview,
-                imageCapture
-            )
-
-            preview.setSurfaceProvider(previewView.surfaceProvider)
-        }
-
-        // 3
-        Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()) {
-            AndroidView({ previewView }, modifier = Modifier.fillMaxSize())
-
-//            IconButton(
-//                modifier = Modifier.padding(bottom = 20.dp),
-//                onClick = {
-//                    Log.i("kilo", "ON CLICK")
-//                    takePhoto(
-//                        filenameFormat = "yyyy-MM-dd-HH-mm-ss-SSS",
-//                        imageCapture = imageCapture,
-//                        outputDirectory = outputDirectory,
-//                        executor = executor,
-//                        onImageCaptured = onImageCaptured,
-//                        onError = onError
-//                    )
-//                },
-//                content = {
-//                    Icon(
-//                        imageVector = Icons.Sharp.Lens,
-//                        contentDescription = "Take picture",
-//                        tint = Color.White,
-//                        modifier = Modifier
-//                            .size(100.dp)
-//                            .padding(1.dp)
-//                            .border(1.dp, Color.White, CircleShape)
-//                    )
-//                }
-//            )
-        }
-    }
-
-     */
+    private var imageCapture: ImageCapture? = null
 
     override fun ComponentActivity.startCamera(
-        previewView: PreviewView,
-        lensFacingBack: Boolean
+        previewView: PreviewView, lensFacingBack: Boolean
     ) {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
@@ -104,17 +34,13 @@ class CameraHandler : ICameraHandler {
                     CameraSelector.LENS_FACING_FRONT
                 }
 
-                val cameraSelector = CameraSelector.Builder()
-                    .requireLensFacing(lensFacing)
-                    .build()
+                val cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
 
-                val preview = androidx.camera.core.Preview.Builder()
-                    .build()
-                    .also {
-                        it.setSurfaceProvider(previewView.surfaceProvider)
-                    }
+                val preview = androidx.camera.core.Preview.Builder().build().also {
+                    it.setSurfaceProvider(previewView.surfaceProvider)
+                }
 
-                val imageCapture = ImageCapture.Builder().build()
+                imageCapture = ImageCapture.Builder().build()
 
                 try {
                     cameraProvider.unbindAll()
@@ -122,22 +48,53 @@ class CameraHandler : ICameraHandler {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-            },
-            ContextCompat.getMainExecutor(this)
+            }, ContextCompat.getMainExecutor(this)
         )
     }
 
-    private suspend fun ComponentActivity.getCameraProvider(): ProcessCameraProvider {
-        return suspendCoroutine { continuation ->
-            ProcessCameraProvider.getInstance(this).also { cameraProvider ->
-                cameraProvider.addListener({
+    override fun ComponentActivity.takePhoto(onPhotoSaved: (Uri) -> Unit) {
+        val imageCapture = imageCapture ?: return
 
-                    continuation.resumeWith(
-                        Result.success(cameraProvider.get())
-                    )
+        val name = SimpleDateFormat(
+            FILENAME_FORMAT, Locale.ENGLISH
+        ).format(System.currentTimeMillis())
 
-                }, ContextCompat.getMainExecutor(this))
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
             }
         }
+
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(
+            contentResolver,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            contentValues
+        ).build()
+
+        imageCapture.takePicture(outputOptions,
+            ContextCompat.getMainExecutor(this),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+
+                    outputFileResults.savedUri?.let(onPhotoSaved)
+
+                    Toast.makeText(
+                        this@takePhoto,
+                        "image saved ${outputFileResults.savedUri}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                override fun onError(exception: ImageCaptureException) {
+                    Toast.makeText(this@takePhoto, "fail: ${exception.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
+    }
+
+    private companion object {
+        const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
     }
 }

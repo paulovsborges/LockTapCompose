@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -48,8 +49,7 @@ import com.pvsb.presentation.R
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.utils.components.BackButton
 
-class PhotoDetailsActivity : ComponentActivity(),
-    ICameraHandler by CameraHandler() {
+class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandler() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,11 +125,37 @@ class PhotoDetailsActivity : ComponentActivity(),
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(630.dp)
+                .height(630.dp),
+            contentAlignment = Alignment.BottomCenter
         ) {
-            AndroidView(factory = {
-                preview
-            })
+
+            AndroidView(
+                factory = {
+                    preview
+                }, modifier = Modifier.fillMaxSize()
+            )
+
+            Button(onClick = {
+                takePhoto {
+
+                }
+            }) {
+                Text(text = "take photo")
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_change_camera_lens),
+                    contentDescription = "",
+                    tint = Color.White,
+                    modifier = Modifier.size(40.dp)
+                )
+            }
         }
 
         startCamera(preview)
@@ -149,11 +175,9 @@ class PhotoDetailsActivity : ComponentActivity(),
     private fun ComposeDetailsImageOptions(modifier: Modifier = Modifier) {
 
         Row(
-            modifier = modifier,
-            horizontalArrangement = Arrangement.spacedBy(
+            modifier = modifier, horizontalArrangement = Arrangement.spacedBy(
                 50.dp, Alignment.CenterHorizontally
-            ),
-            verticalAlignment = Alignment.Bottom
+            ), verticalAlignment = Alignment.Bottom
         ) {
 
             ComposeImageOption(
@@ -238,8 +262,7 @@ class PhotoDetailsActivity : ComponentActivity(),
 
     @Composable
     private fun ComposeImage(
-        modifier: Modifier = Modifier,
-        imagePath: String
+        modifier: Modifier = Modifier, imagePath: String
     ) {
 
         val painter = rememberAsyncImagePainter(ImageRequest.Builder(LocalContext.current)
