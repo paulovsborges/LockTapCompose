@@ -1,14 +1,12 @@
 package com.pvsb.presentation.categories.allScreen.photoVault.photoDetails
 
 import android.content.ContentValues
-import android.net.Uri
+import android.graphics.Bitmap
 import android.os.Build
 import android.provider.MediaStore
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
@@ -20,10 +18,14 @@ class CameraHandler : ICameraHandler {
     private var imageCapture: ImageCapture? = null
     private var isLensFacingBack: Boolean = true
 
+    private var previewView: PreviewView? = null
+
     override fun ComponentActivity.startCamera(
         previewView: PreviewView
     ) {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+
+        this@CameraHandler.previewView = previewView
 
         cameraProviderFuture.addListener(
             {
@@ -37,9 +39,15 @@ class CameraHandler : ICameraHandler {
 
                 val cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
 
-                val preview = androidx.camera.core.Preview.Builder().build().also {
-                    it.setSurfaceProvider(previewView.surfaceProvider)
-                }
+                val preview = this@CameraHandler.previewView?.let { preview ->
+                    androidx.camera.core.Preview.Builder().build().also {
+                        it.setSurfaceProvider(preview.surfaceProvider)
+                    }
+                } ?: return@addListener
+
+//                val preview = androidx.camera.core.Preview.Builder().build().also {
+//                    it.setSurfaceProvider(this@CameraHandler.previewView!!.surfaceProvider)
+//                }
 
                 imageCapture = ImageCapture.Builder().build()
 
@@ -53,7 +61,7 @@ class CameraHandler : ICameraHandler {
         )
     }
 
-    override fun ComponentActivity.takePhoto(onPhotoSaved: (Uri) -> Unit) {
+    override fun ComponentActivity.takePhoto(onPhotoSaved: (Bitmap) -> Unit) {
         val imageCapture = imageCapture ?: return
 
         val name = SimpleDateFormat(
@@ -74,17 +82,33 @@ class CameraHandler : ICameraHandler {
             contentValues
         ).build()
 
-        imageCapture.takePicture(outputOptions,
-            ContextCompat.getMainExecutor(this),
-            object : ImageCapture.OnImageSavedCallback {
-                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                    outputFileResults.savedUri?.let(onPhotoSaved)
-                }
+//        imageCapture.takePicture(
+//            ContextCompat.getMainExecutor(this),
+//            @ExperimentalGetImage object : ImageCapture.OnImageCapturedCallback() {
+//                override fun onCaptureSuccess(proxy: ImageProxy) {
+////                    val bitMap = BitmapUtils.getBitmap(proxy)
+////
+////                    val bitMap = proxy.image?.toBitmap()
+////                    bitMap?.let(onPhotoSaved)
+//
+//
+//
+//
+//                    proxy.close()
+//                }
+//            })
 
-                override fun onError(exception: ImageCaptureException) {
-                    exception.printStackTrace()
-                }
-            })
+//        imageCapture.takePicture(outputOptions,
+//            ContextCompat.getMainExecutor(this),
+//            object : ImageCapture.OnImageSavedCallback {
+//                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+//                    outputFileResults.savedUri?.let(onPhotoSaved)
+//                }
+//
+//                override fun onError(exception: ImageCaptureException) {
+//                    exception.printStackTrace()
+//                }
+//            })
     }
 
     override fun ComponentActivity.toggleLensFacing(
@@ -92,6 +116,10 @@ class CameraHandler : ICameraHandler {
     ) {
         isLensFacingBack = !isLensFacingBack
         startCamera(previewView)
+    }
+
+    override fun getBitMapFromPreview(): Bitmap? {
+        return previewView?.bitmap
     }
 
     private companion object {

@@ -57,6 +57,8 @@ dependencies {
     implementation(Kotlin.serialization)
     implementation(Hilt.android)
     implementation(Hilt.compose)
+    implementation("androidx.exifinterface:exifinterface:1.3.3")
+    implementation("androidx.exifinterface:exifinterface:1.3.3")
     kapt(Hilt.compiler)
 
     implementation(CameraX.core)

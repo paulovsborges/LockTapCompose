@@ -1,5 +1,6 @@
 package com.pvsb.presentation.categories.allScreen.photoVault.photoDetails
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -106,7 +107,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                     viewModel.getPhotoDetails(photoId)
 
                     state.details?.imageFilePath?.let { imagePath ->
-                        ComposeImageDetails(imagePath)
+//                        ComposeImageDetails(imagePath)
                     }
                 } else {
                     InitCameraPreview()
@@ -149,7 +150,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
         }
 
         var imagePath by remember {
-            mutableStateOf("")
+            mutableStateOf<Bitmap?>(null)
         }
 
         Box(
@@ -157,7 +158,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
             contentAlignment = Alignment.BottomCenter
         ) {
 
-            if (imagePath.isEmpty()) {
+            if (imagePath == null) {
                 AndroidView(
                     factory = {
                         preview
@@ -176,9 +177,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                             },
                             indication = rememberRipple(bounded = false, radius = 20.dp)
                         ) {
-                            takePhoto { uri ->
-                                imagePath = uri.toString()
-                            }
+                            imagePath = getBitMapFromPreview()
                         }
                 )
 
@@ -205,7 +204,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                     )
                 }
             } else {
-                ComposeImage(modifier = Modifier.fillMaxSize(), imagePath = imagePath)
+                ComposeImage(modifier = Modifier.fillMaxSize(), imagePath = imagePath!!)
 
                 Row(
                     modifier = Modifier
@@ -229,7 +228,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                                 },
                                 indication = rememberRipple(bounded = false, radius = 20.dp)
                             ) {
-                                imagePath = ""
+                                imagePath = null
                             }
                     )
 
@@ -245,7 +244,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                                 },
                                 indication = rememberRipple(bounded = false, radius = 20.dp)
                             ) {
-                                viewModel.addPhoto(imagePath)
+//                                viewModel.addPhoto(imagePath)
                             }
                     )
                 }
@@ -257,7 +256,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
 
     @Composable
     private fun ComposeImageDetails(
-        imagePath: String
+        imagePath: Any
     ) {
 
         ComposeImage(
@@ -358,11 +357,12 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
 
     @Composable
     private fun ComposeImage(
-        modifier: Modifier = Modifier, imagePath: String
+        modifier: Modifier = Modifier, imagePath: Any
     ) {
 
         val painter = rememberAsyncImagePainter(ImageRequest.Builder(LocalContext.current)
             .data(data = imagePath)
+            .crossfade(true)
             .build(), onError = {
             Log.d("", "### ${it.result.throwable.message}")
         })
@@ -380,7 +380,6 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
     private fun ComposeContentPreview() {
         ComposeScreenLayout()
     }
-
 
     companion object {
         const val PHOTO_FROM_VAULT_ID_KEY = "PHOTO_FROM_VAULT_ID_KEY"
