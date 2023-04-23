@@ -12,43 +12,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 
-//
-//
-//fun saveBitMapToFile(bitMap: Bitmap) {
-//
-//    try {
-//        val root = Environment.getExternalStoragePublicDirectory(
-//            Environment.DIRECTORY_PICTURES
-//        ).toString()
-//
-//        val myDir = File("$root/saved_images")
-//
-//        myDir.mkdirs()
-////        if (!myDir.exists()) {
-////            try {
-////                myDir.mkdirs()
-////            } catch (e: Exception) {
-////                e.printStackTrace()
-////            }
-////        }
-//
-//        val fileName = System.currentTimeMillis().toString().replace(":", ".") + ".jpg"
-//
-//        val newFile = File(myDir, fileName)
-//
-//        val outStream = FileOutputStream(newFile)
-//
-//        bitMap.compress(Bitmap.CompressFormat.PNG, 100, outStream)
-//
-//        Log.d("", "## uri ${newFile.absolutePath}")
-//
-//        outStream.flush()
-//        outStream.close()
-//    } catch (e: Exception) {
-//        e.printStackTrace()
-//    }
-//}
-
 fun Context.saveBitMapToFile(bitmap: Bitmap): Uri? {
 
     var uri: Uri? = null
