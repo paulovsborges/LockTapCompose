@@ -3,6 +3,7 @@ package com.pvsb.presentation.categories.allScreen.photoVault
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -13,9 +14,11 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -26,6 +29,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -36,17 +42,26 @@ import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import com.pvsb.domain.entity.Photo
 import com.pvsb.presentation.R
 import com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.PhotoDetailsActivity
 import com.pvsb.presentation.ui.messageTextStyle
@@ -90,10 +105,54 @@ class PhotoVaultActivity : ComponentActivity() {
         viewModel.getPhotos()
     }
 
+    @OptIn(ExperimentalMaterialApi::class)
+    @Composable
+    private fun ComposeAddPhotoBottomSheetOptions(
+        modifier: Modifier = Modifier,
+        state: ModalBottomSheetState,
+    ) {
+
+        val scope = rememberCoroutineScope()
+
+        Box(
+            modifier = modifier, contentAlignment = Alignment.BottomCenter
+        ) {
+
+            ModalBottomSheetLayout(
+                modifier = Modifier.fillMaxWidth(),
+                sheetContent = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.4f)
+                    ) {
+                        ComposeAddPhotoBottomSheetOptionsLayout{
+                            scope.launch {
+                                state.hide()
+                            }
+                        }
+                    }
+                },
+                sheetState = state,
+                sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
+            ) {
+                ComposeContent {
+                    scope.launch {
+                        state.show()
+                    }
+                }
+            }
+        }
+    }
+
     @Composable
     private fun ComposeContent(
         onAddClick: () -> Unit = {}
     ) {
+
+        val state = viewModel.state.collectAsState()
+
+        val photos = state.value.photos
 
         Box(
             modifier = Modifier
@@ -111,17 +170,24 @@ class PhotoVaultActivity : ComponentActivity() {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 20.dp)
                 ) {
 
                     Text(
                         text = stringResource(id = R.string.session_option_label_photo_vault),
-                        style = titleTextStyle
+                        style = titleTextStyle,
+                        modifier = Modifier.padding(start = 20.dp)
                     )
 
                     Spacer(modifier = Modifier.height(25.dp))
 
-                    ComposeEmptyState(modifier = Modifier.fillMaxSize())
+                    if (photos.isEmpty()) {
+                        ComposeEmptyState(modifier = Modifier.fillMaxSize())
+                    } else {
+                        ComposePhotoList(
+                            photos = photos,
+                            modifier = Modifier.padding(horizontal = 4.dp)
+                        )
+                    }
                 }
             }
 
@@ -135,6 +201,57 @@ class PhotoVaultActivity : ComponentActivity() {
                     onAddClick()
                 }
             }
+        }
+    }
+
+    @Composable
+    private fun ComposePhotoList(
+        modifier: Modifier = Modifier,
+        photos: List<Photo>
+    ) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            modifier = modifier.background(AppColors.background)
+        ) {
+            items(photos) {
+                ComposePhotoCell(photo = it, modifier = Modifier)
+            }
+        }
+    }
+
+    @Composable
+    private fun ComposePhotoCell(
+        modifier: Modifier = Modifier, photo: Photo
+    ) {
+
+        Card(
+            modifier = modifier
+                .size(120.dp)
+                .padding(1.dp)
+                .clickable(
+                    interactionSource = remember {
+                        MutableInteractionSource()
+                    },
+                    indication = rememberRipple(bounded = false, radius = 50.dp)
+                ) {
+                    navigateToPhotoDetailsOrTakePicture(photo.id)
+                },
+            shape = RoundedCornerShape(3.dp),
+        ) {
+
+            val painter = rememberAsyncImagePainter(ImageRequest.Builder(LocalContext.current)
+                .data(data = photo.imageFilePath).crossfade(true).build(), onError = {
+                Log.d("", "### ${it.result.throwable.message}")
+            })
+
+            Image(
+                painter = painter,
+                contentDescription = "",
+                modifier = Modifier
+                    .background(AppColors.translucent)
+                    .fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
         }
     }
 
@@ -173,45 +290,10 @@ class PhotoVaultActivity : ComponentActivity() {
         }
     }
 
-    @OptIn(ExperimentalMaterialApi::class)
-    @Composable
-    private fun ComposeAddPhotoBottomSheetOptions(
-        modifier: Modifier = Modifier,
-        state: ModalBottomSheetState,
-    ) {
-
-        val scope = rememberCoroutineScope()
-
-        Box(
-            modifier = modifier, contentAlignment = Alignment.BottomCenter
-        ) {
-
-            ModalBottomSheetLayout(
-                modifier = Modifier.fillMaxWidth(),
-                sheetContent = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.4f)
-                    ) {
-                        ComposeAddPhotoBottomSheetOptionsLayout()
-                    }
-                },
-                sheetState = state,
-                sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
-            ) {
-                ComposeContent {
-                    scope.launch {
-                        state.show()
-                    }
-                }
-            }
-        }
-    }
-
     @Composable
     private fun ComposeAddPhotoBottomSheetOptionsLayout(
-        modifier: Modifier = Modifier
+        modifier: Modifier = Modifier,
+        onOptionClicked: () -> Unit = {}
     ) {
 
         val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
@@ -262,6 +344,7 @@ class PhotoVaultActivity : ComponentActivity() {
 
                 if (checkSelfPermissionCompat(Manifest.permission.CAMERA)) {
                     navigateToPhotoDetailsOrTakePicture()
+                    onOptionClicked()
                 } else {
                     requestPermissionLauncher?.launch(Manifest.permission.CAMERA)
                 }
@@ -280,6 +363,7 @@ class PhotoVaultActivity : ComponentActivity() {
                 singlePhotoPickerLauncher.launch(
                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                 )
+                onOptionClicked()
             }
         }
     }
@@ -384,5 +468,21 @@ class PhotoVaultActivity : ComponentActivity() {
     @Composable
     private fun ComposeContentPreview() {
         ComposeContent()
+    }
+
+    @Preview
+    @Composable
+    private fun ComposePhotoListPreview() {
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(AppColors.background)
+                .padding(horizontal = 5.dp)
+        ) {
+            ComposePhotoList(modifier = Modifier, photos = List(20) {
+                Photo(it.toLong(), "", false)
+            })
+        }
     }
 }
