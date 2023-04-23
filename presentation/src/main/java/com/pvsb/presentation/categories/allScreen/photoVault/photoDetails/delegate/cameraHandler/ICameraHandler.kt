@@ -1,4 +1,4 @@
-package com.pvsb.presentation.categories.allScreen.photoVault.photoDetails
+package com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.delegate.cameraHandler
 
 import android.graphics.Bitmap
 import android.net.Uri

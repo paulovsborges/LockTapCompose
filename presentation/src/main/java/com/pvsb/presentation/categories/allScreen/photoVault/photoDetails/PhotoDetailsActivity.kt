@@ -16,14 +16,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -44,7 +42,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,9 +50,11 @@ import androidx.compose.ui.viewinterop.AndroidView
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.pvsb.presentation.R
+import com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.delegate.cameraHandler.CameraHandler
+import com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.delegate.cameraHandler.ICameraHandler
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.utils.components.BackButton
-import com.pvsb.presentation.utils.getUriAccessPermission
+import com.pvsb.presentation.utils.saveBitMapToFile
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -107,7 +106,11 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                     viewModel.getPhotoDetails(photoId)
 
                     state.details?.imageFilePath?.let { imagePath ->
-//                        ComposeImageDetails(imagePath)
+                        ComposeImage(
+                            imagePath = imagePath, modifier = Modifier
+                                .fillMaxWidth()
+                                .height(630.dp)
+                        )
                     }
                 } else {
                     InitCameraPreview()
@@ -149,7 +152,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
             mutableStateOf(PreviewView(this))
         }
 
-        var imagePath by remember {
+        var imageBitMap by remember {
             mutableStateOf<Bitmap?>(null)
         }
 
@@ -158,7 +161,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
             contentAlignment = Alignment.BottomCenter
         ) {
 
-            if (imagePath == null) {
+            if (imageBitMap == null) {
                 AndroidView(
                     factory = {
                         preview
@@ -177,7 +180,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                             },
                             indication = rememberRipple(bounded = false, radius = 20.dp)
                         ) {
-                            imagePath = getBitMapFromPreview()
+                            imageBitMap = getBitMapFromPreview()
                         }
                 )
 
@@ -204,7 +207,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                     )
                 }
             } else {
-                ComposeImage(modifier = Modifier.fillMaxSize(), imagePath = imagePath!!)
+                ComposeImage(modifier = Modifier.fillMaxSize(), imagePath = imageBitMap!!)
 
                 Row(
                     modifier = Modifier
@@ -228,7 +231,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                                 },
                                 indication = rememberRipple(bounded = false, radius = 20.dp)
                             ) {
-                                imagePath = null
+                                imageBitMap = null
                             }
                     )
 
@@ -244,7 +247,8 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                                 },
                                 indication = rememberRipple(bounded = false, radius = 20.dp)
                             ) {
-//                                viewModel.addPhoto(imagePath)
+                                val uri = imageBitMap?.let(::saveBitMapToFile)
+                                viewModel.addPhoto(uri.toString())
                             }
                     )
                 }
@@ -252,18 +256,6 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
         }
 
         startCamera(preview)
-    }
-
-    @Composable
-    private fun ComposeImageDetails(
-        imagePath: Any
-    ) {
-
-        ComposeImage(
-            imagePath = imagePath, modifier = Modifier
-                .fillMaxWidth()
-                .height(630.dp)
-        )
     }
 
     @Composable

@@ -1,4 +1,4 @@
-package com.pvsb.presentation.categories.allScreen.photoVault.photoDetails
+package com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.delegate.cameraHandler
 
 import android.content.ContentValues
 import android.graphics.Bitmap
@@ -17,7 +17,6 @@ class CameraHandler : ICameraHandler {
 
     private var imageCapture: ImageCapture? = null
     private var isLensFacingBack: Boolean = true
-
     private var previewView: PreviewView? = null
 
     override fun ComponentActivity.startCamera(
@@ -44,10 +43,6 @@ class CameraHandler : ICameraHandler {
                         it.setSurfaceProvider(preview.surfaceProvider)
                     }
                 } ?: return@addListener
-
-//                val preview = androidx.camera.core.Preview.Builder().build().also {
-//                    it.setSurfaceProvider(this@CameraHandler.previewView!!.surfaceProvider)
-//                }
 
                 imageCapture = ImageCapture.Builder().build()
 
