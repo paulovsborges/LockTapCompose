@@ -82,4 +82,13 @@
     <string name="photo_vault_details_share_label">Share</string>
     <string name="photo_vault_details_favorite_label">Add to Fav</string>
     <string name="photo_vault_details_delete_label">Delete</string>
+
+    <!--   Content descriptions-->
+
+   <string name="button_take_photo">take photo</string>
+   <string name="button_turn_facing_camera">turn camera lens</string>
+   <string name="button_try_again_take_photo">try again</string>
+   <string name="button_confirm">confirm</string>
+
+
 </resources>

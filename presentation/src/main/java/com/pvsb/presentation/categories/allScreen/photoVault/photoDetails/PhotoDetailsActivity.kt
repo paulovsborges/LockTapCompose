@@ -60,33 +60,48 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandler() {
 
+    enum class ScreenType {
+        PHOTO_DETAILS,
+        TAKE_PICTURE
+    }
+
     private val viewModel: PhotoDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val photoId = intent.getLongExtra(
+            PHOTO_FROM_VAULT_ID_KEY, DEFAULT_PHOTO_FROM_VAULT_ID
+        )
+
+        viewModel.getPhotoDetails(photoId)
+
+        val screenType = if (photoId != DEFAULT_PHOTO_FROM_VAULT_ID) {
+            ScreenType.PHOTO_DETAILS
+        } else {
+            ScreenType.TAKE_PICTURE
+        }
+
         setContent {
 
             val state = viewModel.state.collectAsState()
 
-            ComposeScreenLayout(state.value)
+            ComposeScreenLayout(
+                state = state.value,
+                screenType = screenType
+            )
         }
     }
 
     @Composable
     private fun ComposeScreenLayout(
-        state: PhotoDetailsState = PhotoDetailsState()
+        state: PhotoDetailsState = PhotoDetailsState(),
+        screenType: ScreenType = ScreenType.PHOTO_DETAILS
     ) {
 
         if (state.shouldFinishScreen) {
             finish()
         }
-
-        val photoId = intent.getLongExtra(
-            PHOTO_FROM_VAULT_ID_KEY, DEFAULT_PHOTO_FROM_VAULT_ID
-        )
-
-        val isPhotoDetails = photoId != DEFAULT_PHOTO_FROM_VAULT_ID
 
         Column(
             modifier = Modifier
@@ -102,18 +117,19 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                 modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom
             ) {
 
-                if (isPhotoDetails) {
-                    viewModel.getPhotoDetails(photoId)
-
-                    state.details?.imageFilePath?.let { imagePath ->
-                        ComposeImage(
-                            imagePath = imagePath, modifier = Modifier
-                                .fillMaxWidth()
-                                .height(630.dp)
-                        )
+                when (screenType) {
+                    ScreenType.PHOTO_DETAILS -> {
+                        state.details?.imageFilePath?.let { imagePath ->
+                            ComposeImage(
+                                imagePath = imagePath, modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(630.dp)
+                            )
+                        }
                     }
-                } else {
-                    InitCameraPreview()
+                    ScreenType.TAKE_PICTURE -> {
+                        InitCameraPreview()
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(5.dp))
@@ -130,7 +146,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                         )
                 ) {
 
-                    if (isPhotoDetails) {
+                    if (screenType == ScreenType.PHOTO_DETAILS) {
                         ComposeImageDetailsOptions(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -170,7 +186,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
 
                 Icon(
                     painter = painterResource(id = R.drawable.ic_shoot_photo),
-                    contentDescription = "take photo",
+                    contentDescription = stringResource(id = R.string.button_take_photo),
                     tint = Color.White,
                     modifier = Modifier
                         .size(80.dp)
@@ -192,7 +208,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_change_camera_lens),
-                        contentDescription = "turn camera lens",
+                        contentDescription = stringResource(id = R.string.button_turn_facing_camera),
                         tint = Color.White,
                         modifier = Modifier
                             .size(40.dp)
@@ -221,7 +237,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
 
                     Icon(
                         painter = painterResource(id = R.drawable.ic_try_again),
-                        contentDescription = "try again",
+                        contentDescription = stringResource(id = R.string.button_try_again_take_photo),
                         tint = Color.White,
                         modifier = Modifier
                             .size(40.dp)
@@ -237,7 +253,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
 
                     Icon(
                         painter = painterResource(id = R.drawable.ic_confirm),
-                        contentDescription = "confirm",
+                        contentDescription = stringResource(id = R.string.button_confirm),
                         tint = Color.White,
                         modifier = Modifier
                             .size(40.dp)
