@@ -78,9 +78,8 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
             PHOTO_FROM_VAULT_ID_KEY, DEFAULT_PHOTO_FROM_VAULT_ID
         )
 
-        viewModel.getPhotoDetails(photoId)
-
         val screenType = if (photoId != DEFAULT_PHOTO_FROM_VAULT_ID) {
+            viewModel.getPhotoDetails(photoId)
             ScreenType.PHOTO_DETAILS
         } else {
             ScreenType.TAKE_PICTURE
@@ -317,13 +316,12 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
             }
 
             Column(
-                modifier = Modifier.clickable {
-                    viewModel.togglePhotoFavorite()
-                },
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
 
-                ComposeFavoriteButton(isFavorite = photoDetails.isFavorite)
+                ComposeFavoriteButton(isFavorite = photoDetails.isFavorite){
+                    viewModel.togglePhotoFavorite()
+                }
 
                 Text(
                     text = stringResource(id = R.string.photo_vault_details_favorite_label),
