@@ -1,5 +1,6 @@
 package com.pvsb.presentation.categories.allScreen.photoVault.photoDetails
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
@@ -47,8 +48,10 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.pvsb.domain.entity.Photo
 import com.pvsb.presentation.R
 import com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.delegate.cameraHandler.CameraHandler
 import com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.delegate.cameraHandler.ICameraHandler
@@ -151,7 +154,8 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .wrapContentHeight()
-                                .padding(top = 12.dp, start = 80.dp, end = 80.dp)
+                                .padding(top = 12.dp, start = 80.dp, end = 80.dp),
+                            state.details!!
                         )
 
                         Spacer(modifier = Modifier.height(20.dp))
@@ -275,7 +279,10 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
     }
 
     @Composable
-    private fun ComposeImageDetailsOptions(modifier: Modifier = Modifier) {
+    private fun ComposeImageDetailsOptions(
+        modifier: Modifier = Modifier,
+        photoDetails: Photo
+    ) {
 
         Row(
             modifier = modifier, horizontalArrangement = Arrangement.spacedBy(
@@ -287,7 +294,13 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                 icon = R.drawable.ic_share,
                 label = R.string.photo_vault_details_share_label,
             ) {
+                val shareIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_STREAM, photoDetails.imageFilePath.toUri())
+                    type = "image/png"
+                }
 
+                startActivity(shareIntent)
             }
 
             Column(
