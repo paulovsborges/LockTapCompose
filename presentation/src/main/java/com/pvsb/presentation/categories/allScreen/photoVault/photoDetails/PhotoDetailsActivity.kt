@@ -57,6 +57,7 @@ import com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.delega
 import com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.delegate.cameraHandler.ICameraHandler
 import com.pvsb.presentation.ui.theme.AppColors
 import com.pvsb.presentation.utils.components.BackButton
+import com.pvsb.presentation.utils.components.ComposeErrorCard
 import com.pvsb.presentation.utils.saveBitMapToFile
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -116,6 +117,16 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                 finish()
             }
 
+            ComposeErrorCard(
+                isErrorVisible = state.error != null,
+                error = state.error,
+                modifier = Modifier
+                    .padding(20.dp)
+                    .clickable {
+                        viewModel.dismissError()
+                    }
+            )
+
             Column(
                 modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom
             ) {
@@ -150,13 +161,15 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                 ) {
 
                     if (screenType == ScreenType.PHOTO_DETAILS) {
-                        ComposeImageDetailsOptions(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight()
-                                .padding(top = 12.dp, start = 80.dp, end = 80.dp),
-                            state.details!!
-                        )
+                        state.details?.let {
+                            ComposeImageDetailsOptions(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .wrapContentHeight()
+                                    .padding(top = 12.dp, start = 80.dp, end = 80.dp),
+                                state.details
+                            )
+                        }
 
                         Spacer(modifier = Modifier.height(20.dp))
                     }
@@ -305,12 +318,12 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
 
             Column(
                 modifier = Modifier.clickable {
-
+                    viewModel.togglePhotoFavorite()
                 },
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
 
-                ComposeFavoriteButton()
+                ComposeFavoriteButton(isFavorite = photoDetails.isFavorite)
 
                 Text(
                     text = stringResource(id = R.string.photo_vault_details_favorite_label),
@@ -323,7 +336,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                 icon = R.drawable.ic_delete,
                 label = R.string.photo_vault_details_delete_label,
             ) {
-
+                viewModel.deletePhoto()
             }
         }
     }
