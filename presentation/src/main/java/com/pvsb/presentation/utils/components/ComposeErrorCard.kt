@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.presentation.R
-import com.pvsb.presentation.ui.theme.AppColors
+import com.pvsb.presentation.ui.AppStyle.AppColors
 
 @Composable
 fun ComposeErrorCard(

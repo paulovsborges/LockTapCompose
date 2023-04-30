@@ -28,9 +28,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pvsb.presentation.R
-import com.pvsb.presentation.ui.theme.AppColors.background
-import com.pvsb.presentation.ui.theme.AppColors.gray
-import com.pvsb.presentation.ui.theme.AppColors.lightBlue
+import com.pvsb.presentation.ui.AppStyle.AppColors.background
+import com.pvsb.presentation.ui.AppStyle.AppColors.gray
+import com.pvsb.presentation.ui.AppStyle.AppColors.lightBlue
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)

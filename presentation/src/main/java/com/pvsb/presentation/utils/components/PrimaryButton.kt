@@ -19,7 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pvsb.presentation.R
-import com.pvsb.presentation.ui.theme.AppColors
+import com.pvsb.presentation.ui.AppStyle.AppColors
 
 @Composable
 fun PrimaryButton(

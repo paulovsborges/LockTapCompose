@@ -33,10 +33,10 @@ import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.presentation.R
 import com.pvsb.presentation.contact.contactDetails.ContactDetailsActivity
-import com.pvsb.presentation.ui.messageTextStyle
-import com.pvsb.presentation.ui.theme.AppColors
-import com.pvsb.presentation.ui.theme.AppColors.background
-import com.pvsb.presentation.ui.titleTextStyle
+import com.pvsb.presentation.ui.AppStyle.AppColors
+import com.pvsb.presentation.ui.AppStyle.AppColors.background
+import com.pvsb.presentation.ui.AppStyle.TextStyles.messageTextStyle
+import com.pvsb.presentation.ui.AppStyle.TextStyles.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.ComposeContactCell
 import com.pvsb.presentation.utils.components.ComposeErrorCard

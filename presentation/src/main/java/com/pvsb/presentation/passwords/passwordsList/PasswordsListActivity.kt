@@ -46,9 +46,9 @@ import androidx.compose.ui.unit.sp
 import com.pvsb.domain.entity.Password
 import com.pvsb.presentation.R
 import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsActivity
-import com.pvsb.presentation.ui.messageTextStyle
-import com.pvsb.presentation.ui.theme.AppColors
-import com.pvsb.presentation.ui.titleTextStyle
+import com.pvsb.presentation.ui.AppStyle.AppColors
+import com.pvsb.presentation.ui.AppStyle.TextStyles.messageTextStyle
+import com.pvsb.presentation.ui.AppStyle.TextStyles.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.FloatingAddButton
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField

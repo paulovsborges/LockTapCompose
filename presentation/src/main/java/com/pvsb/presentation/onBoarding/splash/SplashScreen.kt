@@ -19,7 +19,7 @@ import androidx.navigation.NavController
 import com.pvsb.presentation.R
 import com.pvsb.presentation.onBoarding.OnBoardingViewModel
 import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens
-import com.pvsb.presentation.ui.theme.AppColors.background
+import com.pvsb.presentation.ui.AppStyle.AppColors.background
 import kotlinx.coroutines.delay
 
 @Composable

@@ -55,7 +55,7 @@ import com.pvsb.domain.entity.Photo
 import com.pvsb.presentation.R
 import com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.delegate.cameraHandler.CameraHandler
 import com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.delegate.cameraHandler.ICameraHandler
-import com.pvsb.presentation.ui.theme.AppColors
+import com.pvsb.presentation.ui.AppStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.ComposeErrorCard
 import com.pvsb.presentation.utils.saveBitMapToFile
@@ -109,7 +109,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(AppColors.background)
+                .background(AppStyle.AppColors.background)
         ) {
 
             BackButton {
@@ -154,7 +154,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                         .background(
                             Brush.verticalGradient(
                                 listOf(
-                                    AppColors.gray, AppColors.gray
+                                    AppStyle.AppColors.gray, AppStyle.AppColors.gray
                                 )
                             ),
                             alpha = 0.15f
@@ -360,7 +360,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                         modifier = Modifier.size(20.dp),
                         imageVector = Icons.Rounded.Favorite,
                         contentDescription = "",
-                        tint = AppColors.lightBlue
+                        tint = AppStyle.AppColors.lightBlue
                     )
                 } else {
                     Icon(
@@ -415,7 +415,7 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
             Image(
                 painter = painter,
                 contentDescription = "",
-                modifier = modifier.background(AppColors.translucent),
+                modifier = modifier.background(AppStyle.AppColors.translucent),
                 contentScale = ContentScale.Crop
             )
         }

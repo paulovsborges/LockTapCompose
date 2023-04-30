@@ -23,7 +23,6 @@ class CategoriesFavoritesViewModel @Inject constructor(
         viewModelScope.launch {
             when (val state = getFavoriteContactsUseCase()) {
                 is DataState.Error -> {
-
                 }
                 is DataState.Success -> {
                     _state.update { it.copy(contacts = state.data) }

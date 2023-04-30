@@ -36,9 +36,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pvsb.presentation.R
-import com.pvsb.presentation.ui.theme.AppColors
-import com.pvsb.presentation.ui.theme.AppColors.gray
-import com.pvsb.presentation.ui.theme.AppColors.lightBlue
+import com.pvsb.presentation.ui.AppStyle.AppColors
+import com.pvsb.presentation.ui.AppStyle.AppColors.gray
+import com.pvsb.presentation.ui.AppStyle.AppColors.lightBlue
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

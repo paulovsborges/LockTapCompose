@@ -90,5 +90,7 @@
    <string name="button_try_again_take_photo">try again</string>
    <string name="button_confirm">confirm</string>
 
+   <string name="empty_query_results_title">Oops... </string>
+   <string name="empty_query_results_message">No results were found for your query</string>
 
 </resources>

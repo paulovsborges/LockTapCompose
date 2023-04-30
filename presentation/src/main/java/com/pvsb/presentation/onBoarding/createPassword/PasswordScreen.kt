@@ -49,13 +49,13 @@ import com.pvsb.presentation.mainBottomNav.MainActivity
 import com.pvsb.presentation.onBoarding.OnBoardingViewModel
 import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreenState
 import com.pvsb.presentation.onBoarding.onBoarding.OnBoardingScreens
-import com.pvsb.presentation.ui.messageTextStyle
-import com.pvsb.presentation.ui.theme.AppColors.background
-import com.pvsb.presentation.ui.theme.AppColors.gray
-import com.pvsb.presentation.ui.theme.AppColors.lightBlue
-import com.pvsb.presentation.ui.theme.AppColors.red
-import com.pvsb.presentation.ui.theme.AppColors.secondary
-import com.pvsb.presentation.ui.titleTextStyle
+import com.pvsb.presentation.ui.AppStyle.AppColors.background
+import com.pvsb.presentation.ui.AppStyle.AppColors.gray
+import com.pvsb.presentation.ui.AppStyle.AppColors.lightBlue
+import com.pvsb.presentation.ui.AppStyle.AppColors.red
+import com.pvsb.presentation.ui.AppStyle.AppColors.secondary
+import com.pvsb.presentation.ui.AppStyle.TextStyles.messageTextStyle
+import com.pvsb.presentation.ui.AppStyle.TextStyles.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.ComposeErrorCard
 

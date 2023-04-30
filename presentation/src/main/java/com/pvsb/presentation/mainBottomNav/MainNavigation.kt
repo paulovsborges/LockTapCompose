@@ -31,7 +31,7 @@ import com.pvsb.presentation.categories.CategoriesScreen
 import com.pvsb.presentation.memos.MemosScreen
 import com.pvsb.presentation.passwords.PasswordsScreen
 import com.pvsb.presentation.settings.SettingsScreen
-import com.pvsb.presentation.ui.theme.AppColors.secondary
+import com.pvsb.presentation.ui.AppStyle.AppColors.secondary
 
 @Composable
 fun MainNavigation() {

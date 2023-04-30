@@ -40,10 +40,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pvsb.presentation.R
 import com.pvsb.presentation.onBoarding.OnBoardingViewModel
-import com.pvsb.presentation.ui.messageTextStyle
-import com.pvsb.presentation.ui.theme.AppColors.lightBlue
-import com.pvsb.presentation.ui.theme.AppColors.secondary
-import com.pvsb.presentation.ui.titleTextStyle
+import com.pvsb.presentation.ui.AppStyle.AppColors.lightBlue
+import com.pvsb.presentation.ui.AppStyle.AppColors.secondary
+import com.pvsb.presentation.ui.AppStyle.TextStyles.messageTextStyle
+import com.pvsb.presentation.ui.AppStyle.TextStyles.titleTextStyle
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

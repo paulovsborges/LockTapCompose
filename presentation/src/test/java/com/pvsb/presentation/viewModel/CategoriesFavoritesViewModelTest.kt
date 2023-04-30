@@ -2,7 +2,6 @@ package com.pvsb.presentation.viewModel
 
 import com.pvsb.domain.useCase.contact.getFavorites.GetFavoriteContactsUseCase
 import com.pvsb.presentation.categories.favoriteScreen.CategoriesFavoritesViewModel
-import com.pvsb.presentation.contact.contactList.ContactsViewModel
 import io.mockk.coVerifyOrder
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.pvsb.presentation.ui.theme.AppColors.background
+import com.pvsb.presentation.ui.AppStyle.AppColors.background
 
 @Composable
 fun ComposeOnBoardingPrintsBackgroundBuilder(drawables: List<Int>, modifier: Modifier = Modifier) {

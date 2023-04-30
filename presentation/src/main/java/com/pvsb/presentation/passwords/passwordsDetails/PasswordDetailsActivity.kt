@@ -22,8 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pvsb.presentation.R
-import com.pvsb.presentation.ui.theme.AppColors
-import com.pvsb.presentation.ui.titleTextStyle
+import com.pvsb.presentation.ui.AppStyle.AppColors
+import com.pvsb.presentation.ui.AppStyle.TextStyles.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.ComposeErrorCard
 import com.pvsb.presentation.utils.components.PrimaryButton

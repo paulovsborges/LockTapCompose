@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pvsb.presentation.R
-import com.pvsb.presentation.ui.theme.AppColors
+import com.pvsb.presentation.ui.AppStyle.AppColors
 import com.pvsb.presentation.utils.components.textField.PrimaryTextFieldConst.ANIMATION_DURATION
 
 @OptIn(ExperimentalComposeUiApi::class)

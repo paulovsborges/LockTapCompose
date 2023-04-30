@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import com.pvsb.presentation.categories.allScreen.CategoriesAllScreenContent
 import com.pvsb.presentation.categories.favoriteScreen.CategoriesFavoriteScreenContent
 import com.pvsb.presentation.mainBottomNav.MainScreens
-import com.pvsb.presentation.ui.theme.AppColors.background
-import com.pvsb.presentation.ui.titleTextStyle
+import com.pvsb.presentation.ui.AppStyle.AppColors.background
+import com.pvsb.presentation.ui.AppStyle.TextStyles.titleTextStyle
 import com.pvsb.presentation.utils.components.viewPager.ComposePrimaryViewPager
 import com.pvsb.presentation.utils.components.viewPager.ViewPagerContentType
 

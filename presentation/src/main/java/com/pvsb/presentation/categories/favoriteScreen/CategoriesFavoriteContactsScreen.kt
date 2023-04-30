@@ -17,7 +17,6 @@ fun CategoriesFavoriteContactsScreen(
     contacts: List<Contact> = emptyList()
 ) {
 
-
     Column(modifier = Modifier.padding(top = 20.dp)) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp)

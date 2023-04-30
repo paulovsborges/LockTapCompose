@@ -62,9 +62,9 @@ import coil.request.ImageRequest
 import com.pvsb.domain.entity.Photo
 import com.pvsb.presentation.R
 import com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.PhotoDetailsActivity
-import com.pvsb.presentation.ui.messageTextStyle
-import com.pvsb.presentation.ui.theme.AppColors
-import com.pvsb.presentation.ui.titleTextStyle
+import com.pvsb.presentation.ui.AppStyle
+import com.pvsb.presentation.ui.AppStyle.TextStyles.messageTextStyle
+import com.pvsb.presentation.ui.AppStyle.TextStyles.titleTextStyle
 import com.pvsb.presentation.utils.checkSelfPermissionCompat
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.FloatingAddButton
@@ -155,7 +155,7 @@ class PhotoVaultActivity : ComponentActivity() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(AppColors.background)
+                .background(AppStyle.AppColors.background)
         ) {
 
             Column {
@@ -209,7 +209,7 @@ class PhotoVaultActivity : ComponentActivity() {
     ) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
-            modifier = modifier.background(AppColors.background)
+            modifier = modifier.background(AppStyle.AppColors.background)
         ) {
             items(photos) {
                 ComposePhotoCell(photo = it, modifier = Modifier)
@@ -250,7 +250,7 @@ class PhotoVaultActivity : ComponentActivity() {
                 painter = painter,
                 contentDescription = "",
                 modifier = Modifier
-                    .background(AppColors.translucent)
+                    .background(AppStyle.AppColors.translucent)
                     .fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
@@ -284,7 +284,7 @@ class PhotoVaultActivity : ComponentActivity() {
 
             Text(
                 text = stringResource(id = R.string.photo_vault_empty_content_message),
-                color = AppColors.gray,
+                color = AppStyle.AppColors.gray,
                 textAlign = TextAlign.Center,
                 fontSize = 16.sp,
                 style = messageTextStyle
@@ -308,7 +308,7 @@ class PhotoVaultActivity : ComponentActivity() {
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .background(AppColors.secondary),
+                .background(AppStyle.AppColors.secondary),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -387,7 +387,7 @@ class PhotoVaultActivity : ComponentActivity() {
             Card(
                 shape = CircleShape,
                 modifier = Modifier.size(45.dp),
-                backgroundColor = AppColors.lightBlue
+                backgroundColor = AppStyle.AppColors.lightBlue
             ) {
 
                 Box(
@@ -480,7 +480,7 @@ class PhotoVaultActivity : ComponentActivity() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(AppColors.background)
+                .background(AppStyle.AppColors.background)
                 .padding(horizontal = 5.dp)
         ) {
             ComposePhotoList(

@@ -59,10 +59,10 @@ import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.presentation.R
 import com.pvsb.presentation.contact.contactList.ContactsViewModel
-import com.pvsb.presentation.ui.theme.AppColors.background
-import com.pvsb.presentation.ui.theme.AppColors.lightBlue
-import com.pvsb.presentation.ui.theme.AppColors.red
-import com.pvsb.presentation.ui.theme.AppColors.secondary
+import com.pvsb.presentation.ui.AppStyle.AppColors.background
+import com.pvsb.presentation.ui.AppStyle.AppColors.lightBlue
+import com.pvsb.presentation.ui.AppStyle.AppColors.red
+import com.pvsb.presentation.ui.AppStyle.AppColors.secondary
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.ComposeBottomSheetDialog
 import com.pvsb.presentation.utils.components.ComposeErrorCard

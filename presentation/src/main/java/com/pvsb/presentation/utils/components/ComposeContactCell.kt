@@ -35,8 +35,8 @@ import com.pvsb.domain.entity.Contact
 import com.pvsb.presentation.R
 import com.pvsb.presentation.contact.contactDetails.ContactDetailsActivity
 import com.pvsb.presentation.contact.contactDetails.SerializableContact
-import com.pvsb.presentation.ui.theme.AppColors.gray
-import com.pvsb.presentation.ui.theme.AppColors.secondary
+import com.pvsb.presentation.ui.AppStyle.AppColors.gray
+import com.pvsb.presentation.ui.AppStyle.AppColors.secondary
 import com.pvsb.presentation.utils.copyTextToClipBoard
 import com.pvsb.presentation.utils.getFirstLettersFromFullName
 import kotlinx.serialization.encodeToString
