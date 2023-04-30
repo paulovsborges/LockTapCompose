@@ -61,7 +61,7 @@ fun HandleSelectedPage(
     state: CategoriesFavoritesScreenState
 ) {
 
-    CategoriesFavoriteContactsScreen(state.contacts)
+    CategoriesFavoriteContactsScreen(contacts = state.contacts)
 
 //    when(type){
 //        ViewPagerContentType.Contacts -> TODO()
