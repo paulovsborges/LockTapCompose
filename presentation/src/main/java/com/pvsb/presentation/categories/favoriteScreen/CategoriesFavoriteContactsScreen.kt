@@ -9,15 +9,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.pvsb.domain.entity.Contact
-import com.pvsb.presentation.contact.contactList.ContactsViewModel
 import com.pvsb.presentation.utils.components.ComposeContactCell
 
 @Composable
 fun CategoriesFavoriteContactsScreen(
-    viewModel: ContactsViewModel = hiltViewModel()
+    contacts: List<Contact> = emptyList()
 ) {
+
+
+    Column(modifier = Modifier.padding(top = 20.dp)) {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(items = contacts) {
+                ComposeContactCell(contactData = it)
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CategoriesFavoriteContactsScreenPreview() {
 
     val dummyData = listOf(
         Contact(
@@ -36,19 +50,5 @@ fun CategoriesFavoriteContactsScreen(
         ),
     )
 
-    Column(modifier = Modifier.padding(top = 20.dp)) {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(items = dummyData) {
-                ComposeContactCell(contactData = it)
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun CategoriesFavoriteContactsScreenPreview() {
-    CategoriesFavoriteContactsScreen()
+    CategoriesFavoriteContactsScreen(dummyData)
 }

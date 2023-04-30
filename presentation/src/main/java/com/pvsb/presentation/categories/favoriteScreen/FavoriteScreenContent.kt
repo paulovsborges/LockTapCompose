@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -14,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.pvsb.presentation.ui.theme.AppColors.background
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
 import com.pvsb.presentation.utils.components.viewPager.ComposeSecondaryViewPager
@@ -21,8 +23,12 @@ import com.pvsb.presentation.utils.components.viewPager.ViewPagerContentType
 
 @Composable
 fun CategoriesFavoriteScreenContent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: CategoriesFavoritesViewModel = hiltViewModel()
 ) {
+
+    val state = viewModel.state.collectAsState()
+    viewModel.getFavoriteContent()
 
     var currentPage by remember { mutableStateOf<ViewPagerContentType>(ViewPagerContentType.Contacts) }
 
@@ -45,16 +51,17 @@ fun CategoriesFavoriteScreenContent(
             currentPage = it
         }
 
-        HandleSelectedPage(currentPage)
+        HandleSelectedPage(currentPage, state.value)
     }
 }
 
 @Composable
 fun HandleSelectedPage(
-    type: ViewPagerContentType
+    type: ViewPagerContentType,
+    state: CategoriesFavoritesScreenState
 ) {
 
-    CategoriesFavoriteContactsScreen()
+    CategoriesFavoriteContactsScreen(state.contacts)
 
 //    when(type){
 //        ViewPagerContentType.Contacts -> TODO()
