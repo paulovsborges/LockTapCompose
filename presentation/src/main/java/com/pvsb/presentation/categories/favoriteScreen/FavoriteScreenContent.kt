@@ -20,7 +20,7 @@ import com.pvsb.presentation.utils.components.viewPager.ComposeSecondaryViewPage
 import com.pvsb.presentation.utils.components.viewPager.ViewPagerContentType
 
 @Composable
-fun FavoriteScreenContent(
+fun CategoriesFavoriteScreenContent(
     modifier: Modifier = Modifier
 ) {
 
@@ -67,5 +67,5 @@ fun HandleSelectedPage(
 @Preview
 @Composable
 fun FavoriteScreenContentPreview() {
-    FavoriteScreenContent(modifier = Modifier.fillMaxSize())
+    CategoriesFavoriteScreenContent(modifier = Modifier.fillMaxSize())
 }

@@ -16,8 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pvsb.presentation.categories.allScreen.AllScreenContent
-import com.pvsb.presentation.categories.favoriteScreen.FavoriteScreenContent
+import com.pvsb.presentation.categories.allScreen.CategoriesAllScreenContent
+import com.pvsb.presentation.categories.favoriteScreen.CategoriesFavoriteScreenContent
 import com.pvsb.presentation.mainBottomNav.MainScreens
 import com.pvsb.presentation.ui.theme.AppColors.background
 import com.pvsb.presentation.ui.titleTextStyle
@@ -55,12 +55,12 @@ fun CategoriesScreen(
 
         when (viePagerState.currentPage) {
             0 -> {
-                AllScreenContent(
+                CategoriesAllScreenContent(
                     modifier = Modifier.fillMaxSize()
                 )
             }
             1 -> {
-                FavoriteScreenContent(modifier = Modifier.fillMaxSize())
+                CategoriesFavoriteScreenContent(modifier = Modifier.fillMaxSize())
             }
             else -> Unit
         }

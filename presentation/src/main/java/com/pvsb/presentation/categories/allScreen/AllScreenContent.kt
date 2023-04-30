@@ -25,7 +25,7 @@ import com.pvsb.presentation.utils.components.ComposeSessionOptionButton
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
 
 @Composable
-fun AllScreenContent(
+fun CategoriesAllScreenContent(
     modifier: Modifier = Modifier
 ) {
 
