@@ -1,4 +1,4 @@
-package com.pvsb.presentation.shared.sessionOptions
+package com.pvsb.presentation.utils.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

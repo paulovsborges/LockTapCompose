@@ -18,8 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.pvsb.presentation.R
+import com.pvsb.presentation.categories.allScreen.photoVault.PhotoVaultActivity
 import com.pvsb.presentation.contact.contactList.PrivateContactsActivity
-import com.pvsb.presentation.shared.sessionOptions.ComposeSessionOptionButton
+import com.pvsb.presentation.utils.components.ComposeSessionOptionButton
 import com.pvsb.presentation.passwords.passwordsList.PasswordsListActivity
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
 
@@ -73,7 +74,7 @@ private fun onOptionClicked(
             PasswordsListActivity::class.java
         }
         SessionOptionsButton.PHOTO_VAULT.id -> {
-            PrivateContactsActivity::class.java
+            PhotoVaultActivity::class.java
         }
         else -> return
     }
