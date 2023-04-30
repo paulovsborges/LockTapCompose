@@ -59,7 +59,7 @@ class PhotoVaultListViewModelTest {
     }
 
     @Test
-    fun `add photo to vault`(){
+    fun `add photo to vault`() {
 
         viewModel.addPhoto("")
 

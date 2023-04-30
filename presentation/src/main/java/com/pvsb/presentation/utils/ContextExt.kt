@@ -7,11 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 
 fun Context.copyTextToClipBoard(
     text: String,
@@ -34,4 +30,3 @@ fun Context.getUriAccessPermission(uri: Uri) {
 fun Context.checkSelfPermissionCompat(permission: String) = ActivityCompat.checkSelfPermission(
     this, permission
 ) == PackageManager.PERMISSION_GRANTED
-

@@ -134,7 +134,8 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                     ScreenType.PHOTO_DETAILS -> {
                         state.details?.imageFilePath?.let { imagePath ->
                             ComposeImage(
-                                imagePath = imagePath, modifier = Modifier
+                                imagePath = imagePath,
+                                modifier = Modifier
                                     .fillMaxWidth()
                                     .height(630.dp)
                             )
@@ -155,7 +156,8 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                                 listOf(
                                     AppColors.gray, AppColors.gray
                                 )
-                            ), alpha = 0.15f
+                            ),
+                            alpha = 0.15f
                         )
                 ) {
 
@@ -198,223 +200,235 @@ class PhotoDetailsActivity : ComponentActivity(), ICameraHandler by CameraHandle
                     factory = {
                         preview
                     }, modifier = Modifier.fillMaxSize()
-                )
+                    )
 
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_shoot_photo),
-                    contentDescription = stringResource(id = R.string.button_take_photo),
-                    tint = Color.White,
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clickable(
-                            interactionSource = remember {
-                                MutableInteractionSource()
-                            },
-                            indication = rememberRipple(bounded = false, radius = 20.dp)
-                        ) {
-                            imageBitMap = getBitMapFromPreview()
-                        }
-                )
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                    horizontalArrangement = Arrangement.End
-                ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_change_camera_lens),
-                        contentDescription = stringResource(id = R.string.button_turn_facing_camera),
+                        painter = painterResource(id = R.drawable.ic_shoot_photo),
+                        contentDescription = stringResource(id = R.string.button_take_photo),
                         tint = Color.White,
                         modifier = Modifier
-                            .size(40.dp)
+                            .size(80.dp)
                             .clickable(
                                 interactionSource = remember {
                                     MutableInteractionSource()
                                 },
                                 indication = rememberRipple(bounded = false, radius = 20.dp)
                             ) {
-                                toggleLensFacing(preview)
+                                imageBitMap = getBitMapFromPreview()
                             }
+                    )
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_change_camera_lens),
+                            contentDescription = stringResource(id = R.string.button_turn_facing_camera),
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clickable(
+                                    interactionSource = remember {
+                                        MutableInteractionSource()
+                                    },
+                                    indication = rememberRipple(bounded = false, radius = 20.dp)
+                                ) {
+                                    toggleLensFacing(preview)
+                                }
+                        )
+                    }
+                } else {
+                    ComposeImage(modifier = Modifier.fillMaxSize(), imagePath = imageBitMap!!)
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp),
+                        horizontalArrangement = Arrangement.spacedBy(
+                            20.dp,
+                            Alignment.CenterHorizontally
+                        )
+                    ) {
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_try_again),
+                            contentDescription = stringResource(id = R.string.button_try_again_take_photo),
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clickable(
+                                    interactionSource = remember {
+                                        MutableInteractionSource()
+                                    },
+                                    indication = rememberRipple(bounded = false, radius = 20.dp)
+                                ) {
+                                    imageBitMap = null
+                                }
+                        )
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_confirm),
+                            contentDescription = stringResource(id = R.string.button_confirm),
+                            tint = Color.White,
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clickable(
+                                    interactionSource = remember {
+                                        MutableInteractionSource()
+                                    },
+                                    indication = rememberRipple(bounded = false, radius = 20.dp)
+                                ) {
+                                    val uri = imageBitMap?.let(::saveBitMapToFile)
+                                    viewModel.addPhoto(uri.toString())
+                                }
+                        )
+                    }
+                }
+            }
+
+            startCamera(preview)
+        }
+
+        @Composable
+        private fun ComposeImageDetailsOptions(
+            modifier: Modifier = Modifier,
+            photoDetails: Photo
+        ) {
+
+            Row(
+                modifier = modifier,
+                horizontalArrangement = Arrangement.spacedBy(
+                    50.dp, Alignment.CenterHorizontally
+                ),
+                verticalAlignment = Alignment.Bottom
+            ) {
+
+                ComposeImageOption(
+                    icon = R.drawable.ic_share,
+                    label = R.string.photo_vault_details_share_label,
+                ) {
+                    val shareIntent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_STREAM, photoDetails.imageFilePath.toUri())
+                        type = "image/png"
+                    }
+
+                    startActivity(shareIntent)
+                }
+
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+
+                    ComposeFavoriteButton(isFavorite = photoDetails.isFavorite) {
+                        viewModel.togglePhotoFavorite()
+                    }
+
+                    Text(
+                        text = stringResource(id = R.string.photo_vault_details_favorite_label),
+                        color = Color.White,
+                        fontFamily = FontFamily(Font(R.font.sf_pro_display_regular))
                     )
                 }
-            } else {
-                ComposeImage(modifier = Modifier.fillMaxSize(), imagePath = imageBitMap!!)
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        20.dp,
-                        Alignment.CenterHorizontally
-                    )
+                ComposeImageOption(
+                    icon = R.drawable.ic_delete,
+                    label = R.string.photo_vault_details_delete_label,
                 ) {
+                    viewModel.deletePhoto()
+                }
+            }
+        }
+
+        @Composable
+        private fun ComposeFavoriteButton(
+            modifier: Modifier = Modifier,
+            isFavorite: Boolean = false,
+            onFavoriteClicked: (Boolean) -> Unit = {}
+        ) {
+            Box(
+                modifier = modifier.clickable {
+                    onFavoriteClicked(!isFavorite)
+                }
+            ) {
+                if (isFavorite) {
 
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_try_again),
-                        contentDescription = stringResource(id = R.string.button_try_again_take_photo),
-                        tint = Color.White,
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clickable(
-                                interactionSource = remember {
-                                    MutableInteractionSource()
-                                },
-                                indication = rememberRipple(bounded = false, radius = 20.dp)
-                            ) {
-                                imageBitMap = null
-                            }
+                        modifier = Modifier.size(20.dp),
+                        imageVector = Icons.Rounded.Favorite,
+                        contentDescription = "",
+                        tint = AppColors.lightBlue
                     )
-
+                } else {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_confirm),
-                        contentDescription = stringResource(id = R.string.button_confirm),
-                        tint = Color.White,
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clickable(
-                                interactionSource = remember {
-                                    MutableInteractionSource()
-                                },
-                                indication = rememberRipple(bounded = false, radius = 20.dp)
-                            ) {
-                                val uri = imageBitMap?.let(::saveBitMapToFile)
-                                viewModel.addPhoto(uri.toString())
-                            }
+                        modifier = Modifier.size(20.dp),
+                        imageVector = Icons.Rounded.FavoriteBorder,
+                        contentDescription = "",
+                        tint = Color.White
                     )
                 }
             }
         }
 
-        startCamera(preview)
-    }
-
-    @Composable
-    private fun ComposeImageDetailsOptions(
-        modifier: Modifier = Modifier,
-        photoDetails: Photo
-    ) {
-
-        Row(
-            modifier = modifier, horizontalArrangement = Arrangement.spacedBy(
-                50.dp, Alignment.CenterHorizontally
-            ), verticalAlignment = Alignment.Bottom
+        @Composable
+        private fun ComposeImageOption(
+            modifier: Modifier = Modifier,
+            icon: Int,
+            label: Int,
+            onClick: () -> Unit
         ) {
 
-            ComposeImageOption(
-                icon = R.drawable.ic_share,
-                label = R.string.photo_vault_details_share_label,
-            ) {
-                val shareIntent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_STREAM, photoDetails.imageFilePath.toUri())
-                    type = "image/png"
-                }
-
-                startActivity(shareIntent)
-            }
-
             Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier.clickable { onClick() },
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
-                ComposeFavoriteButton(isFavorite = photoDetails.isFavorite){
-                    viewModel.togglePhotoFavorite()
-                }
-
+                Icon(
+                    painter = painterResource(id = icon), contentDescription = "", tint = Color.White
+                )
                 Text(
-                    text = stringResource(id = R.string.photo_vault_details_favorite_label),
+                    text = stringResource(id = label),
                     color = Color.White,
                     fontFamily = FontFamily(Font(R.font.sf_pro_display_regular))
                 )
             }
-
-            ComposeImageOption(
-                icon = R.drawable.ic_delete,
-                label = R.string.photo_vault_details_delete_label,
-            ) {
-                viewModel.deletePhoto()
-            }
         }
-    }
 
-    @Composable
-    private fun ComposeFavoriteButton(
-        modifier: Modifier = Modifier,
-        isFavorite: Boolean = false,
-        onFavoriteClicked: (Boolean) -> Unit = {}
-    ) {
-        Box(modifier = modifier.clickable {
-            onFavoriteClicked(!isFavorite)
-        }) {
-            if (isFavorite) {
-
-                Icon(
-                    modifier = Modifier.size(20.dp),
-                    imageVector = Icons.Rounded.Favorite,
-                    contentDescription = "",
-                    tint = AppColors.lightBlue
-                )
-            } else {
-                Icon(
-                    modifier = Modifier.size(20.dp),
-                    imageVector = Icons.Rounded.FavoriteBorder,
-                    contentDescription = "",
-                    tint = Color.White
-                )
-            }
-        }
-    }
-
-    @Composable
-    private fun ComposeImageOption(
-        modifier: Modifier = Modifier, icon: Int, label: Int, onClick: () -> Unit
-    ) {
-
-        Column(
-            modifier = modifier.clickable { onClick() },
-            horizontalAlignment = Alignment.CenterHorizontally
+        @Composable
+        private fun ComposeImage(
+            modifier: Modifier = Modifier,
+            imagePath: Any
         ) {
-            Icon(
-                painter = painterResource(id = icon), contentDescription = "", tint = Color.White
+
+            val painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current)
+                    .data(data = imagePath)
+                    .crossfade(true)
+                    .build(),
+                onError = {
+                    Log.d("", "### ${it.result.throwable.message}")
+                }
             )
-            Text(
-                text = stringResource(id = label),
-                color = Color.White,
-                fontFamily = FontFamily(Font(R.font.sf_pro_display_regular))
+
+            Image(
+                painter = painter,
+                contentDescription = "",
+                modifier = modifier.background(AppColors.translucent),
+                contentScale = ContentScale.Crop
             )
         }
+
+        @Preview
+        @Composable
+        private fun ComposeContentPreview() {
+            ComposeScreenLayout()
+        }
+
+        companion object {
+            const val PHOTO_FROM_VAULT_ID_KEY = "PHOTO_FROM_VAULT_ID_KEY"
+            const val DEFAULT_PHOTO_FROM_VAULT_ID = -1L
+        }
     }
-
-    @Composable
-    private fun ComposeImage(
-        modifier: Modifier = Modifier, imagePath: Any
-    ) {
-
-        val painter = rememberAsyncImagePainter(ImageRequest.Builder(LocalContext.current)
-            .data(data = imagePath)
-            .crossfade(true)
-            .build(), onError = {
-            Log.d("", "### ${it.result.throwable.message}")
-        })
-
-        Image(
-            painter = painter,
-            contentDescription = "",
-            modifier = modifier.background(AppColors.translucent),
-            contentScale = ContentScale.Crop
-        )
-    }
-
-    @Preview
-    @Composable
-    private fun ComposeContentPreview() {
-        ComposeScreenLayout()
-    }
-
-    companion object {
-        const val PHOTO_FROM_VAULT_ID_KEY = "PHOTO_FROM_VAULT_ID_KEY"
-        const val DEFAULT_PHOTO_FROM_VAULT_ID = -1L
-    }
-}
+    

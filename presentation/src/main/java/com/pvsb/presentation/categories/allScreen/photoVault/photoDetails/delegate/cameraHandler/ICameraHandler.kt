@@ -1,7 +1,6 @@
 package com.pvsb.presentation.categories.allScreen.photoVault.photoDetails.delegate.cameraHandler
 
 import android.graphics.Bitmap
-import android.net.Uri
 import androidx.activity.ComponentActivity
 import androidx.camera.view.PreviewView
 

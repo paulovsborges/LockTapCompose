@@ -18,7 +18,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -50,7 +49,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -126,7 +124,7 @@ class PhotoVaultActivity : ComponentActivity() {
                             .fillMaxWidth()
                             .fillMaxHeight(0.4f)
                     ) {
-                        ComposeAddPhotoBottomSheetOptionsLayout{
+                        ComposeAddPhotoBottomSheetOptionsLayout {
                             scope.launch {
                                 state.hide()
                             }
@@ -221,7 +219,8 @@ class PhotoVaultActivity : ComponentActivity() {
 
     @Composable
     private fun ComposePhotoCell(
-        modifier: Modifier = Modifier, photo: Photo
+        modifier: Modifier = Modifier,
+        photo: Photo
     ) {
 
         Card(
@@ -239,10 +238,13 @@ class PhotoVaultActivity : ComponentActivity() {
             shape = RoundedCornerShape(3.dp),
         ) {
 
-            val painter = rememberAsyncImagePainter(ImageRequest.Builder(LocalContext.current)
-                .data(data = photo.imageFilePath).crossfade(true).build(), onError = {
-                Log.d("", "### ${it.result.throwable.message}")
-            })
+            val painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current)
+                    .data(data = photo.imageFilePath).crossfade(true).build(),
+                onError = {
+                    Log.d("", "### ${it.result.throwable.message}")
+                }
+            )
 
             Image(
                 painter = painter,
@@ -379,7 +381,8 @@ class PhotoVaultActivity : ComponentActivity() {
         Row(
             modifier = modifier.clickable {
                 onClick()
-            }, verticalAlignment = Alignment.CenterVertically
+            },
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Card(
                 shape = CircleShape,
@@ -480,9 +483,12 @@ class PhotoVaultActivity : ComponentActivity() {
                 .background(AppColors.background)
                 .padding(horizontal = 5.dp)
         ) {
-            ComposePhotoList(modifier = Modifier, photos = List(20) {
-                Photo(it.toLong(), "", false)
-            })
+            ComposePhotoList(
+                modifier = Modifier,
+                photos = List(20) {
+                    Photo(it.toLong(), "", false)
+                }
+            )
         }
     }
 }

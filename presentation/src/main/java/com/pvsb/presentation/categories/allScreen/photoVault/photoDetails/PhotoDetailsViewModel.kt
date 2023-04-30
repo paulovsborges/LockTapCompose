@@ -84,7 +84,7 @@ class PhotoDetailsViewModel @Inject constructor(
         }
     }
 
-    fun dismissError(){
+    fun dismissError() {
         _state.update { it.copy(error = null) }
     }
 

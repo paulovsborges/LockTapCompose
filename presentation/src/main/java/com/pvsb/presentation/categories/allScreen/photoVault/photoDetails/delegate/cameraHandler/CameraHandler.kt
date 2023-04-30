@@ -47,17 +47,18 @@ class CameraHandler : ICameraHandler {
                     e.printStackTrace()
                 }
             }, ContextCompat.getMainExecutor(this)
-        )
-    }
+            )
+        }
 
-    override fun ComponentActivity.toggleLensFacing(
-        previewView: PreviewView
-    ) {
-        isLensFacingBack = !isLensFacingBack
-        startCamera(previewView)
-    }
+        override fun ComponentActivity.toggleLensFacing(
+            previewView: PreviewView
+        ) {
+            isLensFacingBack = !isLensFacingBack
+            startCamera(previewView)
+        }
 
-    override fun getBitMapFromPreview(): Bitmap? {
-        return previewView?.bitmap
+        override fun getBitMapFromPreview(): Bitmap? {
+            return previewView?.bitmap
+        }
     }
-}
+    
