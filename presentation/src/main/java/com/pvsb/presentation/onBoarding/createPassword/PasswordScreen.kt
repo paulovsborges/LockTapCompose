@@ -2,6 +2,7 @@ package com.pvsb.presentation.onBoarding.createPassword
 
 import android.content.Context
 import android.content.Intent
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
@@ -35,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -71,7 +73,7 @@ fun PasswordScreenContainer(
     var isTextFieldFocused by remember { mutableStateOf(false) }
 
     if (state.value.isAuthenticated) {
-        navigateToMainScreen(navController.context)
+        NavigateToMainScreen(navController.context)
     }
 
     PasswordScreen(
@@ -198,30 +200,30 @@ private fun ComposeTextField(
                 onErrorChanged(false)
             }
         }, decorationBox = {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            shape = RoundedCornerShape(40.dp),
-            border = BorderStroke(1.dp, borderColor)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .background(secondary),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(
-                    30.dp,
-                    Alignment.Horizontal { _, space, _ ->
-                        space / 2
-                    }
-                )
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                shape = RoundedCornerShape(40.dp),
+                border = BorderStroke(1.dp, borderColor)
             ) {
-                repeat(maxChars) {
-                    ComposePasswordPointer(password.length - 1 >= it, isErrorVisible)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .background(secondary),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(
+                        30.dp,
+                        Alignment.Horizontal { _, space, _ ->
+                            space / 2
+                        }
+                    )
+                ) {
+                    repeat(maxChars) {
+                        ComposePasswordPointer(password.length - 1 >= it, isErrorVisible)
+                    }
                 }
             }
-        }
-    },
+        },
         modifier = Modifier
             .width(180.dp)
             .height(52.dp)
@@ -278,10 +280,12 @@ private fun navigateToEnterPassword(navController: NavController) {
     }
 }
 
-fun navigateToMainScreen(context: Context) {
+@Composable
+fun NavigateToMainScreen(context: Context) {
     val intent = Intent(context, MainActivity::class.java)
 
     context.startActivity(intent)
+    (LocalContext.current as? ComponentActivity)?.finish()
 }
 
 @Preview
