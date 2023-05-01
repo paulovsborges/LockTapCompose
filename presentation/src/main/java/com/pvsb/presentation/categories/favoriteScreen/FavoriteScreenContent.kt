@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.pvsb.presentation.categories.favoriteScreen.contacts.CategoriesFavoriteContactsScreen
 import com.pvsb.presentation.ui.AppStyle.AppColors.background
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
 import com.pvsb.presentation.utils.components.viewPager.ComposeSecondaryViewPager
@@ -44,7 +45,7 @@ fun CategoriesFavoriteScreenContent(
         ComposeSecondaryViewPager(
             contents = listOf(
                 ViewPagerContentType.Contacts,
-                ViewPagerContentType.WifiPass,
+                ViewPagerContentType.Passwords,
                 ViewPagerContentType.Photos
             )
         ) {

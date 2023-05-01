@@ -37,7 +37,7 @@
     <string name="view_pager_label_all">All</string>
     <string name="view_pager_label_favorites">Favorites</string>
     <string name="view_pager_label_contacts">Contacts</string>
-    <string name="view_pager_label_wifi_pass">Wi-fi pass</string>
+    <string name="view_pager_label_wifi_pass">Passwords</string>
     <string name="view_pager_label_photos">Photos</string>
 
     <string name="search_field_placeholder_enter_a_title">Enter a title</string>

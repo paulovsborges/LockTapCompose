@@ -113,7 +113,7 @@ fun ComposeTabPreview() {
             isSelected = true
         )
 
-        ComposeTab(label = ViewPagerContentType.WifiPass.label)
+        ComposeTab(label = ViewPagerContentType.Passwords.label)
     }
 }
 
@@ -128,7 +128,7 @@ fun ComposeSecondaryViewPagerPreview() {
         ComposeSecondaryViewPager(
             contents = listOf(
                 ViewPagerContentType.Contacts,
-                ViewPagerContentType.WifiPass,
+                ViewPagerContentType.Passwords,
                 ViewPagerContentType.Photos
             ),
             initialPage = 1
