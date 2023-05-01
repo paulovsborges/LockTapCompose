@@ -1,6 +1,7 @@
 package com.pvsb.presentation.viewModel
 
 import com.pvsb.domain.useCase.contact.getFavorites.GetFavoriteContactsUseCase
+import com.pvsb.domain.useCase.password.getFavorites.GetFavoritesPasswordsUseCase
 import com.pvsb.presentation.categories.favoriteScreen.CategoriesFavoritesViewModel
 import io.mockk.coVerifyOrder
 import io.mockk.mockk
@@ -16,13 +17,18 @@ class CategoriesFavoritesViewModelTest {
 
     private lateinit var viewModel: CategoriesFavoritesViewModel
     private lateinit var getFavoriteContactsUseCase: GetFavoriteContactsUseCase
+    private lateinit var getFavoritesPasswordsUseCase: GetFavoritesPasswordsUseCase
     private val dispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
         getFavoriteContactsUseCase = mockk(relaxed = true)
-        viewModel = CategoriesFavoritesViewModel(getFavoriteContactsUseCase)
+        getFavoritesPasswordsUseCase = mockk(relaxed = true)
+        viewModel = CategoriesFavoritesViewModel(
+            getFavoriteContactsUseCase,
+            getFavoritesPasswordsUseCase
+        )
     }
 
     @Test
@@ -32,6 +38,7 @@ class CategoriesFavoritesViewModelTest {
 
         coVerifyOrder {
             getFavoriteContactsUseCase()
+            getFavoritesPasswordsUseCase()
         }
     }
 }

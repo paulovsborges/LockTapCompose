@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pvsb.presentation.categories.favoriteScreen.contacts.CategoriesFavoriteContactsScreen
+import com.pvsb.presentation.categories.favoriteScreen.passwords.CategoriesFavoritePasswordsScreen
 import com.pvsb.presentation.ui.AppStyle.AppColors.background
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
 import com.pvsb.presentation.utils.components.viewPager.ComposeSecondaryViewPager
@@ -62,14 +63,18 @@ fun HandleSelectedPage(
     state: CategoriesFavoritesScreenState
 ) {
 
-    CategoriesFavoriteContactsScreen(contacts = state.contacts)
-
-//    when(type){
-//        ViewPagerContentType.Contacts -> TODO()
-//        ViewPagerContentType.Photos -> TODO()
-//        ViewPagerContentType.WifiPass -> TODO()
-//        else -> Unit
-//    }
+    when (type) {
+        ViewPagerContentType.Contacts -> {
+            CategoriesFavoriteContactsScreen(contacts = state.contacts)
+        }
+        ViewPagerContentType.Photos -> {
+            CategoriesFavoriteContactsScreen(contacts = state.contacts)
+        }
+        ViewPagerContentType.Passwords -> {
+            CategoriesFavoritePasswordsScreen(passwords = state.passwords)
+        }
+        else -> Unit
+    }
 }
 
 @Preview

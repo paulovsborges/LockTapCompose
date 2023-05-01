@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.useCase.contact.getFavorites.GetFavoriteContactsUseCase
+import com.pvsb.domain.useCase.password.getFavorites.GetFavoritesPasswordsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoriesFavoritesViewModel @Inject constructor(
-    private val getFavoriteContactsUseCase: GetFavoriteContactsUseCase
+    private val getFavoriteContactsUseCase: GetFavoriteContactsUseCase,
+    private val getFavoritePasswordsUseCase: GetFavoritesPasswordsUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CategoriesFavoritesScreenState())
@@ -26,6 +28,14 @@ class CategoriesFavoritesViewModel @Inject constructor(
                 }
                 is DataState.Success -> {
                     _state.update { it.copy(contacts = state.data) }
+                }
+            }
+
+            when (val state = getFavoritePasswordsUseCase()) {
+                is DataState.Error -> {
+                }
+                is DataState.Success -> {
+                    _state.update { it.copy(passwords = state.data) }
                 }
             }
         }
