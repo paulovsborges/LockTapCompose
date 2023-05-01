@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -37,12 +38,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun ComposeSecondaryViewPager(
     modifier: Modifier = Modifier,
-    contents: List<ViewPagerContentType> = emptyList(),
-    initialPage: Int = 0,
-    contentPage: (ViewPagerContentType) -> Unit = {}
+    state: PagerState = rememberPagerState(),
+    contents: List<ViewPagerContentType> = emptyList()
 ) {
 
-    val state = rememberPagerState(initialPage)
     val scope = rememberCoroutineScope()
 
     HorizontalPager(pageCount = contents.size, modifier = modifier, state = state) {
@@ -54,7 +53,6 @@ fun ComposeSecondaryViewPager(
                 ComposeTab(label = type.label, isSelected = isSelectedTab) {
                     scope.launch {
                         state.scrollToPage(currentPos)
-                        contentPage(type)
                     }
                 }
             }
@@ -102,7 +100,7 @@ private fun ComposeTab(
 
 @Preview(showBackground = true)
 @Composable
-fun ComposeTabPreview() {
+private fun ComposeTabPreview() {
 
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -117,9 +115,10 @@ fun ComposeTabPreview() {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
-fun ComposeSecondaryViewPagerPreview() {
+private fun ComposeSecondaryViewPagerPreview() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -130,8 +129,7 @@ fun ComposeSecondaryViewPagerPreview() {
                 ViewPagerContentType.Contacts,
                 ViewPagerContentType.Passwords,
                 ViewPagerContentType.Photos
-            ),
-            initialPage = 1
+            )
         )
     }
 }

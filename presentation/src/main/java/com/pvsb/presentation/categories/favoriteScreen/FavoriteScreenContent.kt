@@ -1,11 +1,13 @@
 package com.pvsb.presentation.categories.favoriteScreen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,16 +25,16 @@ import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchFiel
 import com.pvsb.presentation.utils.components.viewPager.ComposeSecondaryViewPager
 import com.pvsb.presentation.utils.components.viewPager.ViewPagerContentType
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoriesFavoriteScreenContent(
     modifier: Modifier = Modifier,
     viewModel: CategoriesFavoritesViewModel = hiltViewModel()
 ) {
 
+    val pagerState = rememberPagerState()
     val state = viewModel.state.collectAsState()
     viewModel.getFavoriteContent()
-
-    var currentPage by remember { mutableStateOf<ViewPagerContentType>(ViewPagerContentType.Contacts) }
 
     Column(
         modifier = modifier
@@ -44,34 +46,36 @@ fun CategoriesFavoriteScreenContent(
         Spacer(modifier = Modifier.height(16.dp))
 
         ComposeSecondaryViewPager(
+            state = pagerState,
             contents = listOf(
                 ViewPagerContentType.Contacts,
                 ViewPagerContentType.Passwords,
                 ViewPagerContentType.Photos
             )
-        ) {
-            currentPage = it
-        }
+        )
 
-        HandleSelectedPage(currentPage, state.value)
+        HandleSelectedPage(
+            pagerState.currentPage,
+            state.value
+        )
     }
 }
 
 @Composable
 fun HandleSelectedPage(
-    type: ViewPagerContentType,
+    page: Int,
     state: CategoriesFavoritesScreenState
 ) {
 
-    when (type) {
-        ViewPagerContentType.Contacts -> {
+    when (page) {
+        0 -> {
             CategoriesFavoriteContactsScreen(contacts = state.contacts)
         }
-        ViewPagerContentType.Photos -> {
-            CategoriesFavoriteContactsScreen(contacts = state.contacts)
-        }
-        ViewPagerContentType.Passwords -> {
+        1 -> {
             CategoriesFavoritePasswordsScreen(passwords = state.passwords)
+        }
+        2 -> {
+            CategoriesFavoriteContactsScreen(contacts = state.contacts)
         }
         else -> Unit
     }
