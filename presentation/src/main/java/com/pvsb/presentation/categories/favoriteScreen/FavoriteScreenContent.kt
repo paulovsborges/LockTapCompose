@@ -16,7 +16,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pvsb.presentation.categories.favoriteScreen.contacts.CategoriesFavoriteContactsScreen
 import com.pvsb.presentation.categories.favoriteScreen.passwords.CategoriesFavoritePasswordsScreen
+import com.pvsb.presentation.categories.favoriteScreen.photos.CategoriesFavoritePhotosScreen
 import com.pvsb.presentation.ui.AppStyle.AppColors.background
+import com.pvsb.presentation.utils.ComposableLifecycleListener
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
 import com.pvsb.presentation.utils.components.viewPager.ComposeSecondaryViewPager
 import com.pvsb.presentation.utils.components.viewPager.ViewPagerContentType
@@ -31,9 +33,11 @@ fun CategoriesFavoriteScreenContentContainer(
     modifier: Modifier = Modifier,
     viewModel: CategoriesFavoritesViewModel = hiltViewModel()
 ) {
-
     val state = viewModel.state.collectAsState()
-    viewModel.getFavoriteContent()
+
+    ComposableLifecycleListener(onResume = {
+        viewModel.getFavoriteContent()
+    })
 
     val actions = FavoriteScreenContentAction(
         state = state.value,
@@ -102,7 +106,7 @@ private fun HandleSelectedPage(
             )
         }
         2 -> {
-            CategoriesFavoriteContactsScreen(contacts = state.contacts)
+            CategoriesFavoritePhotosScreen(photos = state.photos)
         }
         else -> Unit
     }
