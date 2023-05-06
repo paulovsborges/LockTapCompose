@@ -20,11 +20,28 @@ import com.pvsb.presentation.passwords.passwordsList.ComposePasswordCard
 import com.pvsb.presentation.passwords.passwordsList.PasswordsListViewModel
 import com.pvsb.presentation.utils.copyTextToClipBoard
 
+//
+//@Composable
+//fun CategoriesFavoritePasswordsScreenContainer(
+//    modifier: Modifier = Modifier,
+//    passwords: List<Password>,
+//    passwordsListViewModel: PasswordsListViewModel = hiltViewModel()
+//) {
+//
+//
+//    CategoriesFavoritePasswordsScreen(
+//        modifier = modifier,
+//        passwords = passwords,
+//        onFavoriteClick = { passwordId ->
+//            passwordsListViewModel.toggleFavorite(passwordId)
+//        })
+//}
+
 @Composable
 fun CategoriesFavoritePasswordsScreen(
     modifier: Modifier = Modifier,
     passwords: List<Password>,
-    passwordsListViewModel: PasswordsListViewModel = hiltViewModel()
+    onFavoriteClick: (String) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -42,7 +59,8 @@ fun CategoriesFavoritePasswordsScreen(
                     }, onCopyPassword = { password ->
                         context.copyTextToClipBoard(password)
                     }, onFavoriteClick = { passwordId ->
-                        passwordsListViewModel.toggleFavorite(passwordId)
+                        onFavoriteClick(passwordId)
+//                        passwordsListViewModel.toggleFavorite(passwordId)
                     }
                 )
             }
@@ -63,7 +81,7 @@ private fun navigateToDetails(
 
 @Preview
 @Composable
-fun CategoriesFavoritePasswordsScreenPreview() {
+private fun CategoriesFavoritePasswordsScreenPreview() {
     CategoriesFavoritePasswordsScreen(
         modifier = Modifier.fillMaxSize(),
         passwords = listOf(
@@ -76,6 +94,7 @@ fun CategoriesFavoritePasswordsScreenPreview() {
             Password(
                 "", "Home wifi", "123456", null, true, null
             ),
-        )
+        ),
+        onFavoriteClick = {}
     )
 }

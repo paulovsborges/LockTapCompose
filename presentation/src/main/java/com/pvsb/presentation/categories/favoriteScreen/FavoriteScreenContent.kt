@@ -10,10 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,16 +21,38 @@ import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchFiel
 import com.pvsb.presentation.utils.components.viewPager.ComposeSecondaryViewPager
 import com.pvsb.presentation.utils.components.viewPager.ViewPagerContentType
 
-@OptIn(ExperimentalFoundationApi::class)
+data class FavoriteScreenContentAction(
+    val state: CategoriesFavoritesScreenState = CategoriesFavoritesScreenState(),
+    val onPasswordFavoriteClick: (String) -> Unit = {}
+)
+
 @Composable
-fun CategoriesFavoriteScreenContent(
+fun CategoriesFavoriteScreenContentContainer(
     modifier: Modifier = Modifier,
     viewModel: CategoriesFavoritesViewModel = hiltViewModel()
 ) {
 
-    val pagerState = rememberPagerState()
     val state = viewModel.state.collectAsState()
     viewModel.getFavoriteContent()
+
+    val actions = FavoriteScreenContentAction(
+        state = state.value,
+        onPasswordFavoriteClick = {passwordId ->
+            viewModel.toggleFavorite(passwordId)
+        }
+    )
+
+    CategoriesFavoriteScreenContent(modifier = modifier, actions = actions)
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun CategoriesFavoriteScreenContent(
+    modifier: Modifier = Modifier,
+    actions: FavoriteScreenContentAction,
+) {
+
+    val pagerState = rememberPagerState()
 
     Column(
         modifier = modifier
@@ -55,16 +73,20 @@ fun CategoriesFavoriteScreenContent(
         )
 
         HandleSelectedPage(
-            pagerState.currentPage,
-            state.value
+            page = pagerState.currentPage,
+            state = actions.state,
+            onPasswordFavoriteClick = { passwordId ->
+                actions.onPasswordFavoriteClick(passwordId)
+            }
         )
     }
 }
 
 @Composable
-fun HandleSelectedPage(
+private fun HandleSelectedPage(
     page: Int,
-    state: CategoriesFavoritesScreenState
+    state: CategoriesFavoritesScreenState,
+    onPasswordFavoriteClick: (String) -> Unit
 ) {
 
     when (page) {
@@ -72,7 +94,12 @@ fun HandleSelectedPage(
             CategoriesFavoriteContactsScreen(contacts = state.contacts)
         }
         1 -> {
-            CategoriesFavoritePasswordsScreen(passwords = state.passwords)
+            CategoriesFavoritePasswordsScreen(
+                passwords = state.passwords,
+                onFavoriteClick = {
+                    onPasswordFavoriteClick(it)
+                }
+            )
         }
         2 -> {
             CategoriesFavoriteContactsScreen(contacts = state.contacts)
@@ -83,6 +110,9 @@ fun HandleSelectedPage(
 
 @Preview
 @Composable
-fun FavoriteScreenContentPreview() {
-    CategoriesFavoriteScreenContent(modifier = Modifier.fillMaxSize())
+private fun FavoriteScreenContentPreview() {
+    CategoriesFavoriteScreenContent(
+        modifier = Modifier.fillMaxSize(),
+        actions = FavoriteScreenContentAction()
+    )
 }

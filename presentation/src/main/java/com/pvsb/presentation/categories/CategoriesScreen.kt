@@ -17,7 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pvsb.presentation.categories.allScreen.CategoriesAllScreenContent
-import com.pvsb.presentation.categories.favoriteScreen.CategoriesFavoriteScreenContent
+import com.pvsb.presentation.categories.favoriteScreen.CategoriesFavoriteScreenContentContainer
 import com.pvsb.presentation.mainBottomNav.MainScreens
 import com.pvsb.presentation.ui.AppStyle.AppColors.background
 import com.pvsb.presentation.ui.AppStyle.TextStyles.titleTextStyle
@@ -60,7 +60,8 @@ fun CategoriesScreen(
                 )
             }
             1 -> {
-                CategoriesFavoriteScreenContent(modifier = Modifier.fillMaxSize())
+                CategoriesFavoriteScreenContentContainer(modifier = Modifier.fillMaxSize())
+//                CategoriesFavoriteScreenContent(modifier = Modifier.fillMaxSize())
             }
             else -> Unit
         }
