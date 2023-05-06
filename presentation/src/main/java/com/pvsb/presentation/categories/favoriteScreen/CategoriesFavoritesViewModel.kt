@@ -8,6 +8,7 @@ import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.contact.getFavorites.GetFavoriteContactsUseCase
 import com.pvsb.domain.useCase.password.getFavorites.GetFavoritesPasswordsUseCase
 import com.pvsb.domain.useCase.password.togglePasswordFavorite.TogglePasswordFavoriteUseCase
+import com.pvsb.domain.useCase.photoVault.getFavorites.GetFavoritesPhotosUseCase
 import com.pvsb.presentation.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class CategoriesFavoritesViewModel @Inject constructor(
     private val getFavoriteContactsUseCase: GetFavoriteContactsUseCase,
     private val getFavoritePasswordsUseCase: GetFavoritesPasswordsUseCase,
+    private val getFavoritesPhotosUseCase: GetFavoritesPhotosUseCase,
     private val togglePasswordFavoriteUseCase: TogglePasswordFavoriteUseCase
 ) : ViewModel() {
 
@@ -30,6 +32,7 @@ class CategoriesFavoritesViewModel @Inject constructor(
         viewModelScope.launch {
             getFavoriteContacts()
             getFavoritePasswords()
+            getFavoritesPhotos()
         }
     }
 
@@ -51,6 +54,17 @@ class CategoriesFavoritesViewModel @Inject constructor(
             }
             is DataState.Success -> {
                 _state.update { it.copy(passwords = state.data) }
+            }
+        }
+    }
+
+    private suspend fun getFavoritesPhotos() {
+        when (val state = getFavoritesPhotosUseCase()) {
+            is DataState.Error -> {
+                setError(state.error)
+            }
+            is DataState.Success -> {
+                _state.update { it.copy(photos = state.data) }
             }
         }
     }

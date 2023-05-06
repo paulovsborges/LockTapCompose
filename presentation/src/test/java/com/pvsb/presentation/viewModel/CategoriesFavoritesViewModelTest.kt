@@ -4,10 +4,12 @@ import com.pvsb.domain.entity.Contact
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.Password
+import com.pvsb.domain.entity.Photo
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.contact.getFavorites.GetFavoriteContactsUseCase
 import com.pvsb.domain.useCase.password.getFavorites.GetFavoritesPasswordsUseCase
 import com.pvsb.domain.useCase.password.togglePasswordFavorite.TogglePasswordFavoriteUseCase
+import com.pvsb.domain.useCase.photoVault.getFavorites.GetFavoritesPhotosUseCase
 import com.pvsb.presentation.R
 import com.pvsb.presentation.categories.favoriteScreen.CategoriesFavoritesViewModel
 import io.mockk.coEvery
@@ -29,6 +31,7 @@ class CategoriesFavoritesViewModelTest {
     private lateinit var getFavoriteContactsUseCase: GetFavoriteContactsUseCase
     private lateinit var getFavoritesPasswordsUseCase: GetFavoritesPasswordsUseCase
     private lateinit var togglePasswordFavoriteUseCase: TogglePasswordFavoriteUseCase
+    private lateinit var getFavoritesPhotosUseCase: GetFavoritesPhotosUseCase
     private val dispatcher = UnconfinedTestDispatcher()
 
     @Before
@@ -36,11 +39,13 @@ class CategoriesFavoritesViewModelTest {
         Dispatchers.setMain(dispatcher)
         getFavoriteContactsUseCase = mockk(relaxed = true)
         getFavoritesPasswordsUseCase = mockk(relaxed = true)
+        getFavoritesPhotosUseCase = mockk(relaxed = true)
         togglePasswordFavoriteUseCase = spyk()
 
         viewModel = CategoriesFavoritesViewModel(
             getFavoriteContactsUseCase,
             getFavoritesPasswordsUseCase,
+            getFavoritesPhotosUseCase,
             togglePasswordFavoriteUseCase
         )
     }
@@ -53,6 +58,7 @@ class CategoriesFavoritesViewModelTest {
         coVerifyOrder {
             getFavoriteContactsUseCase()
             getFavoritesPasswordsUseCase()
+            getFavoritesPhotosUseCase()
         }
     }
 
@@ -73,13 +79,20 @@ class CategoriesFavoritesViewModelTest {
             ),
         )
 
+        val photos = listOf(
+            Photo(1L, "", true),
+            Photo(2L, "", true),
+        )
+
         coEvery { getFavoriteContactsUseCase() } returns DataState.Success(contacts)
         coEvery { getFavoritesPasswordsUseCase() } returns DataState.Success(passwords)
+        coEvery { getFavoritesPhotosUseCase() } returns DataState.Success(photos)
 
         viewModel.getFavoriteContent()
 
         Assert.assertEquals(contacts, viewModel.state.value.contacts)
         Assert.assertEquals(passwords, viewModel.state.value.passwords)
+        Assert.assertEquals(photos, viewModel.state.value.photos)
     }
 
     @Test
