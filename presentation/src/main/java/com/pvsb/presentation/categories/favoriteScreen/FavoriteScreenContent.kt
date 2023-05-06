@@ -21,7 +21,7 @@ import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchFiel
 import com.pvsb.presentation.utils.components.viewPager.ComposeSecondaryViewPager
 import com.pvsb.presentation.utils.components.viewPager.ViewPagerContentType
 
-data class FavoriteScreenContentAction(
+private data class FavoriteScreenContentAction(
     val state: CategoriesFavoritesScreenState = CategoriesFavoritesScreenState(),
     val onPasswordFavoriteClick: (String) -> Unit = {}
 )

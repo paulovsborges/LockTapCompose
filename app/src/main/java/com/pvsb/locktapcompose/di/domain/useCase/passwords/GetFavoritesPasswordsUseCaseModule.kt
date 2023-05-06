@@ -1,7 +1,7 @@
 package com.pvsb.locktapcompose.di.domain.useCase.passwords
 
 import com.pvsb.domain.repository.PasswordsRepository
-import com.pvsb.domain.useCase.password.getFavorites.GetFavoritesPasswords
+import com.pvsb.domain.useCase.photoVault.getFavorites.GetFavoritesPasswords
 import com.pvsb.domain.useCase.password.getFavorites.GetFavoritesPasswordsUseCase
 import dagger.Module
 import dagger.Provides
