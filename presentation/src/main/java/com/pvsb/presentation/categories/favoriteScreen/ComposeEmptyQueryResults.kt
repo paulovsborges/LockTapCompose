@@ -32,6 +32,6 @@ fun ComposeEmptyQueryResults(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun ComposeEmptyQueryResultsPreview() {
+private fun ComposeEmptyQueryResultsPreview() {
     ComposeEmptyQueryResults()
 }

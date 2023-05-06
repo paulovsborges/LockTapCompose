@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -15,27 +16,11 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pvsb.domain.entity.Password
+import com.pvsb.presentation.categories.favoriteScreen.ComposeEmptyQueryResults
 import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsActivity
 import com.pvsb.presentation.passwords.passwordsList.ComposePasswordCard
 import com.pvsb.presentation.passwords.passwordsList.PasswordsListViewModel
 import com.pvsb.presentation.utils.copyTextToClipBoard
-
-//
-//@Composable
-//fun CategoriesFavoritePasswordsScreenContainer(
-//    modifier: Modifier = Modifier,
-//    passwords: List<Password>,
-//    passwordsListViewModel: PasswordsListViewModel = hiltViewModel()
-//) {
-//
-//
-//    CategoriesFavoritePasswordsScreen(
-//        modifier = modifier,
-//        passwords = passwords,
-//        onFavoriteClick = { passwordId ->
-//            passwordsListViewModel.toggleFavorite(passwordId)
-//        })
-//}
 
 @Composable
 fun CategoriesFavoritePasswordsScreen(
@@ -46,23 +31,26 @@ fun CategoriesFavoritePasswordsScreen(
 
     val context = LocalContext.current
 
-    Column(modifier = modifier) {
+    if (passwords.isEmpty()) {
+        ComposeEmptyQueryResults(modifier.fillMaxSize())
+    } else {
+        Column(modifier = modifier.padding(top = 20.dp)) {
 
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(passwords) {
-                ComposePasswordCard(
-                    password = it,
-                    onCardClick = { passwordId ->
-                        navigateToDetails(passwordId, context)
-                    }, onCopyPassword = { password ->
-                        context.copyTextToClipBoard(password)
-                    }, onFavoriteClick = { passwordId ->
-                        onFavoriteClick(passwordId)
-//                        passwordsListViewModel.toggleFavorite(passwordId)
-                    }
-                )
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(passwords) {
+                    ComposePasswordCard(
+                        password = it,
+                        onCardClick = { passwordId ->
+                            navigateToDetails(passwordId, context)
+                        }, onCopyPassword = { password ->
+                            context.copyTextToClipBoard(password)
+                        }, onFavoriteClick = { passwordId ->
+                            onFavoriteClick(passwordId)
+                        }
+                    )
+                }
             }
         }
     }

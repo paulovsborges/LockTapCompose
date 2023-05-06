@@ -37,7 +37,7 @@ fun CategoriesFavoriteScreenContentContainer(
 
     val actions = FavoriteScreenContentAction(
         state = state.value,
-        onPasswordFavoriteClick = {passwordId ->
+        onPasswordFavoriteClick = { passwordId ->
             viewModel.toggleFavorite(passwordId)
         }
     )
