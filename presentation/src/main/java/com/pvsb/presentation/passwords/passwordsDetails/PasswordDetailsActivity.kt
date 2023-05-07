@@ -109,7 +109,6 @@ class PasswordDetailsActivity : ComponentActivity() {
                 onPositiveClick = onPositiveClick
             )
         }
-
     }
 
     @Composable

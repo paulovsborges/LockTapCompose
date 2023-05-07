@@ -49,5 +49,4 @@ class DeletePasswordUseCaseTest {
 
         Assertions.assertEquals(expectedResult, state)
     }
-
 }

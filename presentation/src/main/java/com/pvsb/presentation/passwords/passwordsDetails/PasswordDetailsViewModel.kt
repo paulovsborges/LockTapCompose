@@ -103,7 +103,8 @@ class PasswordDetailsViewModel @Inject constructor(
                         it.copy(
                             passwordDetails = it.passwordDetails.copy(
                                 details = details
-                            ), fields = fields
+                            ),
+                            fields = fields
                         )
                     }
                 }

@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
 import com.pvsb.domain.entity.Password
 import com.pvsb.presentation.categories.favoriteScreen.ComposeEmptyQueryResults
-import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsActivity
 import com.pvsb.presentation.passwords.categoriesPasswordsList.ComposePasswordCard
+import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsActivity
 import com.pvsb.presentation.utils.copyTextToClipBoard
 
 @Composable

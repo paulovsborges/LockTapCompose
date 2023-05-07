@@ -55,12 +55,14 @@ fun PasswordsScreenContainer(
     viewModel.getPasswords()
 
     PasswordsScreen(
-        PasswordsScreenActions(allPasswords = state.value.allPasswords,
+        PasswordsScreenActions(
+            allPasswords = state.value.allPasswords,
             favoritePasswords = state.value.favoritePasswords,
             error = state.value.error,
             onPasswordFavoriteClick = { passwordId ->
                 viewModel.toggleFavorite(passwordId)
-            })
+            }
+        )
     )
 }
 
@@ -112,7 +114,8 @@ private fun PasswordsScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(25.dp), contentAlignment = Alignment.BottomEnd
+                .padding(25.dp),
+            contentAlignment = Alignment.BottomEnd
         ) {
             FloatingAddButton {
                 context.navigateToPasswordDetails()
@@ -145,31 +148,37 @@ private fun ComposeContent(
 
 @Composable
 private fun ComposeAllPasswordsList(
-    actions: PasswordsScreenActions, context: Context
+    actions: PasswordsScreenActions,
+    context: Context
 ) {
     if (actions.allPasswords.isEmpty()) {
         ComposeEmptyPasswordsListState(modifier = Modifier.fillMaxSize())
     } else {
-        ComposePasswordsList(passwords = actions.allPasswords,
+        ComposePasswordsList(
+            passwords = actions.allPasswords,
             context = context,
             onPasswordFavoriteClick = { passwordId ->
                 actions.onPasswordFavoriteClick(passwordId)
-            })
+            }
+        )
     }
 }
 
 @Composable
 private fun ComposeFavoritePasswordsList(
-    actions: PasswordsScreenActions, context: Context
+    actions: PasswordsScreenActions,
+    context: Context
 ) {
     if (actions.favoritePasswords.isEmpty()) {
         ComposeEmptyQueryResults(modifier = Modifier.fillMaxSize())
     } else {
-        ComposePasswordsList(passwords = actions.favoritePasswords,
+        ComposePasswordsList(
+            passwords = actions.favoritePasswords,
             context = context,
             onPasswordFavoriteClick = { passwordId ->
                 actions.onPasswordFavoriteClick(passwordId)
-            })
+            }
+        )
     }
 }
 

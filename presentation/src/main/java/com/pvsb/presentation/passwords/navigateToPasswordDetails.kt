@@ -12,5 +12,4 @@ fun Context.navigateToPasswordDetails(passwordId: String? = null) {
     }
 
     startActivity(intent)
-
 }
