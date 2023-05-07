@@ -58,6 +58,7 @@
     <string name="wifi_passwords_empty_content_message">Tap on the + at the bottom \nto create a new passwords</string>
     <string name="photo_vault_empty_content_message">Tap on the + at the bottom \nto add a new photo</string>
 
+    <!--    PASSWORDS-->
     <string name="error_contact_already_exists">The contact already exists</string>
     <string name="error_there_was_an_unexpected_error">There was an unexpected error</string>
     <string name="bottom_sheet_generic_title">Warning</string>
@@ -73,6 +74,9 @@
     <string name="copy_password">Copy password</string>
     <string name="password_card_title_label">Title</string>
     <string name="password_card_password_label">Password</string>
+    <string name="delete_password_dialog_message">This password will be deleted</string>
+
+    <!--    PHOTO -->
 
     <string name="photo_vault_add_photo_options_bottom_sheet_label">Add new</string>
     <string name="photo_vault_add_photo_option_bottom_sheet_by_camera_label">Take the photo</string>
@@ -85,12 +89,12 @@
 
     <!--   Content descriptions-->
 
-   <string name="button_take_photo">take photo</string>
-   <string name="button_turn_facing_camera">turn camera lens</string>
-   <string name="button_try_again_take_photo">try again</string>
-   <string name="button_confirm">confirm</string>
+    <string name="button_take_photo">take photo</string>
+    <string name="button_turn_facing_camera">turn camera lens</string>
+    <string name="button_try_again_take_photo">try again</string>
+    <string name="button_confirm">confirm</string>
 
-   <string name="empty_query_results_title">Oops... </string>
-   <string name="empty_query_results_message">No results were found for your query</string>
+    <string name="empty_query_results_title">Oops... </string>
+    <string name="empty_query_results_message">No results were found for your query</string>
 
 </resources>
