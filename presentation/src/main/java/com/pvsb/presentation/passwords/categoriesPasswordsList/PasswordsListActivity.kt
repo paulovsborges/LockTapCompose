@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pvsb.domain.entity.Password
 import com.pvsb.presentation.R
+import com.pvsb.presentation.passwords.ComposeEmptyPasswordsListState
+import com.pvsb.presentation.passwords.navigateToPasswordDetails
 import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsActivity
 import com.pvsb.presentation.ui.AppStyle.AppColors
 import com.pvsb.presentation.ui.AppStyle.TextStyles.messageTextStyle
@@ -93,7 +95,7 @@ class PasswordsListActivity : ComponentActivity() {
                     Spacer(modifier = Modifier.height(20.dp))
 
                     if (passwords.isEmpty()) {
-                        ComposeEmptyState(modifier = Modifier.fillMaxSize())
+                        ComposeEmptyPasswordsListState(modifier = Modifier.fillMaxSize())
                     } else {
                         ComposePasswordsList(passwords = passwords)
                     }
@@ -107,7 +109,7 @@ class PasswordsListActivity : ComponentActivity() {
                 contentAlignment = Alignment.BottomEnd
             ) {
                 FloatingAddButton {
-                    navigateToDetails()
+                    navigateToPasswordDetails()
                 }
             }
         }
@@ -125,7 +127,7 @@ class PasswordsListActivity : ComponentActivity() {
             ) {
                 items(passwords) {
                     ComposePasswordCard(password = it, onCardClick = { passwordId ->
-                        navigateToDetails(passwordId)
+                        navigateToPasswordDetails(passwordId)
                     }, onCopyPassword = { password ->
                         copyTextToClipBoard(password)
                     }, onFavoriteClick = { passwordId ->
@@ -136,53 +138,40 @@ class PasswordsListActivity : ComponentActivity() {
         }
     }
 
-    @Composable
-    private fun ComposeEmptyState(
-        modifier: Modifier = Modifier
-    ) {
-
-        Column(
-            modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            Spacer(modifier = Modifier.height(100.dp))
-
-            Image(
-                painter = painterResource(id = R.drawable.ic_empty_content), contentDescription = ""
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Text(
-                text = stringResource(id = R.string.empty_content_label),
-                style = titleTextStyle,
-                fontSize = 20.sp
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Text(
-                text = stringResource(id = R.string.wifi_passwords_empty_content_message),
-                color = AppColors.gray,
-                textAlign = TextAlign.Center,
-                fontSize = 16.sp,
-                style = messageTextStyle
-            )
-        }
-    }
-
-    private fun navigateToDetails(
-        passwordId: String? = null
-    ) {
-
-        val intent = Intent(this, PasswordDetailsActivity::class.java)
-
-        passwordId?.let {
-            intent.putExtra(PasswordDetailsActivity.PASSWORD_ID_KEY, passwordId)
-        }
-
-        startActivity(intent)
-    }
+//    @Composable
+//    private fun ComposeEmptyState(
+//        modifier: Modifier = Modifier
+//    ) {
+//
+//        Column(
+//            modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
+//        ) {
+//
+//            Spacer(modifier = Modifier.height(100.dp))
+//
+//            Image(
+//                painter = painterResource(id = R.drawable.ic_empty_content), contentDescription = ""
+//            )
+//
+//            Spacer(modifier = Modifier.height(20.dp))
+//
+//            Text(
+//                text = stringResource(id = R.string.empty_content_label),
+//                style = titleTextStyle,
+//                fontSize = 20.sp
+//            )
+//
+//            Spacer(modifier = Modifier.height(12.dp))
+//
+//            Text(
+//                text = stringResource(id = R.string.wifi_passwords_empty_content_message),
+//                color = AppColors.gray,
+//                textAlign = TextAlign.Center,
+//                fontSize = 16.sp,
+//                style = messageTextStyle
+//            )
+//        }
+//    }
 
     @Preview
     @Composable

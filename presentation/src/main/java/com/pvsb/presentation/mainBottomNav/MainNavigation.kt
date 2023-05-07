@@ -29,7 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.pvsb.presentation.R
 import com.pvsb.presentation.categories.CategoriesScreen
 import com.pvsb.presentation.memos.MemosScreen
-import com.pvsb.presentation.passwords.PasswordsScreen
+import com.pvsb.presentation.passwords.PasswordsScreenContainer
 import com.pvsb.presentation.settings.SettingsScreen
 import com.pvsb.presentation.ui.AppStyle.AppColors.secondary
 
@@ -94,7 +94,7 @@ fun SetupNavHost(
             CategoriesScreen(MainScreens.Categories.label)
         }
         composable(MainScreens.Passwords.route) {
-            PasswordsScreen()
+            PasswordsScreenContainer()
         }
         composable(MainScreens.Memos.route) {
             MemosScreen()
