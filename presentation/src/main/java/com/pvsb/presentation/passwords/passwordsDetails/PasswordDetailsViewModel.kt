@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.password.addPassword.AddPasswordUseCase
+import com.pvsb.domain.useCase.password.deletePassword.DeletePasswordUseCase
 import com.pvsb.domain.useCase.password.getPassword.GetPasswordUseCase
 import com.pvsb.presentation.R
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PasswordDetailsViewModel @Inject constructor(
     private val getPassword: GetPasswordUseCase,
-    private val addPasswordUseCase: AddPasswordUseCase
+    private val addPasswordUseCase: AddPasswordUseCase,
+    private val deletePasswordUseCase: DeletePasswordUseCase
 ) : ViewModel() {
 
     sealed class FieldType() {
@@ -45,9 +47,7 @@ class PasswordDetailsViewModel @Inject constructor(
             val fields = _state.value.fields
 
             val input = AddPasswordUseCase.Input(
-                fields.title,
-                fields.password,
-                fields.additionalInfo
+                fields.title, fields.password, fields.additionalInfo
             )
 
             when (addPasswordUseCase(input)) {
@@ -103,8 +103,7 @@ class PasswordDetailsViewModel @Inject constructor(
                         it.copy(
                             passwordDetails = it.passwordDetails.copy(
                                 details = details
-                            ),
-                            fields = fields
+                            ), fields = fields
                         )
                     }
                 }
@@ -140,5 +139,18 @@ class PasswordDetailsViewModel @Inject constructor(
 
     fun dismissError() {
         _state.update { it.copy(error = null) }
+    }
+
+    fun deletePassword(passwordId: String) {
+        viewModelScope.launch {
+            when (deletePasswordUseCase(passwordId)) {
+                is DataState.Error -> {
+                    setError(TypedMessage.Reference(R.string.error_there_was_an_unexpected_error))
+                }
+                is DataState.Success -> {
+                    _state.update { it.copy(shouldCloseScreen = true) }
+                }
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.Password
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.domain.useCase.password.addPassword.AddPasswordUseCase
+import com.pvsb.domain.useCase.password.deletePassword.DeletePasswordUseCase
 import com.pvsb.domain.useCase.password.getPassword.GetPasswordUseCase
 import com.pvsb.presentation.R
 import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsViewModel
@@ -19,6 +20,7 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,14 +32,16 @@ open class PasswordDetailsViewModelTest {
     protected lateinit var viewModel: PasswordDetailsViewModel
     private lateinit var getPassword: GetPasswordUseCase
     private lateinit var addPasswordUseCase: AddPasswordUseCase
+    private lateinit var deletePasswordUseCase: DeletePasswordUseCase
     private val dispatcher = UnconfinedTestDispatcher()
 
     @Before
     fun setup() {
         Dispatchers.setMain(dispatcher)
         getPassword = mockk()
+        deletePasswordUseCase = mockk()
         addPasswordUseCase = spyk()
-        viewModel = PasswordDetailsViewModel(getPassword, addPasswordUseCase)
+        viewModel = PasswordDetailsViewModel(getPassword, addPasswordUseCase, deletePasswordUseCase)
     }
 
     @After
@@ -72,7 +76,7 @@ open class PasswordDetailsViewModelTest {
     }
 
     @Test
-    fun `add contact`() {
+    fun `add password`() {
 
         viewModel.savePassword()
 
@@ -80,7 +84,7 @@ open class PasswordDetailsViewModelTest {
     }
 
     @Test
-    fun `update contact`() {
+    fun `update password`() {
 
         val password = Password(
             "3", "home wifi", "123456", null, false, "do not share it"
@@ -93,6 +97,16 @@ open class PasswordDetailsViewModelTest {
         viewModel.savePassword()
 
         coVerify { addPasswordUseCase(any<Password>()) }
+    }
+
+    @Test
+    fun `set to close screen when delete password returns success`() {
+
+        coEvery { deletePasswordUseCase(any()) } returns DataState.Success(Unit)
+
+        viewModel.deletePassword("123")
+
+        assertTrue(viewModel.state.value.shouldCloseScreen)
     }
 
     @RunWith(Parameterized::class)

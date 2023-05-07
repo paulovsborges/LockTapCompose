@@ -105,7 +105,7 @@ class PasswordDetailsActivity : ComponentActivity() {
                             color = AppColors.red,
                             fontSize = 16.sp,
                             modifier = Modifier.clickable {
-//                            onDeleteClick()
+                                viewModel.deletePassword(state.passwordDetails.details.id)
                             }
                         )
                     }
