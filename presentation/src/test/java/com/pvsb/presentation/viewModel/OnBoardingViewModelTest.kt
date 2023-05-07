@@ -43,9 +43,9 @@ open class OnBoardingViewModelTest {
     fun setup() {
         Dispatchers.setMain(dispatcher)
         skipOnBoardingUseCase = spyk()
-        getUserDataUseCase = mockk()
-        registerPasswordUseCase = mockk()
-        loginUseCase = mockk()
+        getUserDataUseCase = mockk(relaxed = true)
+        registerPasswordUseCase = mockk(relaxed = true)
+        loginUseCase = mockk(relaxed = true)
 
         viewModel = OnBoardingViewModel(
             skipOnBoardingUseCase, getUserDataUseCase, registerPasswordUseCase, loginUseCase
