@@ -32,7 +32,17 @@ class PasswordsListViewModel @Inject constructor(
                 }
                 is DataState.Success -> {
                     state.data.collect { passwords ->
-                        _state.update { it.copy(passwords = passwords) }
+
+                        val favoritePasswords = passwords.filter { password ->
+                            password.isFavorite
+                        }
+
+                        _state.update {
+                            it.copy(
+                                allPasswords = passwords,
+                                favoritePasswords = favoritePasswords
+                            )
+                        }
                     }
                 }
             }

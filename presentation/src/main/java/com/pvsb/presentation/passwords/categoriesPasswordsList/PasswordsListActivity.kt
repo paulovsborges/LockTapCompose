@@ -1,11 +1,9 @@
 package com.pvsb.presentation.passwords.categoriesPasswordsList
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,19 +19,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.pvsb.domain.entity.Password
 import com.pvsb.presentation.R
 import com.pvsb.presentation.passwords.ComposeEmptyPasswordsListState
 import com.pvsb.presentation.passwords.navigateToPasswordDetails
-import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsActivity
 import com.pvsb.presentation.ui.AppStyle.AppColors
-import com.pvsb.presentation.ui.AppStyle.TextStyles.messageTextStyle
 import com.pvsb.presentation.ui.AppStyle.TextStyles.titleTextStyle
 import com.pvsb.presentation.utils.components.BackButton
 import com.pvsb.presentation.utils.components.FloatingAddButton
@@ -62,7 +55,7 @@ class PasswordsListActivity : ComponentActivity() {
         state: PasswordsListState = PasswordsListState()
     ) {
 
-        val passwords = state.passwords
+        val passwords = state.allPasswords
 
         Box(
             modifier = Modifier
@@ -143,7 +136,7 @@ class PasswordsListActivity : ComponentActivity() {
     private fun ComposeContentPreview() {
         ComposeContent(
             PasswordsListState(
-                passwords = listOf(
+                allPasswords = listOf(
                     Password(
                         "", "Home wifi", "123456", null, true, null
                     ),

@@ -74,6 +74,7 @@
     <string name="copy_password">Copy password</string>
     <string name="password_card_title_label">Title</string>
     <string name="password_card_password_label">Password</string>
+    <string name="delete_password_button_label">Delete password</string>
     <string name="delete_password_dialog_message">This password will be deleted</string>
 
     <!--    PHOTO -->

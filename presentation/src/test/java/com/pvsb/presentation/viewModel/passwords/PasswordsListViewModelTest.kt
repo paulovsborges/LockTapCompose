@@ -58,7 +58,31 @@ class PasswordsListViewModelTest {
 
         viewModel.getPasswords()
 
-        assertEquals(dummyPasswords, viewModel.state.value.passwords)
+        assertEquals(dummyPasswords, viewModel.state.value.allPasswords)
+    }
+
+    @Test
+    fun `set favorite passwords list`() {
+
+        val dummyPasswords = listOf(
+            Password(
+                "1", "Title 1", password = "1", Date(), false, null
+            ),
+            Password(
+                "2", "Title 2", password = "2", Date(), true, null
+            ),
+            Password(
+                "3", "Title 3", password = "3", Date(), false, null
+            ),
+        )
+
+        coEvery { getPasswordsUseCase() } returns DataState.Success(flow { emit(dummyPasswords) })
+
+        viewModel.getPasswords()
+
+        val expectedResult = listOf(dummyPasswords[1])
+
+        assertEquals(expectedResult, viewModel.state.value.favoritePasswords)
     }
 
     @Test

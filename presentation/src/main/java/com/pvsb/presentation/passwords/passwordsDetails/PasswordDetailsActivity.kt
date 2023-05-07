@@ -150,7 +150,7 @@ class PasswordDetailsActivity : ComponentActivity() {
 
                     if (isContactDetails) {
                         Text(
-                            text = stringResource(id = R.string.contact_details_delete_contact_btn_label),
+                            text = stringResource(id = R.string.delete_password_button_label),
                             fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
                             color = AppColors.red,
                             fontSize = 16.sp,

@@ -17,6 +17,10 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -24,8 +28,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.viewpager.widget.ViewPager
 import com.pvsb.domain.entity.Password
 import com.pvsb.domain.entity.TypedMessage
+import com.pvsb.presentation.categories.favoriteScreen.ComposeEmptyQueryResults
 import com.pvsb.presentation.mainBottomNav.MainScreens
 import com.pvsb.presentation.passwords.categoriesPasswordsList.ComposePasswordCard
 import com.pvsb.presentation.passwords.categoriesPasswordsList.PasswordsListViewModel
@@ -38,7 +44,8 @@ import com.pvsb.presentation.utils.components.viewPager.ViewPagerContentType
 import com.pvsb.presentation.utils.copyTextToClipBoard
 
 private data class PasswordsScreenActions(
-    val passwords: List<Password> = listOf(),
+    val allPasswords: List<Password> = listOf(),
+    val favoritePasswords: List<Password> = listOf(),
     val error: TypedMessage? = null,
     val onPasswordFavoriteClick: (String) -> Unit = {}
 )
@@ -54,7 +61,8 @@ fun PasswordsScreenContainer(
 
     PasswordsScreen(
         PasswordsScreenActions(
-            passwords = state.value.passwords,
+            allPasswords = state.value.allPasswords,
+            favoritePasswords = state.value.favoritePasswords,
             error = state.value.error,
             onPasswordFavoriteClick = { passwordId ->
                 viewModel.toggleFavorite(passwordId)
@@ -68,6 +76,10 @@ fun PasswordsScreenContainer(
 private fun PasswordsScreen(
     actions: PasswordsScreenActions
 ) {
+
+    var currentContentType by remember {
+        mutableStateOf<ViewPagerContentType>(ViewPagerContentType.All)
+    }
 
     val pagerState = rememberPagerState()
     val context = LocalContext.current
@@ -93,7 +105,7 @@ private fun PasswordsScreen(
                     ViewPagerContentType.Favorites,
                 ),
                 contentPage = {
-
+                    currentContentType = it
                 })
 
             Spacer(modifier = Modifier.height(25.dp))
@@ -102,17 +114,11 @@ private fun PasswordsScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            if (actions.passwords.isEmpty()) {
-                ComposeEmptyPasswordsListState(modifier = Modifier.fillMaxSize())
-            } else {
-                ComposePasswordsList(
-                    passwords = actions.passwords,
-                    context = context,
-                    onPasswordFavoriteClick = { passwordId ->
-                        actions.onPasswordFavoriteClick(passwordId)
-                    }
-                )
-            }
+            ComposeContent(
+                contentType = currentContentType,
+                context = context,
+                actions = actions
+            )
         }
 
         Box(
@@ -124,6 +130,66 @@ private fun PasswordsScreen(
                 context.navigateToPasswordDetails()
             }
         }
+    }
+}
+
+@Composable
+private fun ComposeContent(
+    contentType: ViewPagerContentType,
+    actions: PasswordsScreenActions,
+    context: Context
+) {
+
+    when (contentType) {
+        ViewPagerContentType.All -> {
+            ComposeAllPasswordsList(
+                actions = actions,
+                context = context
+            )
+        }
+        ViewPagerContentType.Favorites -> {
+            ComposeFavoritePasswordsList(
+                actions = actions,
+                context = context
+            )
+        }
+        else -> Unit
+    }
+}
+
+@Composable
+private fun ComposeAllPasswordsList(
+    actions: PasswordsScreenActions,
+    context: Context
+) {
+    if (actions.allPasswords.isEmpty()) {
+        ComposeEmptyPasswordsListState(modifier = Modifier.fillMaxSize())
+    } else {
+        ComposePasswordsList(
+            passwords = actions.allPasswords,
+            context = context,
+            onPasswordFavoriteClick = { passwordId ->
+                actions.onPasswordFavoriteClick(passwordId)
+            }
+        )
+    }
+}
+
+@Composable
+private fun ComposeFavoritePasswordsList(
+    actions: PasswordsScreenActions,
+    context: Context
+) {
+    if (actions.favoritePasswords.isEmpty()) {
+        ComposeEmptyQueryResults(modifier = Modifier.fillMaxSize())
+    } else {
+        ComposePasswordsList(
+            passwords = actions.favoritePasswords,
+            context = context,
+            onPasswordFavoriteClick = { passwordId ->
+                actions.onPasswordFavoriteClick(passwordId)
+            }
+        )
     }
 }
 
@@ -157,7 +223,7 @@ private fun ComposePasswordsList(
 private fun PasswordsScreenPreview() {
     PasswordsScreen(
         PasswordsScreenActions(
-            passwords = listOf(
+            allPasswords = listOf(
                 Password(
                     "", "Home wifi", "123456", null, true, null
                 ),
