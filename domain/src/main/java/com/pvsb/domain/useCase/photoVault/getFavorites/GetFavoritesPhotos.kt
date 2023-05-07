@@ -4,7 +4,6 @@ import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.Photo
 import com.pvsb.domain.repository.PhotoVaultRepository
-import com.pvsb.domain.useCase.password.getFavorites.GetFavoritesPasswordsUseCase
 
 class GetFavoritesPhotos(
     private val photoVaultRepository: PhotoVaultRepository

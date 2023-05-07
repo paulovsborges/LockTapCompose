@@ -62,5 +62,4 @@ class GetFavoritesPhotosUseCaseTest {
 
         Assertions.assertEquals(expectedResult, state)
     }
-
 }

@@ -33,7 +33,8 @@ import com.pvsb.presentation.ui.AppStyle
 
 @Composable
 fun CategoriesFavoritePhotosScreen(
-    modifier: Modifier = Modifier, photos: List<Photo>
+    modifier: Modifier = Modifier,
+    photos: List<Photo>
 ) {
 
     if (photos.isEmpty()) {
@@ -50,7 +51,8 @@ fun CategoriesFavoritePhotosScreen(
 
 @Composable
 private fun ComposePhotoList(
-    modifier: Modifier = Modifier, photos: List<Photo>
+    modifier: Modifier = Modifier,
+    photos: List<Photo>
 ) {
 
     val context = LocalContext.current
@@ -66,7 +68,9 @@ private fun ComposePhotoList(
 
 @Composable
 private fun ComposePhotoCell(
-    modifier: Modifier = Modifier, photo: Photo, context: Context
+    modifier: Modifier = Modifier,
+    photo: Photo,
+    context: Context
 ) {
 
     Card(
@@ -76,17 +80,21 @@ private fun ComposePhotoCell(
             .clickable(
                 interactionSource = remember {
                     MutableInteractionSource()
-                }, indication = rememberRipple(bounded = false, radius = 50.dp)
+                },
+                indication = rememberRipple(bounded = false, radius = 50.dp)
             ) {
                 navigateToPhotoDetails(photo.id, context)
             },
         shape = RoundedCornerShape(3.dp),
     ) {
 
-        val painter = rememberAsyncImagePainter(ImageRequest.Builder(LocalContext.current)
-            .data(data = photo.imageFilePath).crossfade(true).build(), onError = {
-            Log.d("", "### ${it.result.throwable.message}")
-        })
+        val painter = rememberAsyncImagePainter(
+            ImageRequest.Builder(LocalContext.current)
+                .data(data = photo.imageFilePath).crossfade(true).build(),
+            onError = {
+                Log.d("", "### ${it.result.throwable.message}")
+            }
+        )
 
         Image(
             painter = painter,
@@ -100,7 +108,8 @@ private fun ComposePhotoCell(
 }
 
 private fun navigateToPhotoDetails(
-    photoId: Long, context: Context
+    photoId: Long,
+    context: Context
 ) {
     val intent = Intent(context, PhotoDetailsActivity::class.java)
     intent.putExtra(PhotoDetailsActivity.PHOTO_FROM_VAULT_ID_KEY, photoId)

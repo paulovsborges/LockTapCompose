@@ -200,30 +200,30 @@ private fun ComposeTextField(
                 onErrorChanged(false)
             }
         }, decorationBox = {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                shape = RoundedCornerShape(40.dp),
-                border = BorderStroke(1.dp, borderColor)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .background(secondary),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(
-                        30.dp,
-                        Alignment.Horizontal { _, space, _ ->
-                            space / 2
-                        }
-                    )
-                ) {
-                    repeat(maxChars) {
-                        ComposePasswordPointer(password.length - 1 >= it, isErrorVisible)
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            shape = RoundedCornerShape(40.dp),
+            border = BorderStroke(1.dp, borderColor)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .background(secondary),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(
+                    30.dp,
+                    Alignment.Horizontal { _, space, _ ->
+                        space / 2
                     }
+                )
+            ) {
+                repeat(maxChars) {
+                    ComposePasswordPointer(password.length - 1 >= it, isErrorVisible)
                 }
             }
-        },
+        }
+    },
         modifier = Modifier
             .width(180.dp)
             .height(52.dp)

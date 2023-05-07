@@ -188,8 +188,12 @@ fun ComposeFavoriteButton(
 @Composable
 private fun ComposePasswordCardPreview() {
     Box(modifier = Modifier.padding(20.dp)) {
-        ComposePasswordCard(modifier = Modifier, password = Password(
-            "", "Home wifi", "123456", null, true, null
-        ), {}, {}, {})
+        ComposePasswordCard(
+            modifier = Modifier,
+            password = Password(
+                "", "Home wifi", "123456", null, true, null
+            ),
+            {}, {}, {}
+        )
     }
 }

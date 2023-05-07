@@ -58,7 +58,8 @@ class GetFavoritesPasswordsUseCaseTest {
             listOf(
                 Password(
                     "1", "Home wifi", "123456", null, true, null
-                ), Password(
+                ),
+                Password(
                     "2", "Home wifi", "123456", null, true, null
                 )
             )
@@ -78,5 +79,4 @@ class GetFavoritesPasswordsUseCaseTest {
 
         Assertions.assertEquals(expectedResult, state)
     }
-
 }

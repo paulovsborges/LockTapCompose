@@ -115,7 +115,8 @@ class PasswordsListActivity : ComponentActivity() {
 
     @Composable
     private fun ComposePasswordsList(
-        modifier: Modifier = Modifier, passwords: List<Password>
+        modifier: Modifier = Modifier,
+        passwords: List<Password>
     ) {
 
         Box(modifier = modifier.fillMaxSize()) {

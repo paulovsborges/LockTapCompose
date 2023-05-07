@@ -115,6 +115,5 @@ class CategoriesFavoritesViewModelTest {
         val expectedResult = TypedMessage.Reference(R.string.error_there_was_an_unexpected_error)
 
         Assert.assertEquals(expectedResult, viewModel.state.value.error)
-
     }
 }

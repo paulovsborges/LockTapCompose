@@ -14,12 +14,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.pvsb.domain.entity.Password
 import com.pvsb.presentation.categories.favoriteScreen.ComposeEmptyQueryResults
 import com.pvsb.presentation.passwords.passwordsDetails.PasswordDetailsActivity
 import com.pvsb.presentation.passwords.passwordsList.ComposePasswordCard
-import com.pvsb.presentation.passwords.passwordsList.PasswordsListViewModel
 import com.pvsb.presentation.utils.copyTextToClipBoard
 
 @Composable
@@ -45,10 +43,10 @@ fun CategoriesFavoritePasswordsScreen(
                         onCardClick = { passwordId ->
                             navigateToDetails(passwordId, context)
                         }, onCopyPassword = { password ->
-                            context.copyTextToClipBoard(password)
-                        }, onFavoriteClick = { passwordId ->
-                            onFavoriteClick(passwordId)
-                        }
+                        context.copyTextToClipBoard(password)
+                    }, onFavoriteClick = { passwordId ->
+                        onFavoriteClick(passwordId)
+                    }
                     )
                 }
             }
