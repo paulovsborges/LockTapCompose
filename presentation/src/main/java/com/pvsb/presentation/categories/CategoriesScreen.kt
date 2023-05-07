@@ -61,7 +61,6 @@ fun CategoriesScreen(
             }
             1 -> {
                 CategoriesFavoriteScreenContentContainer(modifier = Modifier.fillMaxSize())
-//                CategoriesFavoriteScreenContent(modifier = Modifier.fillMaxSize())
             }
             else -> Unit
         }

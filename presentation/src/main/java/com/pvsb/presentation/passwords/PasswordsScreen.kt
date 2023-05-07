@@ -17,10 +17,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.viewpager.widget.ViewPager
 import com.pvsb.domain.entity.Password
 import com.pvsb.domain.entity.TypedMessage
 import com.pvsb.presentation.categories.favoriteScreen.ComposeEmptyQueryResults
@@ -60,14 +55,12 @@ fun PasswordsScreenContainer(
     viewModel.getPasswords()
 
     PasswordsScreen(
-        PasswordsScreenActions(
-            allPasswords = state.value.allPasswords,
+        PasswordsScreenActions(allPasswords = state.value.allPasswords,
             favoritePasswords = state.value.favoritePasswords,
             error = state.value.error,
             onPasswordFavoriteClick = { passwordId ->
                 viewModel.toggleFavorite(passwordId)
-            }
-        )
+            })
     )
 }
 
@@ -76,10 +69,6 @@ fun PasswordsScreenContainer(
 private fun PasswordsScreen(
     actions: PasswordsScreenActions
 ) {
-
-    var currentContentType by remember {
-        mutableStateOf<ViewPagerContentType>(ViewPagerContentType.All)
-    }
 
     val pagerState = rememberPagerState()
     val context = LocalContext.current
@@ -98,15 +87,14 @@ private fun PasswordsScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            ComposePrimaryViewPager(modifier = Modifier.fillMaxWidth(),
+            ComposePrimaryViewPager(
+                modifier = Modifier.fillMaxWidth(),
                 state = pagerState,
                 contents = listOf(
                     ViewPagerContentType.All,
                     ViewPagerContentType.Favorites,
-                ),
-                contentPage = {
-                    currentContentType = it
-                })
+                )
+            )
 
             Spacer(modifier = Modifier.height(25.dp))
 
@@ -115,7 +103,7 @@ private fun PasswordsScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             ComposeContent(
-                contentType = currentContentType,
+                viewPagerPos = pagerState.currentPage,
                 context = context,
                 actions = actions
             )
@@ -135,22 +123,20 @@ private fun PasswordsScreen(
 
 @Composable
 private fun ComposeContent(
-    contentType: ViewPagerContentType,
+    viewPagerPos: Int,
     actions: PasswordsScreenActions,
     context: Context
 ) {
 
-    when (contentType) {
-        ViewPagerContentType.All -> {
+    when (viewPagerPos) {
+        0 -> {
             ComposeAllPasswordsList(
-                actions = actions,
-                context = context
+                actions = actions, context = context
             )
         }
-        ViewPagerContentType.Favorites -> {
+        1 -> {
             ComposeFavoritePasswordsList(
-                actions = actions,
-                context = context
+                actions = actions, context = context
             )
         }
         else -> Unit
@@ -159,37 +145,31 @@ private fun ComposeContent(
 
 @Composable
 private fun ComposeAllPasswordsList(
-    actions: PasswordsScreenActions,
-    context: Context
+    actions: PasswordsScreenActions, context: Context
 ) {
     if (actions.allPasswords.isEmpty()) {
         ComposeEmptyPasswordsListState(modifier = Modifier.fillMaxSize())
     } else {
-        ComposePasswordsList(
-            passwords = actions.allPasswords,
+        ComposePasswordsList(passwords = actions.allPasswords,
             context = context,
             onPasswordFavoriteClick = { passwordId ->
                 actions.onPasswordFavoriteClick(passwordId)
-            }
-        )
+            })
     }
 }
 
 @Composable
 private fun ComposeFavoritePasswordsList(
-    actions: PasswordsScreenActions,
-    context: Context
+    actions: PasswordsScreenActions, context: Context
 ) {
     if (actions.favoritePasswords.isEmpty()) {
         ComposeEmptyQueryResults(modifier = Modifier.fillMaxSize())
     } else {
-        ComposePasswordsList(
-            passwords = actions.favoritePasswords,
+        ComposePasswordsList(passwords = actions.favoritePasswords,
             context = context,
             onPasswordFavoriteClick = { passwordId ->
                 actions.onPasswordFavoriteClick(passwordId)
-            }
-        )
+            })
     }
 }
 
