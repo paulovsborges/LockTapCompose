@@ -138,41 +138,6 @@ class PasswordsListActivity : ComponentActivity() {
         }
     }
 
-//    @Composable
-//    private fun ComposeEmptyState(
-//        modifier: Modifier = Modifier
-//    ) {
-//
-//        Column(
-//            modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
-//        ) {
-//
-//            Spacer(modifier = Modifier.height(100.dp))
-//
-//            Image(
-//                painter = painterResource(id = R.drawable.ic_empty_content), contentDescription = ""
-//            )
-//
-//            Spacer(modifier = Modifier.height(20.dp))
-//
-//            Text(
-//                text = stringResource(id = R.string.empty_content_label),
-//                style = titleTextStyle,
-//                fontSize = 20.sp
-//            )
-//
-//            Spacer(modifier = Modifier.height(12.dp))
-//
-//            Text(
-//                text = stringResource(id = R.string.wifi_passwords_empty_content_message),
-//                color = AppColors.gray,
-//                textAlign = TextAlign.Center,
-//                fontSize = 16.sp,
-//                style = messageTextStyle
-//            )
-//        }
-//    }
-
     @Preview
     @Composable
     private fun ComposeContentPreview() {

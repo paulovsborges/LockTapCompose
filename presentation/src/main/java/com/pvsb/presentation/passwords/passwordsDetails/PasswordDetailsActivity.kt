@@ -19,8 +19,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.pvsb.presentation.R
 import com.pvsb.presentation.ui.AppStyle.AppColors
 import com.pvsb.presentation.ui.AppStyle.TextStyles.titleTextStyle
@@ -42,18 +45,28 @@ class PasswordDetailsActivity : ComponentActivity() {
             viewModel.getPasswordDetails(passwordId)
         }
 
+        val passwordId = intent.getStringExtra(PASSWORD_ID_KEY)
+
+        passwordId?.let {
+            viewModel.getPasswordDetails(passwordId)
+        }
+
         setContent {
             val state = viewModel.state.collectAsState()
 
             if (state.value.shouldCloseScreen) finish()
 
-            ComposeContent(state.value)
+            ComposeContent(
+                state = state.value,
+                isContactDetails = passwordId != null
+            )
         }
     }
 
     @Composable
     private fun ComposeContent(
-        state: PasswordDetailsState = PasswordDetailsState()
+        state: PasswordDetailsState = PasswordDetailsState(),
+        isContactDetails: Boolean = false
     ) {
 
         Box(
@@ -69,7 +82,8 @@ class PasswordDetailsActivity : ComponentActivity() {
                 }
 
                 Column(
-                    modifier = Modifier.padding(20.dp)
+                    modifier = Modifier.padding(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = stringResource(id = R.string.new_password_label),
@@ -81,6 +95,20 @@ class PasswordDetailsActivity : ComponentActivity() {
                     ComposeFields(
                         fields = state.fields
                     )
+
+                    Spacer(modifier = Modifier.height(35.dp))
+
+                    if (isContactDetails) {
+                        Text(
+                            text = stringResource(id = R.string.contact_details_delete_contact_btn_label),
+                            fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
+                            color = AppColors.red,
+                            fontSize = 16.sp,
+                            modifier = Modifier.clickable {
+//                            onDeleteClick()
+                            }
+                        )
+                    }
                 }
             }
 
