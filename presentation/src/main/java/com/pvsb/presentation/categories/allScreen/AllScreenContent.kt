@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.pvsb.presentation.R
 import com.pvsb.presentation.categories.allScreen.photoVault.PhotoVaultActivity
 import com.pvsb.presentation.contact.contactList.PrivateContactsActivity
-import com.pvsb.presentation.passwords.passwordsList.PasswordsListActivity
+import com.pvsb.presentation.passwords.categoriesPasswordsList.PasswordsListActivity
 import com.pvsb.presentation.utils.components.ComposeSessionOptionButton
 import com.pvsb.presentation.utils.components.textField.ComposePrimarySearchField
 

@@ -5,7 +5,7 @@ import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.Password
 import com.pvsb.domain.useCase.password.getPasswords.GetPasswordsUseCase
 import com.pvsb.domain.useCase.password.togglePasswordFavorite.TogglePasswordFavoriteUseCase
-import com.pvsb.presentation.passwords.passwordsList.PasswordsListViewModel
+import com.pvsb.presentation.passwords.categoriesPasswordsList.PasswordsListViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

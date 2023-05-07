@@ -47,7 +47,7 @@
             android:theme="@style/Theme.LockTapCompose" />
 
         <activity
-            android:name="com.pvsb.presentation.passwords.passwordsList.PasswordsListActivity"
+            android:name="com.pvsb.presentation.passwords.categoriesPasswordsList.PasswordsListActivity"
             android:exported="true"
             android:theme="@style/Theme.LockTapCompose" />
 

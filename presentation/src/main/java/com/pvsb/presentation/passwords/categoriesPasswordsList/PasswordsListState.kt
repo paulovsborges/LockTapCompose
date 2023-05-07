@@ -1,4 +1,4 @@
-package com.pvsb.presentation.passwords.passwordsList
+package com.pvsb.presentation.passwords.categoriesPasswordsList
 
 import com.pvsb.domain.entity.Password
 import com.pvsb.domain.entity.TypedMessage

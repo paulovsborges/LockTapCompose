@@ -50,7 +50,13 @@ fun ComposeSecondaryViewPager(
 
                 val isSelectedTab = state.currentPage == currentPos
 
-                ComposeTab(label = type.label, isSelected = isSelectedTab) {
+                ComposeTab(
+                    label = type.label,
+                    isSelected = isSelectedTab,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                ) {
                     scope.launch {
                         state.scrollToPage(currentPos)
                     }

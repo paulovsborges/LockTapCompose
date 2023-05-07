@@ -1,4 +1,4 @@
-package com.pvsb.presentation.passwords.passwordsList
+package com.pvsb.presentation.passwords.categoriesPasswordsList
 
 import android.content.Intent
 import android.os.Bundle

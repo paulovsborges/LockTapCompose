@@ -1,4 +1,4 @@
-package com.pvsb.presentation.passwords.passwordsList
+package com.pvsb.presentation.passwords.categoriesPasswordsList
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
