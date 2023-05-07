@@ -4,9 +4,11 @@ import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.Photo
 import com.pvsb.domain.repository.PhotoVaultRepository
+import com.pvsb.domain.util.Logger
 
 class AddPhotoToVault(
-    private val repository: PhotoVaultRepository
+    private val repository: PhotoVaultRepository,
+    private val logger: Logger
 ) : AddPhotoToVaultUseCase {
 
     override suspend fun invoke(imageFilePath: String): DataState<Unit> {
@@ -25,7 +27,7 @@ class AddPhotoToVault(
 
             DataState.Success(Unit)
         } catch (e: Exception) {
-            e.printStackTrace()
+            logger.e(e)
             DataState.Error(ExceptionWrapper.Unknown)
         }
     }

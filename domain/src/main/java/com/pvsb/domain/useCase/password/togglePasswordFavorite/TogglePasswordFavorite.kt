@@ -1,9 +1,11 @@
 package com.pvsb.domain.useCase.password.togglePasswordFavorite
 
 import com.pvsb.domain.repository.PasswordsRepository
+import com.pvsb.domain.util.Logger
 
 class TogglePasswordFavorite(
-    private val passwordsRepository: PasswordsRepository
+    private val passwordsRepository: PasswordsRepository,
+    private val logger: Logger
 ) : TogglePasswordFavoriteUseCase {
 
     override suspend fun invoke(passwordId: String) {
@@ -16,7 +18,7 @@ class TogglePasswordFavorite(
 
             passwordsRepository.add(updatedPassword)
         } catch (e: Exception) {
-            e.printStackTrace()
+            logger.e(e)
         }
     }
 }

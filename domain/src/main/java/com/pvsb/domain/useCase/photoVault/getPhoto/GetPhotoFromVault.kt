@@ -4,9 +4,11 @@ import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.Photo
 import com.pvsb.domain.repository.PhotoVaultRepository
+import com.pvsb.domain.util.Logger
 
 class GetPhotoFromVault(
-    private val repository: PhotoVaultRepository
+    private val repository: PhotoVaultRepository,
+    private val logger: Logger
 ) : GetPhotoFromVaultUseCase {
     override suspend fun invoke(photoId: Long): DataState<Photo> {
         return try {
@@ -17,7 +19,7 @@ class GetPhotoFromVault(
 
             DataState.Success(photo)
         } catch (e: Exception) {
-            e.printStackTrace()
+            logger.e(e)
             DataState.Error(ExceptionWrapper.Unknown)
         }
     }

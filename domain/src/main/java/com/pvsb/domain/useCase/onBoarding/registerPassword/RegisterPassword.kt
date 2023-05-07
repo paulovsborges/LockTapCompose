@@ -3,9 +3,11 @@ package com.pvsb.domain.useCase.onBoarding.registerPassword
 import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.repository.UserRepository
+import com.pvsb.domain.util.Logger
 
 class RegisterPassword(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val logger: Logger
 ) : RegisterPasswordUseCase {
 
     enum class Error : ExceptionWrapper {
@@ -32,7 +34,7 @@ class RegisterPassword(
 
             return DataState.Success(Unit)
         } catch (e: Exception) {
-            e.printStackTrace()
+            logger.e(e)
             return DataState.Error(ExceptionWrapper.Unknown)
         }
     }

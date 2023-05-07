@@ -4,6 +4,7 @@ import com.pvsb.domain.entity.User
 import com.pvsb.domain.repository.UserRepository
 import com.pvsb.domain.useCase.onBoarding.skipOnBoarding.SkipOnBoarding
 import com.pvsb.domain.useCase.onBoarding.skipOnBoarding.SkipOnBoardingUseCase
+import com.pvsb.domain.util.Logger
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -17,11 +18,13 @@ import org.junit.jupiter.api.Test
 class SkipOnBoardingUseCaseTest {
     private lateinit var useCase: SkipOnBoardingUseCase
     private lateinit var userRepository: UserRepository
+    private lateinit var logger: Logger
 
     @BeforeEach
     fun setup() {
         userRepository = mockk()
-        useCase = SkipOnBoarding(userRepository)
+        logger = spyk()
+        useCase = SkipOnBoarding(userRepository, logger)
     }
 
     @Test
@@ -51,7 +54,7 @@ class SkipOnBoardingUseCaseTest {
 
         val spy = spyk(
             recordPrivateCalls = true,
-            objToCopy = SkipOnBoarding(userRepository)
+            objToCopy = SkipOnBoarding(userRepository, logger)
         )
 
         spy()

@@ -6,8 +6,11 @@ import com.pvsb.domain.entity.Password
 import com.pvsb.domain.repository.PasswordsRepository
 import com.pvsb.domain.useCase.password.getPasswords.GetPasswords
 import com.pvsb.domain.useCase.password.getPasswords.GetPasswordsUseCase
+import com.pvsb.domain.util.Logger
 import io.mockk.coEvery
 import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
@@ -20,11 +23,13 @@ class GetPasswordsUseCaseTest {
 
     private lateinit var useCase: GetPasswordsUseCase
     private lateinit var passwordsRepository: PasswordsRepository
+    private lateinit var logger: Logger
 
     @BeforeEach
     fun setup() {
         passwordsRepository = mockk()
-        useCase = GetPasswords(passwordsRepository)
+        logger = spyk()
+        useCase = GetPasswords(passwordsRepository, logger)
     }
 
     @Test
@@ -49,6 +54,7 @@ class GetPasswordsUseCaseTest {
         val state = useCase()
 
         assertEquals(DataState.Error<Unit>(ExceptionWrapper.Unknown), state)
+        verify { logger.e(any()) }
     }
 
     companion object {

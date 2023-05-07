@@ -5,9 +5,12 @@ import com.pvsb.domain.entity.Photo
 import com.pvsb.domain.repository.PhotoVaultRepository
 import com.pvsb.domain.useCase.photoVault.addPhoto.AddPhotoToVault
 import com.pvsb.domain.useCase.photoVault.addPhoto.AddPhotoToVaultUseCase
+import com.pvsb.domain.util.Logger
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
@@ -19,11 +22,13 @@ class AddPhotoToVaultUseCaseTest {
 
     private lateinit var useCase: AddPhotoToVaultUseCase
     private lateinit var photoVaultRepository: PhotoVaultRepository
+    private lateinit var logger: Logger
 
     @BeforeEach
     fun setup() {
         photoVaultRepository = mockk()
-        useCase = AddPhotoToVault(photoVaultRepository)
+        logger = spyk()
+        useCase = AddPhotoToVault(photoVaultRepository, logger)
     }
 
     @Test
@@ -65,6 +70,7 @@ class AddPhotoToVaultUseCaseTest {
         val state = useCase("")
 
         Assertions.assertInstanceOf(DataState.Error::class.java, state)
+        verify { logger.e(any()) }
     }
 
     companion object {

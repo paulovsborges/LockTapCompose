@@ -5,8 +5,11 @@ import com.pvsb.domain.entity.Photo
 import com.pvsb.domain.repository.PhotoVaultRepository
 import com.pvsb.domain.useCase.photoVault.getPhotos.GetPhotosFromVault
 import com.pvsb.domain.useCase.photoVault.getPhotos.GetPhotosFromVaultUseCase
+import com.pvsb.domain.util.Logger
 import io.mockk.coEvery
 import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
@@ -18,11 +21,13 @@ class GetPhotosFromVaultUseCaseTest {
 
     private lateinit var useCase: GetPhotosFromVaultUseCase
     private lateinit var repository: PhotoVaultRepository
+    private lateinit var logger: Logger
 
     @BeforeEach
     fun setup() {
         repository = mockk()
-        useCase = GetPhotosFromVault(repository)
+        logger = spyk()
+        useCase = GetPhotosFromVault(repository, logger)
     }
 
     @Test
@@ -51,5 +56,6 @@ class GetPhotosFromVaultUseCaseTest {
         val state = useCase()
 
         Assertions.assertInstanceOf(DataState.Error::class.java, state)
+        verify { logger.e(any()) }
     }
 }

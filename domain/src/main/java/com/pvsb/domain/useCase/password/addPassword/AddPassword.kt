@@ -4,10 +4,12 @@ import com.pvsb.domain.entity.DataState
 import com.pvsb.domain.entity.ExceptionWrapper
 import com.pvsb.domain.entity.Password
 import com.pvsb.domain.repository.PasswordsRepository
+import com.pvsb.domain.util.Logger
 import java.util.Calendar
 
 class AddPassword(
-    private val passwordsRepository: PasswordsRepository
+    private val passwordsRepository: PasswordsRepository,
+    private val logger: Logger
 ) : AddPasswordUseCase {
 
     override suspend fun invoke(input: AddPasswordUseCase.Input): DataState<Unit> {
@@ -27,7 +29,7 @@ class AddPassword(
             passwordsRepository.add(password)
             DataState.Success(Unit)
         } catch (e: Exception) {
-            e.printStackTrace()
+            logger.e(e)
             DataState.Error(ExceptionWrapper.Unknown)
         }
     }
@@ -37,7 +39,7 @@ class AddPassword(
             passwordsRepository.add(password)
             DataState.Success(Unit)
         } catch (e: Exception) {
-            e.printStackTrace()
+            logger.e(e)
             DataState.Error(ExceptionWrapper.Unknown)
         }
     }

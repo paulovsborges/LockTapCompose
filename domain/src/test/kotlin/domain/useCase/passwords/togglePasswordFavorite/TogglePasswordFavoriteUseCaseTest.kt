@@ -4,9 +4,11 @@ import com.pvsb.domain.entity.Password
 import com.pvsb.domain.repository.PasswordsRepository
 import com.pvsb.domain.useCase.password.togglePasswordFavorite.TogglePasswordFavorite
 import com.pvsb.domain.useCase.password.togglePasswordFavorite.TogglePasswordFavoriteUseCase
+import com.pvsb.domain.util.Logger
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
@@ -17,11 +19,13 @@ class TogglePasswordFavoriteUseCaseTest {
 
     private lateinit var useCase: TogglePasswordFavoriteUseCase
     private lateinit var passwordsRepository: PasswordsRepository
+    private lateinit var logger: Logger
 
     @BeforeEach
     fun setup() {
         passwordsRepository = mockk()
-        useCase = TogglePasswordFavorite(passwordsRepository)
+        logger = spyk()
+        useCase = TogglePasswordFavorite(passwordsRepository, spyk())
     }
 
     @Test
