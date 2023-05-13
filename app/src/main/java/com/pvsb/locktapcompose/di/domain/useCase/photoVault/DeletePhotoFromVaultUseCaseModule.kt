@@ -2,6 +2,7 @@ package com.pvsb.locktapcompose.di.domain.useCase.photoVault
 
 import com.pvsb.domain.repository.PhotoVaultRepository
 import com.pvsb.domain.useCase.photoVault.deletePhoto.DeletePhotoFromVault
+import com.pvsb.domain.util.Logger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,8 +17,9 @@ object DeletePhotoFromVaultUseCaseModule {
     @Provides
     @ViewModelScoped
     fun provides(
-        repository: PhotoVaultRepository
+        repository: PhotoVaultRepository,
+        logger: Logger
     ): DeletePhotoFromVaultUseCase {
-        return DeletePhotoFromVault(repository)
+        return DeletePhotoFromVault(repository, logger)
     }
 }

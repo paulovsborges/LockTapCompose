@@ -3,6 +3,7 @@ package com.pvsb.locktapcompose.di.domain.useCase.passwords
 import com.pvsb.domain.repository.PasswordsRepository
 import com.pvsb.domain.useCase.password.togglePasswordFavorite.TogglePasswordFavorite
 import com.pvsb.domain.useCase.password.togglePasswordFavorite.TogglePasswordFavoriteUseCase
+import com.pvsb.domain.util.Logger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,8 +17,9 @@ object TogglePasswordFavoriteUseCaseModule {
     @Provides
     @ViewModelScoped
     fun provides(
-        passwordsRepository: PasswordsRepository
+        passwordsRepository: PasswordsRepository,
+        logger: Logger
     ): TogglePasswordFavoriteUseCase {
-        return TogglePasswordFavorite(passwordsRepository)
+        return TogglePasswordFavorite(passwordsRepository, logger)
     }
 }

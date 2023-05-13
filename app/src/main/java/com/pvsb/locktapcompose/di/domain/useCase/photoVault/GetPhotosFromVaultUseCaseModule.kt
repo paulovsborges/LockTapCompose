@@ -3,6 +3,7 @@ package com.pvsb.locktapcompose.di.domain.useCase.photoVault
 import com.pvsb.domain.repository.PhotoVaultRepository
 import com.pvsb.domain.useCase.photoVault.getPhotos.GetPhotosFromVault
 import com.pvsb.domain.useCase.photoVault.getPhotos.GetPhotosFromVaultUseCase
+import com.pvsb.domain.util.Logger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,8 +17,9 @@ object GetPhotosFromVaultUseCaseModule {
     @Provides
     @ViewModelScoped
     fun provides(
-        repository: PhotoVaultRepository
+        repository: PhotoVaultRepository,
+        logger: Logger
     ): GetPhotosFromVaultUseCase {
-        return GetPhotosFromVault(repository)
+        return GetPhotosFromVault(repository, logger)
     }
 }

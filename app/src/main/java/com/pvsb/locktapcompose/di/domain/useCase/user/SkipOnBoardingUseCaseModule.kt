@@ -3,6 +3,7 @@ package com.pvsb.locktapcompose.di.domain.useCase.user
 import com.pvsb.domain.repository.UserRepository
 import com.pvsb.domain.useCase.onBoarding.skipOnBoarding.SkipOnBoarding
 import com.pvsb.domain.useCase.onBoarding.skipOnBoarding.SkipOnBoardingUseCase
+import com.pvsb.domain.util.Logger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,8 +17,9 @@ object SkipOnBoardingUseCaseModule {
     @Provides
     @ViewModelScoped
     fun provides(
-        userRepository: UserRepository
+        userRepository: UserRepository,
+        logger: Logger
     ): SkipOnBoardingUseCase {
-        return SkipOnBoarding(userRepository)
+        return SkipOnBoarding(userRepository, logger)
     }
 }
