@@ -8,5 +8,5 @@ interface MemoRepository {
     suspend fun delete(id: String)
     suspend fun getAll(): List<Memo>
     suspend fun getAllAsFlow(): Flow<List<Memo>>
-    suspend fun get(id: String): Memo
+    suspend fun get(id: String): Memo?
 }
