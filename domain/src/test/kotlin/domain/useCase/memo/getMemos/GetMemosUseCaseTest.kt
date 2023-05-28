@@ -1,0 +1,90 @@
+package domain.useCase.memo.getMemos
+
+import com.pvsb.domain.entity.DataState
+import com.pvsb.domain.entity.Memo
+import com.pvsb.domain.repository.MemoRepository
+import com.pvsb.domain.useCase.memo.getMemos.GetMemos
+import com.pvsb.domain.useCase.memo.getMemos.GetMemosUseCase
+import com.pvsb.domain.util.Logger
+import io.mockk.coEvery
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+
+@ExperimentalCoroutinesApi
+class GetMemosUseCaseTest {
+
+    private lateinit var useCase: GetMemosUseCase
+    private lateinit var memoRepository: MemoRepository
+    private lateinit var logger: Logger
+
+    @BeforeEach
+    fun setup() {
+        memoRepository = mockk()
+        logger = spyk()
+
+        useCase = GetMemos(memoRepository, logger)
+    }
+
+    @Test
+    fun `should return a stream of memos`() = runTest {
+
+        val memos = listOf(
+            Memo(
+                "1",
+                "memo 1",
+                "",
+                null,
+                false
+            ),
+            Memo(
+                "2",
+                "memo 2",
+                "",
+                null,
+                false
+            ),
+            Memo(
+                "3",
+                "memo 3",
+                "",
+                null,
+                false
+            ),
+            Memo(
+                "4",
+                "memo 4",
+                "",
+                null,
+                true
+            )
+        )
+
+        val stream = flow { emit(memos) }
+
+
+        coEvery { memoRepository.getAllAsFlow() } returns stream
+
+        val result = useCase()
+
+        val expectedResult = DataState.Success(stream)
+
+        Assertions.assertEquals(expectedResult, result)
+    }
+
+    @Test
+    fun `should call to log any exception`() = runTest {
+
+        coEvery { memoRepository.getAllAsFlow() } throws IllegalStateException()
+
+        useCase()
+
+        verify { logger.e(any()) }
+    }
+}
