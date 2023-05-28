@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS MemoEntity(
+    id INTEGER NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    createdAt TEXT NOT NULL,
+    isFavorite INTEGER NOT NULL DEFAULT 0
+);
+
+insertOrReplace:
+INSERT OR REPLACE INTO MemoEntity VALUES ?;
+
+getAll:
+SELECT * FROM MemoEntity;
+
+delete:
+DELETE FROM MemoEntity WHERE id = :id;
+
+getMemoById:
+SELECT * FROM MemoEntity WHERE id = :id;
