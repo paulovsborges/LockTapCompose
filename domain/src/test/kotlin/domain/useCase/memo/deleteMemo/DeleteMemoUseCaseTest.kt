@@ -54,6 +54,4 @@ class DeleteMemoUseCaseTest {
         verify { logger.e(any()) }
 
     }
-
-
 }
