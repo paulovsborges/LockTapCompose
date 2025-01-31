@@ -53,9 +53,9 @@ dependencies {
     implementation(libs.androix.dataStore)
     implementation(libs.kotlin.serialization)
 
-    testImplementation(Test.jUnit)
-    androidTestImplementation(Test.jUInitExt)
-    androidTestImplementation(Test.espresso)
+    testImplementation(libs.test.jUnit)
+    androidTestImplementation(libs.test.ext)
+    androidTestImplementation(libs.test.espresso)
 }
 
 sqldelight {

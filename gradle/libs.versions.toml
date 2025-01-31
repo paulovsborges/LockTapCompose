@@ -76,5 +76,9 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 sqlDelight-driver = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqlDelight" }
 sqlDelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqlDelight" }
 
+test-jUnit = { group = "junit", name = "junit", version = "4.13.2" }
+test-ext = { group = "androidx.test.ext", name = "junit", version = "1.1.5" }
+test-espresso = { group = "androidx.test.espresso", name = "espresso-core", version = "3.5.1" }
+
 [plugins]
 sqlDelight-plugin = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }

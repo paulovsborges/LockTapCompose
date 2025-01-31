@@ -74,7 +74,7 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.sqlDelight.driver)
 
-    testImplementation(Test.jUnit)
-    androidTestImplementation(Test.jUInitExt)
-    androidTestImplementation(Test.espresso)
+    testImplementation(libs.test.jUnit)
+    androidTestImplementation(libs.test.ext)
+    androidTestImplementation(libs.test.espresso)
 }

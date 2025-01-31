@@ -67,10 +67,11 @@ dependencies {
     implementation(libs.camerax.extensions)
 
     testImplementation(libs.mockk)
-    testImplementation(Test.jUnit)
     testImplementation(libs.coroutines.test)
-    androidTestImplementation(Test.jUInitExt)
-    androidTestImplementation(Test.espresso)
+
+    testImplementation(libs.test.jUnit)
+    androidTestImplementation(libs.test.ext)
+    androidTestImplementation(libs.test.espresso)
 
     // workaround to fix bug with the compose preview
 //    implementation(Compose.preview)
