@@ -2,6 +2,7 @@
 androidXCore = "1.9.0"
 androidXLifecycle = "2.6.1"
 androidXAppCompat = "1.6.1"
+androidXDataStore = "1.0.0"
 
 assertJ = "3.6.1"
 
@@ -16,38 +17,64 @@ kotlinSerialization = "1.6.10"
 
 cameraX = "1.2.0-beta01"
 
-composeActivity  = "1.7.0"
-composeMaterial  = "1.4.0"
-composeConstraintLayout  = "1.0.1"
-composePreview  = "1.4.0"
-composeCoil  = "2.3.0"
-composeNavigation  = "2.6.0-alpha08"
+composeActivity = "1.7.0"
+composeMaterial = "1.4.0"
+composeConstraintLayout = "1.0.1"
+composePreview = "1.4.0"
+composeCoil = "2.3.0"
+composeNavigation = "2.6.0-alpha08"
 
+coroutines = "1.6.4"
+
+jupiter = "5.9.2"
+
+mockk = "1.13.3"
+
+sqlDelight = "2.0.0-alpha05"
 
 [libraries]
-
 androix-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidXCore" }
 androix-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidXLifecycle" }
 androix-appCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidXAppCompat" }
+androix-dataStore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidXDataStore" }
 
-assertj = {group = "org.assertj", name = "assertj-core", version.ref = "assertJ" }
+assertj = { group = "org.assertj", name = "assertj-core", version.ref = "assertJ" }
 
-build-gradle-tools = {group = "com.android.tools.build", name = "gradle", version.ref = "buildAndroidBuildTools" }
-build-gradle-plugin = {group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "buildKotlinGradlePlugin" }
-build-hilt = {group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
-build-ktLint = {group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktLint" }
-build-serialization = {group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlinSerialization" }
+build-gradle-tools = { group = "com.android.tools.build", name = "gradle", version.ref = "buildAndroidBuildTools" }
+build-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "buildKotlinGradlePlugin" }
+build-hilt = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
+build-ktLint = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktLint" }
+build-serialization = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlinSerialization" }
 
-camerax-core = {group = "androidx.camera", name = "camera-core", version.ref = "cameraX"}
-camerax-lifecycle = {group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraX"}
-camerax-view = {group = "androidx.camera", name = "camera-view", version.ref = "cameraX"}
-camerax-extensions = {group = "androidx.camera", name = "camera-extensions", version.ref = "cameraX"}
+camerax-core = { group = "androidx.camera", name = "camera-core", version.ref = "cameraX" }
+camerax-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraX" }
+camerax-view = { group = "androidx.camera", name = "camera-view", version.ref = "cameraX" }
+camerax-extensions = { group = "androidx.camera", name = "camera-extensions", version.ref = "cameraX" }
 
-compose-activity = {group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity"}
-compose-material = {group  = "androidx.compose.material", name = "material", version.ref = "composeMaterial"}
-compose-constraintLayout = {group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "composeConstraintLayout"}
-compose-preview = {group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "composePreview"}
-compose-coil = {group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil"}
-compose-navigation = {group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation"}
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
+compose-material = { group = "androidx.compose.material", name = "material", version.ref = "composeMaterial" }
+compose-constraintLayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "composeConstraintLayout" }
+compose-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "composePreview" }
+compose-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil" }
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
+
+coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-plugin = { group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
+hilt-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version = "1.0.0" }
+
+jUnit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
+jUnit-platform = { group = "org.junit", name = "junit-bom", version.ref = "jupiter" }
+
+kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.5.0" }
+
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+
+sqlDelight-driver = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqlDelight" }
+sqlDelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqlDelight" }
 
 [plugins]
+sqlDelight-plugin = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
