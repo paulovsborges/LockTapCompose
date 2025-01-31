@@ -14,6 +14,16 @@ ktLint = "10.3.0"
 
 kotlinSerialization = "1.6.10"
 
+cameraX = "1.2.0-beta01"
+
+composeActivity  = "1.7.0"
+composeMaterial  = "1.4.0"
+composeConstraintLayout  = "1.0.1"
+composePreview  = "1.4.0"
+composeCoil  = "2.3.0"
+composeNavigation  = "2.6.0-alpha08"
+
+
 [libraries]
 
 androix-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidXCore" }
@@ -27,5 +37,17 @@ build-gradle-plugin = {group = "org.jetbrains.kotlin", name = "kotlin-gradle-plu
 build-hilt = {group = "com.google.dagger", name = "hilt-android-gradle-plugin", version.ref = "hilt" }
 build-ktLint = {group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktLint" }
 build-serialization = {group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlinSerialization" }
+
+camerax-core = {group = "androidx.camera", name = "camera-core", version.ref = "cameraX"}
+camerax-lifecycle = {group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraX"}
+camerax-view = {group = "androidx.camera", name = "camera-view", version.ref = "cameraX"}
+camerax-extensions = {group = "androidx.camera", name = "camera-extensions", version.ref = "cameraX"}
+
+compose-activity = {group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity"}
+compose-material = {group  = "androidx.compose.material", name = "material", version.ref = "composeMaterial"}
+compose-constraintLayout = {group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "composeConstraintLayout"}
+compose-preview = {group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "composePreview"}
+compose-coil = {group = "io.coil-kt", name = "coil-compose", version.ref = "composeCoil"}
+compose-navigation = {group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation"}
 
 [plugins]
