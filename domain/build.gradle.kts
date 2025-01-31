@@ -23,5 +23,5 @@ dependencies {
     testImplementation(platform(Junit.jupiterPlatform))
     testImplementation(Junit.jupiter)
     testImplementation(Coroutines.test)
-    testImplementation(AssertJ.core)
+    testImplementation(libs.assertj)
 }

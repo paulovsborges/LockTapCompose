@@ -1,8 +1,14 @@
 [versions]
 androidXCore = "1.9.0"
+androidXLifecycle = "2.6.1"
+androidXAppCompat = "1.6.1"
+assertJ = "3.6.1"
 
 [libraries]
 
 androix-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidXCore" }
+androix-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidXLifecycle" }
+androix-appCompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidXAppCompat" }
+assertj = {group = "org.assertj", name = "assertj-core", version.ref = "assertJ" }
 
 [plugins]

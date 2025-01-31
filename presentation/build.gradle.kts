@@ -47,8 +47,8 @@ dependencies {
     implementation(project(Modules.domain))
 
     implementation(libs.androix.core)
-    implementation(AndroidX.lifeCycle)
-    implementation(AndroidX.appCompat)
+    implementation(libs.androix.lifecycle)
+    implementation(libs.androix.appCompat)
     implementation(Compose.activity)
     implementation(Compose.material)
     implementation(Compose.constraintLayout)

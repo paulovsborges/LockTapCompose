@@ -41,15 +41,16 @@ dependencies {
 
     implementation(project(Modules.domain))
 
+    implementation(libs.androix.core)
+    implementation(libs.androix.lifecycle)
+    implementation(libs.androix.appCompat)
+
     implementation(Hilt.android)
     kapt(Hilt.compiler)
     implementation(SqlDelight.driver)
     implementation(SqlDelight.coroutines)
     implementation(DataStore.core)
     implementation(Kotlin.serialization)
-    implementation(libs.androix.core)
-    implementation(AndroidX.lifeCycle)
-    implementation(AndroidX.appCompat)
 
     testImplementation(Test.jUnit)
     androidTestImplementation(Test.jUInitExt)
