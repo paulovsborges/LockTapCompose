@@ -47,7 +47,7 @@ dependencies {
     implementation(SqlDelight.coroutines)
     implementation(DataStore.core)
     implementation(Kotlin.serialization)
-    implementation(AndroidX.core)
+    implementation(libs.androix.core)
     implementation(AndroidX.lifeCycle)
     implementation(AndroidX.appCompat)
 

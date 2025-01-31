@@ -59,7 +59,7 @@ dependencies {
     implementation(project(Modules.domain))
     implementation(project(Modules.presentation))
 
-    implementation(AndroidX.core)
+    implementation(libs.androix.core)
     implementation(AndroidX.lifeCycle)
     implementation(AndroidX.appCompat)
     implementation(Compose.activity)
