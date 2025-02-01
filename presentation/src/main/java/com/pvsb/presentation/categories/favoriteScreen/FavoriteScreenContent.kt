@@ -56,7 +56,11 @@ private fun CategoriesFavoriteScreenContent(
     actions: FavoriteScreenContentAction,
 ) {
 
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(
+        pageCount = {
+            3
+        }
+    )
 
     Column(
         modifier = modifier
@@ -97,6 +101,7 @@ private fun HandleSelectedPage(
         0 -> {
             CategoriesFavoriteContactsScreen(contacts = state.contacts)
         }
+
         1 -> {
             CategoriesFavoritePasswordsScreen(
                 passwords = state.passwords,
@@ -105,9 +110,11 @@ private fun HandleSelectedPage(
                 }
             )
         }
+
         2 -> {
             CategoriesFavoritePhotosScreen(photos = state.photos)
         }
+
         else -> Unit
     }
 }

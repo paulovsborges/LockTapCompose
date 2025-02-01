@@ -35,14 +35,18 @@ import kotlinx.coroutines.launch
 @Composable
 fun ComposePrimaryViewPager(
     modifier: Modifier = Modifier,
-    state: PagerState = rememberPagerState(),
     contents: List<ViewPagerContentType> = emptyList(),
+    state: PagerState = rememberPagerState(
+        pageCount = {
+            contents.size
+        }
+    ),
     contentPage: (ViewPagerContentType) -> Unit = {}
 ) {
 
     val scope = rememberCoroutineScope()
 
-    HorizontalPager(pageCount = contents.size, modifier = modifier, state = state) {
+    HorizontalPager(modifier = modifier, state = state) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
 
             repeat(contents.size) { currentPosition ->

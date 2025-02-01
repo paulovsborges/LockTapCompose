@@ -34,17 +34,20 @@ import com.pvsb.presentation.ui.AppStyle.AppColors.gray
 import com.pvsb.presentation.ui.AppStyle.AppColors.lightBlue
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ComposeSecondaryViewPager(
     modifier: Modifier = Modifier,
-    state: PagerState = rememberPagerState(),
-    contents: List<ViewPagerContentType> = emptyList()
+    contents: List<ViewPagerContentType> = emptyList(),
+    state: PagerState = rememberPagerState(
+        pageCount = {
+            contents.size
+        }
+    ),
 ) {
 
     val scope = rememberCoroutineScope()
 
-    HorizontalPager(pageCount = contents.size, modifier = modifier, state = state) {
+    HorizontalPager(modifier = modifier, state = state) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             contents.forEachIndexed { currentPos, type ->
 

@@ -30,7 +30,11 @@ fun CategoriesScreen(
     label: Int
 ) {
 
-    val viePagerState = rememberPagerState()
+    val viePagerState = rememberPagerState(
+        pageCount = {
+            2
+        }
+    )
 
     Column(
         modifier = Modifier
@@ -59,9 +63,11 @@ fun CategoriesScreen(
                     modifier = Modifier.fillMaxSize()
                 )
             }
+
             1 -> {
                 CategoriesFavoriteScreenContentContainer(modifier = Modifier.fillMaxSize())
             }
+
             else -> Unit
         }
     }

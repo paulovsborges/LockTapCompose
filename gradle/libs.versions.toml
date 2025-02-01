@@ -22,7 +22,7 @@ composeMaterial = "1.4.0"
 composeConstraintLayout = "1.0.1"
 composePreview = "1.4.0"
 composeCoil = "2.3.0"
-composeNavigation = "2.6.0-alpha08"
+composeNavigation = "2.8.6"
 
 coroutines = "1.6.4"
 
