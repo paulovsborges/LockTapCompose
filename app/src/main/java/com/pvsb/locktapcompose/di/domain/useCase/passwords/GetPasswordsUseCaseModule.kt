@@ -20,6 +20,6 @@ object GetPasswordsUseCaseModule {
         passwordsRepository: PasswordsRepository,
         logger: Logger
     ): GetPasswordsUseCase {
-        return GetPasswords(passwordsRepository,logger)
+        return GetPasswords(passwordsRepository, logger)
     }
 }

@@ -17,11 +17,11 @@ tasks.test {
 
 dependencies {
 
-    implementation(Coroutines.core)
+    implementation(libs.coroutines.core)
 
-    testImplementation(MockK.core)
-    testImplementation(platform(Junit.jupiterPlatform))
-    testImplementation(Junit.jupiter)
-    testImplementation(Coroutines.test)
-    testImplementation(AssertJ.core)
+    testImplementation(libs.mockk)
+    testImplementation(platform(libs.jUnit.platform))
+    testImplementation(libs.jUnit.jupiter)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.assertj)
 }

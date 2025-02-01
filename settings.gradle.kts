@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "LockTapCompose"
-include ':app'
-include ':domain'
-include ':presentation'
-include ':datasource'
+include( ":app")
+include( ":domain")
+include( ":presentation")
+include( ":datasource")
