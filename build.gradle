@@ -6,7 +6,7 @@ buildscript {
     dependencies {
         classpath(libs.build.gradle.tools)
         classpath(libs.build.gradle.plugin)
-        classpath(libs.build.hilt)
+        classpath(libs.hilt.plugin)
         classpath(libs.build.ktLint)
         classpath(libs.build.serialization)
         classpath(libs.hilt.plugin)
