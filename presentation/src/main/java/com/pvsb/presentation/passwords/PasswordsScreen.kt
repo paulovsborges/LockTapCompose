@@ -72,7 +72,11 @@ private fun PasswordsScreen(
     actions: PasswordsScreenActions
 ) {
 
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(
+        pageCount = {
+            2
+        }
+    )
     val context = LocalContext.current
 
     Box(
