@@ -41,7 +41,10 @@ fun Context.saveBitMapToFile(bitmap: Bitmap): Uri? {
         uri = image.toUri()
         FileOutputStream(image)
     }
-    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+
+    fos?.let {
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+    }
 
     fos?.flush()
     fos?.close()
